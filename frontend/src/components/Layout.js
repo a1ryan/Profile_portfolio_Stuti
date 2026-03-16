@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Linkedin, Mail, Sun, Moon, Menu, X } from 'lucide-react';
+import { Linkedin, Mail, Menu, X } from 'lucide-react';
 import { personalData } from '../data/mock';
+import { useTheme } from '../context/ThemeContext';
+
+const SANS = "'Josefin Sans', sans-serif";
 
 const Layout = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(true);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { dark: darkMode, setDark: setDarkMode } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const location = useLocation();
 
   const navItems = [
-    { label: 'HOME', path: '/' },
+    { label: 'HOME',       path: '/' },
     { label: 'EXPERIENCE', path: '/experience' },
-    { label: 'EDUCATION', path: '/education' },
+    { label: 'EDUCATION',  path: '/education' },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -19,90 +22,168 @@ const Layout = ({ children }) => {
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
+      document.documentElement.style.background = '#131313';
+      document.body.style.background = '#131313';
     } else {
       document.documentElement.classList.remove('dark');
+      document.documentElement.style.background = '#f4f3ef';
+      document.body.style.background = '#f4f3ef';
     }
+    document.documentElement.style.transition = 'background 0.5s ease';
+    document.body.style.transition = 'background 0.5s ease';
   }, [darkMode]);
 
+  /* ── colour tokens ── */
+  const bg       = darkMode ? '#131313'              : '#f4f3ef';
+  const fgActive = darkMode ? 'rgba(255,255,255,0.85)' : 'rgba(18,18,18,0.80)';
+  const fgMuted  = darkMode ? 'rgba(255,255,255,0.30)' : 'rgba(18,18,18,0.28)';
+  const fgHover  = darkMode ? 'rgba(255,255,255,0.62)' : 'rgba(18,18,18,0.55)';
+  const toggleBg = darkMode ? '#272727'              : '#c8c8c4';
+  const toggleFg = darkMode ? '#ffffff'              : '#1a1a1a';
+  const divider  = darkMode ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-[#141414] text-white' : 'bg-[#f5f5f0] text-[#141414]'}`}>
-      {/* Dark mode toggle - top right */}
+    <div
+      style={{
+        minHeight: '100vh',
+        background: bg,
+        color: fgActive,
+        transition: 'background 0.5s ease, color 0.4s ease',
+      }}
+    >
+
+      {/* ─ Theme toggle ─ top-right */}
       <button
         onClick={() => setDarkMode(!darkMode)}
-        className={`fixed top-6 right-6 z-50 w-12 h-6 rounded-full transition-all duration-300 flex items-center px-1 ${
-          darkMode ? 'bg-[#333]' : 'bg-[#ccc]'
-        }`}
         aria-label="Toggle theme"
+        id="theme-toggle"
+        style={{
+          position: 'fixed', top: 26, right: 26, zIndex: 100,
+          width: 42, height: 22, borderRadius: 11,
+          background: toggleBg,
+          display: 'flex', alignItems: 'center', padding: '0 3px',
+          border: 'none', cursor: 'pointer',
+          transition: 'background 0.35s ease',
+        }}
       >
         <div
-          className={`w-4 h-4 rounded-full transition-all duration-300 flex items-center justify-center ${
-            darkMode ? 'translate-x-6 bg-white' : 'translate-x-0 bg-[#141414]'
-          }`}
-        >
-        </div>
+          style={{
+            width: 16, height: 16, borderRadius: '50%',
+            background: toggleFg,
+            transform: darkMode ? 'translateX(20px)' : 'translateX(0px)',
+            transition: 'transform 0.3s ease, background 0.3s ease',
+            flexShrink: 0,
+          }}
+        />
       </button>
 
-      {/* Mobile menu button */}
+      {/* ─ Mobile hamburger ─ */}
       <button
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="fixed top-6 left-6 z-50 md:hidden"
+        style={{
+          position: 'fixed', top: 22, left: 22, zIndex: 60,
+          background: 'transparent', border: 'none', cursor: 'pointer',
+          color: fgActive, display: 'none',
+        }}
+        className="md-hidden-toggle"
       >
-        {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        {mobileMenuOpen ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
       </button>
 
-      {/* Left Sidebar */}
+      {/* ─ Left sidebar ─ */}
       <aside
-        className={`fixed left-0 top-0 h-full w-[160px] z-40 flex flex-col py-10 px-8 transition-transform duration-300 ${
-          mobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'
-        } ${darkMode ? 'bg-[#141414]' : 'bg-[#f5f5f0]'}`}
+        style={{
+          position: 'fixed', left: 0, top: 0, height: '100%',
+          width: 154,
+          zIndex: 50,
+          background: bg,
+          display: 'flex', flexDirection: 'column',
+          paddingTop: 38,
+          paddingLeft: 34,
+          transition: 'background 0.5s ease',
+        }}
+        className={`sidebar-panel ${mobileMenuOpen ? 'sidebar-open' : ''}`}
       >
-        {/* Navigation */}
-        <nav className="flex flex-col gap-2 mt-2">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={() => setMobileMenuOpen(false)}
-              className={`text-xs font-light tracking-[0.2em] transition-opacity duration-200 py-1 ${
-                isActive(item.path)
-                  ? 'opacity-100 border-b border-current pb-1'
-                  : 'opacity-40 hover:opacity-80'
-              }`}
-              style={{ fontFamily: "'Josefin Sans', sans-serif" }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        {/* Nav */}
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {navItems.map((item) => {
+            const active = isActive(item.path);
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                onClick={() => setMobileMenuOpen(false)}
+                style={{
+                  fontFamily: SANS,
+                  fontSize: 10,
+                  fontWeight: 300,
+                  letterSpacing: '0.20em',
+                  color: active ? fgActive : fgMuted,
+                  textDecoration: 'none',
+                  padding: '6px 0 5px',
+                  borderBottom: active ? `0.5px solid ${fgActive}` : '0.5px solid transparent',
+                  display: 'inline-block',
+                  transition: 'color 0.2s ease, border-color 0.2s ease',
+                }}
+                onMouseEnter={e => { if (!active) e.currentTarget.style.color = fgHover; }}
+                onMouseLeave={e => { if (!active) e.currentTarget.style.color = fgMuted; }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Social Icons */}
-        <div className="flex flex-col gap-4 mt-8">
+        {/* Thin rule */}
+        <div
+          style={{
+            width: 22, height: '0.5px',
+            background: divider,
+            margin: '28px 0',
+          }}
+        />
+
+        {/* Social icons */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           <a
             href={personalData.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="opacity-50 hover:opacity-100 transition-opacity duration-200"
+            style={{ color: fgMuted, transition: 'color 0.2s ease', display: 'flex' }}
+            onMouseEnter={e => e.currentTarget.style.color = fgActive}
+            onMouseLeave={e => e.currentTarget.style.color = fgMuted}
           >
-            <Linkedin size={16} strokeWidth={1.5} />
+            <Linkedin size={14} strokeWidth={1.5} />
           </a>
           <a
             href={`mailto:${personalData.email}`}
-            className="opacity-50 hover:opacity-100 transition-opacity duration-200"
+            style={{ color: fgMuted, transition: 'color 0.2s ease', display: 'flex' }}
+            onMouseEnter={e => e.currentTarget.style.color = fgActive}
+            onMouseLeave={e => e.currentTarget.style.color = fgMuted}
           >
-            <Mail size={16} strokeWidth={1.5} />
+            <Mail size={14} strokeWidth={1.5} />
           </a>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="md:ml-[160px] min-h-screen">
+      {/* ─ Main content area ─ */}
+      <main className="main-content">
         {children}
       </main>
 
-      {/* Footer */}
+      {/* ─ Footer ─ */}
       <footer
-        className={`fixed bottom-0 left-0 py-4 px-8 text-[10px] opacity-40 tracking-widest`}
-        style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+        style={{
+          position: 'fixed', bottom: 0, left: 0,
+          padding: '14px 34px',
+          fontFamily: SANS,
+          fontSize: 9, fontWeight: 300,
+          letterSpacing: '0.22em',
+          color: fgMuted,
+          zIndex: 10,
+          pointerEvents: 'none',
+          transition: 'color 0.4s ease',
+        }}
       >
         © Stuti Jain
       </footer>
@@ -110,7 +191,11 @@ const Layout = ({ children }) => {
       {/* Mobile overlay */}
       {mobileMenuOpen && (
         <div
-          className="fixed inset-0 z-30 bg-black/50 md:hidden"
+          style={{
+            position: 'fixed', inset: 0, zIndex: 40,
+            background: 'rgba(0,0,0,0.55)',
+          }}
+          className="mobile-overlay"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}

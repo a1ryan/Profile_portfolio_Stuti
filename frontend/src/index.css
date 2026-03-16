@@ -12,6 +12,46 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── Sidebar responsive ── */
+.sidebar-panel {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease, background 0.5s ease;
+}
+@media (min-width: 768px) {
+  .sidebar-panel {
+    transform: translateX(0) !important;
+  }
+  .main-content {
+    margin-left: 154px !important;
+  }
+  .md-hidden-toggle {
+    display: none !important;
+  }
+  .about-desktop {
+    display: flex !important;
+  }
+  .about-mobile {
+    display: none !important;
+  }
+  .motivation-section {
+    flex-direction: row !important;
+  }
+}
+.sidebar-open {
+  transform: translateX(0) !important;
+}
+/* desktop: About Me panel shown */
+.about-desktop { display: none; }
+.about-mobile  { display: block; }
+
+/* reset defaults */
+a { text-decoration: none; }
+* { box-sizing: border-box; }
+
+/* Remove default App text centering */
+.App { text-align: left !important; }
+
+
 code {
     font-family:
         source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;

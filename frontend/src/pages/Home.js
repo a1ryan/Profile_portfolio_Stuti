@@ -1,197 +1,341 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { personalData, skillsData } from '../data/mock';
+import { useTheme } from '../context/ThemeContext';
 
+const SERIF = "'Cormorant Garamond', 'Georgia', serif";
+const SANS  = "'Josefin Sans', sans-serif";
+
+/* ── colour helper ── */
+const alpha = (dark, lightVal, darkVal) => (dark ? darkVal : lightVal);
+
+/* ── small uppercase section label + extending rule ── */
+const SectionLabel = ({ children, dark }) => {
+  const labelColor = alpha(dark, 'rgba(18,18,18,0.45)', 'rgba(255,255,255,0.48)');
+  const lineColor  = alpha(dark, 'rgba(18,18,18,0.10)', 'rgba(255,255,255,0.13)');
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
+      <span
+        style={{
+          fontFamily: SANS,
+          fontSize: 9,
+          fontWeight: 300,
+          letterSpacing: '0.42em',
+          color: labelColor,
+          textTransform: 'uppercase',
+          flexShrink: 0,
+          transition: 'color 0.4s ease',
+        }}
+      >
+        {children}
+      </span>
+      <div style={{ flex: 1, height: '0.5px', background: lineColor, transition: 'background 0.4s ease' }} />
+    </div>
+  );
+};
+
+/* ── skill list group ── */
+const SkillGroup = ({ title, items, dark }) => {
+  const groupLabel = alpha(dark, 'rgba(18,18,18,0.22)', 'rgba(255,255,255,0.22)');
+  const itemColor  = alpha(dark, 'rgba(18,18,18,0.42)', 'rgba(255,255,255,0.42)');
+  const itemHover  = alpha(dark, 'rgba(18,18,18,0.80)', 'rgba(255,255,255,0.80)');
+  return (
+    <div>
+      <p
+        style={{
+          fontFamily: SANS, fontSize: 8, fontWeight: 300,
+          letterSpacing: '0.34em', color: groupLabel,
+          textTransform: 'uppercase', marginBottom: 14,
+          transition: 'color 0.4s ease',
+        }}
+      >
+        {title}
+      </p>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
+        {items.map((item) => (
+          <li
+            key={item}
+            style={{
+              fontFamily: SANS, fontSize: 12, fontWeight: 300,
+              color: itemColor, letterSpacing: '0.04em',
+              cursor: 'default', transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = itemHover}
+            onMouseLeave={e => e.currentTarget.style.color = itemColor}
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+/* ══════════════════════════════════════════════════════════════ */
 const Home = () => {
-  const firstNameRef = useRef(null);
-  const lastNameRef = useRef(null);
+  const { dark } = useTheme();
+  const nameRef  = useRef(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      if (firstNameRef.current) {
-        firstNameRef.current.style.transform = `translateX(-${scrollY * 0.08}px)`;
-        firstNameRef.current.style.opacity = Math.max(0, 1 - scrollY / 500);
-      }
-      if (lastNameRef.current) {
-        lastNameRef.current.style.transform = `translateX(-${scrollY * 0.05}px)`;
-        lastNameRef.current.style.opacity = Math.max(0, 1 - scrollY / 500);
-      }
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    // slight entrance delay for elegance
+    const t = setTimeout(() => setMounted(true), 80);
+    return () => clearTimeout(t);
   }, []);
 
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (nameRef.current) {
+        nameRef.current.style.transform = `translateX(-${y * 0.055}px)`;
+        nameRef.current.style.opacity   = Math.max(0, 1 - y / 460).toString();
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  /* colour tokens */
+  const nameColor     = alpha(dark, 'rgba(18,18,18,0.88)',  'rgba(255,255,255,0.88)');
+  const subtitleColor = alpha(dark, 'rgba(18,18,18,0.38)',  'rgba(255,255,255,0.40)');
+  const emailColor    = alpha(dark, 'rgba(18,18,18,0.28)',  'rgba(255,255,255,0.26)');
+  const emailHover    = alpha(dark, 'rgba(18,18,18,0.70)',  'rgba(255,255,255,0.72)');
+  const aboutLabel    = alpha(dark, 'rgba(18,18,18,0.48)',  'rgba(255,255,255,0.48)');
+  const aboutLine     = alpha(dark, 'rgba(18,18,18,0.14)',  'rgba(255,255,255,0.16)');
+  const aboutBody     = alpha(dark, 'rgba(18,18,18,0.42)',  'rgba(255,255,255,0.40)');
+  const bodyText      = alpha(dark, 'rgba(18,18,18,0.42)',  'rgba(255,255,255,0.40)');
+
   return (
-    <div className="relative">
-      {/* Hero Section */}
-      <section className="relative h-screen flex flex-col overflow-hidden">
-        {/* Big Name - parallax */}
-        <div className="flex-1 flex flex-col justify-center pl-8 pr-4 pt-8">
+    <div>
+
+      {/* ════════════════════════════════════════
+          HERO  ·  cinematic full-screen section
+          ════════════════════════════════════════ */}
+      <section
+        style={{
+          position: 'relative',
+          height: '100vh',
+          minHeight: 580,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+
+        {/* LEFT: name block + subtitle */}
+        <div
+          style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            paddingLeft: 44,
+            /* push right edge away from the About panel */
+            paddingRight: 'max(44px, 42%)',
+            paddingTop: 32,
+            paddingBottom: 0,
+          }}
+        >
+          {/* Name — parallax wrapper */}
           <div
-            ref={firstNameRef}
-            className={`transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}
-            style={{ willChange: 'transform, opacity' }}
+            ref={nameRef}
+            style={{
+              willChange: 'transform, opacity',
+              opacity: mounted ? 1 : 0,
+              transition: 'opacity 0.9s cubic-bezier(0.22,1,0.36,1)',
+            }}
           >
             <h1
-              className="text-[20vw] md:text-[18vw] font-thin leading-[0.85] tracking-tighter"
               style={{
-                fontFamily: "'Cormorant Garamond', 'Georgia', serif",
+                fontFamily: SERIF,
                 fontWeight: 100,
+                fontSize: 'clamp(68px, 15vw, 248px)',
+                lineHeight: 0.88,
+                letterSpacing: '-0.015em',
+                color: nameColor,
+                margin: 0,
+                whiteSpace: 'nowrap',
+                transition: 'color 0.4s ease',
               }}
             >
               {personalData.firstName}
             </h1>
-          </div>
-          <div
-            ref={lastNameRef}
-            className={`transition-opacity duration-700 delay-100 ${mounted ? 'opacity-100' : 'opacity-0'}`}
-            style={{ willChange: 'transform, opacity' }}
-          >
             <h1
-              className="text-[20vw] md:text-[18vw] font-thin leading-[0.85] tracking-tighter"
               style={{
-                fontFamily: "'Cormorant Garamond', 'Georgia', serif",
+                fontFamily: SERIF,
                 fontWeight: 100,
+                fontSize: 'clamp(68px, 15vw, 248px)',
+                lineHeight: 0.88,
+                letterSpacing: '-0.015em',
+                color: nameColor,
+                margin: 0,
+                whiteSpace: 'nowrap',
+                transition: 'color 0.4s ease',
               }}
             >
               {personalData.lastName}
             </h1>
           </div>
 
+          {/* Role subtitle */}
           <p
-            className="mt-6 text-sm font-light tracking-[0.3em] opacity-60 ml-1"
-            style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+            style={{
+              fontFamily: SANS,
+              fontSize: 11,
+              fontWeight: 300,
+              letterSpacing: '0.28em',
+              color: subtitleColor,
+              marginTop: 30,
+              marginLeft: 3,
+              paddingLeft: 0,
+              transition: 'color 0.4s ease',
+            }}
           >
             {personalData.title}
           </p>
         </div>
 
-        {/* Email contact */}
-        <div className="pl-8 pb-20">
+        {/* BOTTOM-LEFT: email */}
+        <div
+          style={{
+            paddingLeft: 44,
+            paddingBottom: 52,
+            flexShrink: 0,
+          }}
+        >
           <p
-            className="text-xs font-light opacity-40"
-            style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+            style={{
+              fontFamily: SANS, fontSize: 10, fontWeight: 300,
+              color: emailColor, letterSpacing: '0.06em',
+              marginBottom: 4,
+              transition: 'color 0.4s ease',
+            }}
           >
             For business inquiries, email me at
           </p>
           <a
             href={`mailto:${personalData.email}`}
-            className="text-xs font-light opacity-40 hover:opacity-90 transition-opacity duration-300"
-            style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+            style={{
+              fontFamily: SANS, fontSize: 10, fontWeight: 300,
+              color: emailColor, letterSpacing: '0.06em',
+              textDecoration: 'none',
+              transition: 'color 0.25s ease',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = emailHover}
+            onMouseLeave={e => e.currentTarget.style.color = emailColor}
           >
             {personalData.email}
           </a>
         </div>
 
-        {/* About Me - Right side (desktop) */}
-        <div className="absolute right-0 top-0 w-[45%] h-full flex-col justify-center pr-16 pl-8 hidden md:flex">
-          <div className="max-w-sm ml-auto">
-            <h2
-              className="text-[10px] tracking-[0.35em] mb-5 pb-4 opacity-60"
-              style={{
-                fontFamily: "'Josefin Sans', sans-serif",
-                borderBottom: '0.5px solid currentColor'
-              }}
-            >
-              ABOUT ME
-            </h2>
+        {/* RIGHT PANEL: About Me — desktop only */}
+        <div
+          className="about-desktop"
+          style={{
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            width: '42%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            paddingRight: 72,
+            paddingLeft: 48,
+          }}
+        >
+          <div>
+
+            {/* ABOUT ME + horizontal rule */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 26 }}>
+              <span
+                style={{
+                  fontFamily: SANS, fontSize: 9, fontWeight: 300,
+                  letterSpacing: '0.44em', color: aboutLabel,
+                  textTransform: 'uppercase', flexShrink: 0,
+                  transition: 'color 0.4s ease',
+                }}
+              >
+                ABOUT ME
+              </span>
+              <div
+                style={{
+                  flex: 1, height: '0.5px',
+                  background: aboutLine,
+                  transition: 'background 0.4s ease',
+                }}
+              />
+            </div>
+
+            {/* About body */}
             <p
-              className="text-sm leading-loose font-light opacity-50"
-              style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+              style={{
+                fontFamily: SANS, fontSize: 12.5, fontWeight: 300,
+                lineHeight: 2.0, color: aboutBody,
+                letterSpacing: '0.025em', margin: 0,
+                transition: 'color 0.4s ease',
+              }}
             >
               {personalData.about}
             </p>
+
           </div>
         </div>
+
       </section>
 
-      {/* About Me - Mobile */}
-      <section className="md:hidden px-8 py-16">
-        <h2
-          className="text-[10px] tracking-[0.35em] mb-5 pb-4 opacity-60 inline-block"
-          style={{
-            fontFamily: "'Josefin Sans', sans-serif",
-            borderBottom: '0.5px solid currentColor'
-          }}
-        >
-          ABOUT ME
-        </h2>
-        <p
-          className="text-sm leading-loose font-light opacity-50"
-          style={{ fontFamily: "'Josefin Sans', sans-serif" }}
-        >
+      {/* ── About Me: mobile ── */}
+      <section className="about-mobile" style={{ padding: '60px 44px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 22 }}>
+          <span style={{ fontFamily: SANS, fontSize: 9, fontWeight: 300, letterSpacing: '0.42em', color: aboutLabel, textTransform: 'uppercase', flexShrink: 0 }}>
+            ABOUT ME
+          </span>
+          <div style={{ flex: 1, height: '0.5px', background: aboutLine }} />
+        </div>
+        <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, lineHeight: 2.0, color: aboutBody, letterSpacing: '0.02em', margin: 0 }}>
           {personalData.about}
         </p>
       </section>
 
-      {/* Motivation Section */}
-      <section className="min-h-screen flex flex-col md:flex-row px-8 py-24 gap-16">
-        {/* Left: Motivation Text */}
-        <div className="flex-1">
-          <h2
-            className="text-[10px] tracking-[0.35em] mb-8 pb-4 opacity-60 inline-block"
-            style={{
-              fontFamily: "'Josefin Sans', sans-serif",
-              borderBottom: '0.5px solid currentColor'
-            }}
-          >
-            MOTIVATION
-          </h2>
+      {/* ════════════════════════════════════════
+          MOTIVATION + SKILLS  second screen
+          ════════════════════════════════════════ */}
+      <section
+        className="motivation-section"
+        style={{
+          minHeight: '100vh',
+          padding: '96px 44px 80px',
+          display: 'flex',
+          gap: 80,
+        }}
+      >
+        {/* Motivation */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <SectionLabel dark={dark}>MOTIVATION</SectionLabel>
           <p
-            className="text-sm leading-loose font-light opacity-50 max-w-md"
-            style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+            style={{
+              fontFamily: SANS, fontSize: 12, fontWeight: 300,
+              lineHeight: 2.2, color: bodyText,
+              letterSpacing: '0.025em', maxWidth: 420,
+              transition: 'color 0.4s ease',
+            }}
           >
             {personalData.motivation}
           </p>
         </div>
 
-        {/* Right: Skills */}
-        <div className="flex-1 flex flex-col gap-12">
-          <div>
-            <h2
-              className="text-[10px] tracking-[0.35em] mb-8 pb-4 opacity-60 inline-block"
-              style={{
-                fontFamily: "'Josefin Sans', sans-serif",
-                borderBottom: '0.5px solid currentColor'
-              }}
-            >
-              SKILLS
-            </h2>
-
-            <div className="grid grid-cols-1 gap-10 mt-4">
-              <SkillGroup title="MARKETING" items={skillsData.marketing} />
-              <SkillGroup title="ANALYTICS" items={skillsData.analytics} />
-              <SkillGroup title="TOOLS" items={skillsData.tools} />
-            </div>
+        {/* Skills */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <SectionLabel dark={dark}>SKILLS</SectionLabel>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40 }}>
+            <SkillGroup dark={dark} title="MARKETING" items={skillsData.marketing} />
+            <SkillGroup dark={dark} title="ANALYTICS"  items={skillsData.analytics} />
+            <SkillGroup dark={dark} title="TOOLS"      items={skillsData.tools} />
           </div>
         </div>
       </section>
+
     </div>
   );
 };
-
-const SkillGroup = ({ title, items }) => (
-  <div>
-    <h3
-      className="text-[9px] tracking-[0.3em] mb-4 opacity-30"
-      style={{ fontFamily: "'Josefin Sans', sans-serif" }}
-    >
-      {title}
-    </h3>
-    <ul className="flex flex-col gap-2">
-      {items.map((item) => (
-        <li
-          key={item}
-          className="text-sm font-light opacity-50 hover:opacity-100 transition-opacity duration-200 cursor-default"
-          style={{ fontFamily: "'Josefin Sans', sans-serif" }}
-        >
-          {item}
-        </li>
-      ))}
-    </ul>
-  </div>
-);
 
 export default Home;
