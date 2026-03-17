@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Linkedin, Mail, Menu, X } from 'lucide-react';
+import { Linkedin, Instagram, Github, Mail, Menu, X } from 'lucide-react';
 import { personalData } from '../data/mock';
 import { useTheme } from '../context/ThemeContext';
 
@@ -12,9 +12,9 @@ const Layout = ({ children }) => {
   const location = useLocation();
 
   const navItems = [
-    { label: 'HOME',       path: '/' },
-    { label: 'EXPERIENCE', path: '/experience' },
-    { label: 'EDUCATION',  path: '/education' },
+    { label: 'HOME',    path: '/' },
+    { label: 'WORKS',   path: '/works' },
+    { label: 'GALLERY', path: '/gallery' },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -36,7 +36,7 @@ const Layout = ({ children }) => {
   /* ── colour tokens ── */
   const bg       = darkMode ? '#131313'              : '#f4f3ef';
   const fgActive = darkMode ? 'rgba(255,255,255,0.85)' : 'rgba(18,18,18,0.80)';
-  const fgMuted  = darkMode ? 'rgba(255,255,255,0.30)' : 'rgba(18,18,18,0.28)';
+  const fgMuted  = darkMode ? 'rgba(255,255,255,0.65)' : 'rgba(18,18,18,0.55)';
   const fgHover  = darkMode ? 'rgba(255,255,255,0.62)' : 'rgba(18,18,18,0.55)';
   const toggleBg = darkMode ? '#272727'              : '#c8c8c4';
   const toggleFg = darkMode ? '#ffffff'              : '#1a1a1a';
@@ -105,7 +105,7 @@ const Layout = ({ children }) => {
         className={`sidebar-panel ${mobileMenuOpen ? 'sidebar-open' : ''}`}
       >
         {/* Nav */}
-        <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <nav style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
           {navItems.map((item) => {
             const active = isActive(item.path);
             return (
@@ -115,7 +115,7 @@ const Layout = ({ children }) => {
                 onClick={() => setMobileMenuOpen(false)}
                 style={{
                   fontFamily: SANS,
-                  fontSize: 10,
+                  fontSize: 18,
                   fontWeight: 300,
                   letterSpacing: '0.20em',
                   color: active ? fgActive : fgMuted,
@@ -153,7 +153,27 @@ const Layout = ({ children }) => {
             onMouseEnter={e => e.currentTarget.style.color = fgActive}
             onMouseLeave={e => e.currentTarget.style.color = fgMuted}
           >
-            <Linkedin size={14} strokeWidth={1.5} />
+            <Linkedin size={20} strokeWidth={1.5} />
+          </a>
+          <a
+            href={personalData.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: fgMuted, transition: 'color 0.2s ease', display: 'flex' }}
+            onMouseEnter={e => e.currentTarget.style.color = fgActive}
+            onMouseLeave={e => e.currentTarget.style.color = fgMuted}
+          >
+            <Instagram size={20} strokeWidth={1.5} />
+          </a>
+          <a
+            href={personalData.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: fgMuted, transition: 'color 0.2s ease', display: 'flex' }}
+            onMouseEnter={e => e.currentTarget.style.color = fgActive}
+            onMouseLeave={e => e.currentTarget.style.color = fgMuted}
+          >
+            <Github size={20} strokeWidth={1.5} />
           </a>
           <a
             href={`mailto:${personalData.email}`}
@@ -161,7 +181,7 @@ const Layout = ({ children }) => {
             onMouseEnter={e => e.currentTarget.style.color = fgActive}
             onMouseLeave={e => e.currentTarget.style.color = fgMuted}
           >
-            <Mail size={14} strokeWidth={1.5} />
+            <Mail size={20} strokeWidth={1.5} />
           </a>
         </div>
       </aside>

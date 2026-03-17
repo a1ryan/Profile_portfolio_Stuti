@@ -5,7 +5,14 @@ import { ThemeProvider } from "./context/ThemeContext";
 import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Experience from "./pages/Experience";
-import Education from "./pages/Education";
+
+const ComingSoon = ({ title }) => (
+  <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingLeft: 44 }}>
+    <p style={{ fontFamily: "'Josefin Sans', sans-serif", fontSize: 11, fontWeight: 300, letterSpacing: '0.3em', opacity: 0.3 }}>
+      {title} — COMING SOON
+    </p>
+  </div>
+);
 
 function App() {
   return (
@@ -15,8 +22,8 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/experience" element={<Experience />} />
-              <Route path="/education" element={<Education />} />
+              <Route path="/works" element={<Experience />} />
+              <Route path="/gallery" element={<ComingSoon title="GALLERY" />} />
             </Routes>
           </Layout>
         </BrowserRouter>

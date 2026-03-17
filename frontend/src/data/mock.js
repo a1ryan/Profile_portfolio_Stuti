@@ -1,11 +1,13 @@
 export const personalData = {
   firstName: "STUTI",
   lastName: "JAIN",
-  title: "Trade Marketing / Brand Strategist",
+  title: "Brand Marketing Intern",
   email: "stuti.jain@edu.em-lyon.com",
   phone: "+33 07 45 31 06 44",
   location: "Lyon, France",
   linkedin: "https://www.linkedin.com/in/stutijain1409/",
+  instagram: "https://www.instagram.com/",
+  github: "https://github.com/",
   about: "A rigorous candidate with strong attention to detail. Passionate about the beauty industry with 2+ years in beauty-tech and beauty premium retail. I thrive in fast-paced, diverse, and international environments and have a strong interest in fragrances and makeup.",
   motivation: "I'm a trade marketing specialist with a growing focus on brand strategy and consumer experience. While I'm still exploring where I want my career to evolve, I've discovered that bridging the gap between commercial objectives and creative brand execution is what excites me the most. That's why I'm currently seeking a 6-month end-of-year internship from July 2026 where I can apply my skills in a dynamic international environment.",
   photoUrl: null
@@ -51,6 +53,7 @@ export const experienceData = [
     location: "Paris, France",
     period: "Sept 2025 – Present",
     type: "Internship",
+    image: "/pulpoAR.jpg",
     description: "Working at the intersection of AI and beauty, supporting prestige brand rollouts and partnership management.",
     bullets: [
       "Provided AI tool rollout for prestige brands like Elf Cosmetics, KIKO Milano, & Sephora, ensuring operational excellence and execution.",
@@ -67,6 +70,7 @@ export const experienceData = [
     location: "India",
     period: "Aug 2022 – July 2024",
     type: "Full-time",
+    image: "/Geetanjali.jpeg",
     description: "Led growth initiatives and trade marketing for a premium beauty salon chain in India.",
     bullets: [
       "Delivered +18% YoY revenue growth through campaigns, promotional plans, and sell-out initiatives in premium retail channels.",
@@ -81,6 +85,7 @@ export const experienceData = [
     location: "India",
     period: "Jan 2023 – June 2023",
     type: "Internship",
+    image: "/makeup.jpeg",
     description: "Developed brand campaigns and market strategies to drive portfolio growth and market share expansion.",
     bullets: [
       "Created 5+ campaigns for brand portfolio growth and market share expansion, ensuring brand consistency across all channels.",

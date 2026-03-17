@@ -26,13 +26,13 @@ const Education = () => {
               <div className="flex-1">
                 <div className="flex items-baseline gap-4 flex-wrap">
                   <span
-                    className="text-[10px] tracking-[0.25em] opacity-30"
+                    className="text-[12px] tracking-[0.25em] opacity-80 text-white"
                     style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                   >
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <h3
-                    className="text-2xl md:text-3xl font-thin"
+                    className="text-[29px] md:text-[36px] font-thin text-white"
                     style={{
                       fontFamily: "'Cormorant Garamond', 'Georgia', serif",
                       fontWeight: 300
@@ -45,14 +45,14 @@ const Education = () => {
                   className="flex flex-wrap items-center gap-3 mt-2 ml-8"
                   style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                 >
-                  <span className="text-xs opacity-50 tracking-wider">{edu.school}</span>
+                  <span className="text-[14px] opacity-50 tracking-wider text-white">{edu.school}</span>
                   <span className="text-xs opacity-20">·</span>
-                  <span className="text-xs opacity-40 tracking-wider">{edu.location}</span>
+                  <span className="text-[14px] opacity-40 tracking-wider text-white">{edu.location}</span>
                 </div>
                 {edu.courses.length > 0 && (
                   <div className="mt-4 ml-8">
                     <p
-                      className="text-[10px] tracking-[0.2em] opacity-30 mb-2"
+                      className="text-[12px] tracking-[0.2em] opacity-30 mb-2 text-white"
                       style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                     >
                       RELEVANT COURSEWORK
@@ -61,7 +61,7 @@ const Education = () => {
                       {edu.courses.map((course) => (
                         <span
                           key={course}
-                          className="text-[10px] border border-current opacity-30 px-2 py-0.5 tracking-wider"
+                          className="text-[12px] border border-current opacity-30 px-2 py-0.5 tracking-wider text-white"
                           style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                         >
                           {course}
@@ -73,13 +73,13 @@ const Education = () => {
               </div>
               <div className="flex flex-col items-end gap-1 shrink-0">
                 <span
-                  className="text-[10px] tracking-[0.2em] opacity-40"
+                  className="text-[12px] tracking-[0.2em] opacity-80 text-white"
                   style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                 >
                   {edu.period}
                 </span>
                 <span
-                  className="text-[10px] tracking-[0.2em] opacity-50 border border-current px-2 py-0.5"
+                  className="text-[12px] tracking-[0.2em] opacity-50 border border-current px-2 py-0.5 text-white"
                   style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                 >
                   {edu.gpa}
@@ -93,8 +93,8 @@ const Education = () => {
       {/* Projects Section */}
       <div className="mb-24">
         <h2
-          className="text-xs tracking-[0.3em] mb-8 border-b border-current border-opacity-20 pb-4 inline-block opacity-80"
-          style={{ fontFamily: "'Josefin Sans', sans-serif" }}
+          className="text-[14px] tracking-[0.3em] mb-8 border-b border-current border-opacity-20 pb-4 inline-block opacity-80 text-white"
+          style={{ fontFamily: "'Josefin Sans', sans-serif", color: 'rgba(255,255,255,0.8)' }}
         >
           PROJECTS & EVENTS
         </h2>
@@ -105,13 +105,13 @@ const Education = () => {
                 <div className="flex-1">
                   <div className="flex items-baseline gap-4">
                     <span
-                      className="text-[10px] tracking-[0.25em] opacity-30"
+                      className="text-[12px] tracking-[0.25em] opacity-80 text-white"
                       style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                     >
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <h3
-                      className="text-xl md:text-2xl font-thin"
+                      className="text-[24px] md:text-[29px] font-thin text-white"
                       style={{
                         fontFamily: "'Cormorant Garamond', 'Georgia', serif",
                         fontWeight: 300
@@ -121,7 +121,7 @@ const Education = () => {
                     </h3>
                   </div>
                   <p
-                    className="text-xs opacity-40 tracking-wider mt-1 ml-8"
+                    className="text-[14px] opacity-40 tracking-wider mt-1 ml-8 text-white"
                     style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                   >
                     {project.location}
@@ -130,7 +130,7 @@ const Education = () => {
                     {project.bullets.map((bullet, i) => (
                       <li
                         key={i}
-                        className="flex items-start gap-3 text-sm font-light opacity-50"
+                        className="flex items-start gap-3 text-[17px] font-light opacity-80 text-white"
                         style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                       >
                         <span className="mt-2 w-1 h-1 rounded-full bg-current shrink-0 opacity-40" />
@@ -140,7 +140,7 @@ const Education = () => {
                   </ul>
                 </div>
                 <span
-                  className="text-[10px] tracking-[0.2em] opacity-40 shrink-0"
+                  className="text-[12px] tracking-[0.2em] opacity-40 shrink-0 text-white"
                   style={{ fontFamily: "'Josefin Sans', sans-serif" }}
                 >
                   {project.period}
@@ -154,7 +154,7 @@ const Education = () => {
       {/* Languages Section */}
       <div className="mb-24">
         <h2
-          className="text-xs tracking-[0.3em] mb-8 border-b border-current border-opacity-20 pb-4 inline-block opacity-80"
+          className="text-[14px] tracking-[0.3em] mb-8 border-b border-current border-opacity-20 pb-4 inline-block opacity-80 text-white"
           style={{ fontFamily: "'Josefin Sans', sans-serif" }}
         >
           LANGUAGES
@@ -163,7 +163,7 @@ const Education = () => {
           {languagesData.map((lang) => (
             <div key={lang.language} className="flex flex-col gap-1">
               <span
-                className="text-lg md:text-xl font-thin"
+                className="text-[22px] md:text-[24px] font-thin text-white"
                 style={{
                   fontFamily: "'Cormorant Garamond', 'Georgia', serif",
                   fontWeight: 300
@@ -172,7 +172,7 @@ const Education = () => {
                 {lang.language}
               </span>
               <span
-                className="text-[10px] tracking-[0.2em] opacity-40"
+                className="text-[12px] tracking-[0.2em] opacity-80 text-white"
                 style={{ fontFamily: "'Josefin Sans', sans-serif" }}
               >
                 {lang.level}

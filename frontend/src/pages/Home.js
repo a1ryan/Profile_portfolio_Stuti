@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { personalData, skillsData } from '../data/mock';
 import { useTheme } from '../context/ThemeContext';
 
-const SERIF = "'Cormorant Garamond', 'Georgia', serif";
+const SERIF = "'Raleway', 'Josefin Sans', sans-serif";
 const SANS = "'Josefin Sans', sans-serif";
 
 /* ── colour helper ── */
@@ -10,20 +11,19 @@ const alpha = (dark, lightVal, darkVal) => dark ? darkVal : lightVal;
 
 /* ── small uppercase section label + extending rule ── */
 const SectionLabel = ({ children, dark }) => {
-  const labelColor = alpha(dark, 'rgba(18,18,18,0.45)', 'rgba(255,255,255,0.48)');
+  const labelColor = 'rgba(255,255,255,0.8)';
   const lineColor = alpha(dark, 'rgba(18,18,18,0.10)', 'rgba(255,255,255,0.13)');
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
       <span
         style={{
           fontFamily: SANS,
-          fontSize: 9,
+          fontSize: 22,
           fontWeight: 300,
-          letterSpacing: '0.42em',
-          color: labelColor,
+          letterSpacing: '0.2em',
+          color: 'rgba(255,255,255,1)',
           textTransform: 'uppercase',
           flexShrink: 0,
-          transition: 'color 0.4s ease'
         }}>
 
         {children}
@@ -35,37 +35,41 @@ const SectionLabel = ({ children, dark }) => {
 
 /* ── skill list group ── */
 const SkillGroup = ({ title, items, dark }) => {
-  const groupLabel = alpha(dark, 'rgba(18,18,18,0.22)', 'rgba(255,255,255,0.22)');
-  const itemColor = alpha(dark, 'rgba(18,18,18,0.42)', 'rgba(255,255,255,0.42)');
-  const itemHover = alpha(dark, 'rgba(18,18,18,0.80)', 'rgba(255,255,255,0.80)');
+  const groupLabel = 'rgba(255,255,255,0.8)';
+  const itemColor = 'rgba(255,255,255,0.8)';
+  const itemHover = 'rgba(255,255,255,0.8)';
   return (
     <div>
       <p
         style={{
-          fontFamily: SANS, fontSize: 8, fontWeight: 300,
-          letterSpacing: '0.34em', color: groupLabel,
-          textTransform: 'uppercase', marginBottom: 14,
-          transition: 'color 0.4s ease'
+          fontFamily: SANS, fontSize: 11, fontWeight: 400,
+          letterSpacing: '0.2em', color: 'rgba(255,255,255,0.55)',
+          textTransform: 'uppercase', marginBottom: 16,
         }}>
 
         {title}
       </p>
-      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 9 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', margin: -4 }}>
         {items.map((item) =>
-        <li
-          key={item}
-          style={{
-            fontFamily: SANS, fontSize: 12, fontWeight: 300,
-            color: itemColor, letterSpacing: '0.04em',
-            cursor: 'default', transition: 'color 0.2s ease'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.color = itemHover}
-          onMouseLeave={(e) => e.currentTarget.style.color = itemColor}>
-
+          <span
+            key={item}
+            style={{
+              fontFamily: SANS,
+              fontSize: 13,
+              fontWeight: 300,
+              color: 'rgba(255,255,255,0.8)',
+              border: '1px solid rgba(255,255,255,0.25)',
+              borderRadius: 999,
+              padding: '6px 16px',
+              display: 'inline-block',
+              margin: 4,
+              background: 'transparent',
+              cursor: 'default',
+            }}>
             {item}
-          </li>
+          </span>
         )}
-      </ul>
+      </div>
     </div>);
 
 };
@@ -96,13 +100,13 @@ const Home = () => {
 
   /* colour tokens */
   const nameColor = alpha(dark, 'rgba(18,18,18,0.88)', 'rgba(255,255,255,0.88)');
-  const subtitleColor = alpha(dark, 'rgba(18,18,18,0.38)', 'rgba(255,255,255,0.40)');
-  const emailColor = alpha(dark, 'rgba(18,18,18,0.28)', 'rgba(255,255,255,0.26)');
-  const emailHover = alpha(dark, 'rgba(18,18,18,0.70)', 'rgba(255,255,255,0.72)');
-  const aboutLabel = alpha(dark, 'rgba(18,18,18,0.48)', 'rgba(255,255,255,0.48)');
+  const subtitleColor = 'rgba(255,255,255,0.8)';
+  const emailColor = 'rgba(255,255,255,0.8)';
+  const emailHover = 'rgba(255,255,255,0.8)';
+  const aboutLabel = 'rgba(255,255,255,0.8)';
   const aboutLine = alpha(dark, 'rgba(18,18,18,0.14)', 'rgba(255,255,255,0.16)');
-  const aboutBody = alpha(dark, 'rgba(18,18,18,0.42)', 'rgba(255,255,255,0.40)');
-  const bodyText = alpha(dark, 'rgba(18,18,18,0.42)', 'rgba(255,255,255,0.40)');
+  const aboutBody = 'rgba(255,255,255,0.8)';
+  const bodyText = 'rgba(255,255,255,0.8)';
 
   return (
     <div>
@@ -180,12 +184,12 @@ const Home = () => {
           <p
             style={{
               fontFamily: SANS,
-              fontSize: 11,
+              fontSize: 20,
               fontWeight: 300,
               letterSpacing: '0.28em',
               color: subtitleColor,
               marginTop: 30,
-              marginLeft: 3,
+              marginLeft: 0,
               paddingLeft: 0,
               transition: 'color 0.4s ease'
             }}>
@@ -204,7 +208,7 @@ const Home = () => {
 
           <p
             style={{
-              fontFamily: SANS, fontSize: 10, fontWeight: 300,
+              fontFamily: SANS, fontSize: 12, fontWeight: 300,
               color: emailColor, letterSpacing: '0.06em',
               marginBottom: 4,
               transition: 'color 0.4s ease'
@@ -215,7 +219,7 @@ const Home = () => {
           <a
             href={`mailto:${personalData.email}`}
             style={{
-              fontFamily: SANS, fontSize: 10, fontWeight: 300,
+              fontFamily: SANS, fontSize: 12, fontWeight: 300,
               color: emailColor, letterSpacing: '0.06em',
               textDecoration: 'none',
               transition: 'color 0.25s ease'
@@ -245,36 +249,33 @@ const Home = () => {
 
           <div>
 
-            {/* ABOUT ME + horizontal rule */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 26 }}>
-              <span
-                style={{
-                  fontFamily: SANS, fontSize: 9, fontWeight: 300,
-                  letterSpacing: '0.44em', color: aboutLabel,
-                  textTransform: 'uppercase', flexShrink: 0,
-                  transition: 'color 0.4s ease'
-                }}>
+            {/* ABOUT ME heading */}
+            <span
+              style={{
+                fontFamily: SANS, fontSize: 24, fontWeight: 300,
+                letterSpacing: '0.25em', color: 'rgba(255,255,255,1)',
+                textTransform: 'uppercase', display: 'block',
+                marginBottom: 14,
+              }}>
+              ABOUT ME
+            </span>
 
-                ABOUT ME
-              </span>
-              <div
-                style={{
-                  flex: 1, height: '0.5px',
-                  background: aboutLine,
-                  transition: 'background 0.4s ease'
-                }} />
-
-            </div>
+            {/* Horizontal divider after heading */}
+            <div
+              style={{
+                width: '100%', height: '0.5px',
+                background: 'rgba(255,255,255,0.4)',
+                marginBottom: 24,
+              }} />
 
             {/* About body */}
             <p
               style={{
-                fontFamily: SANS, fontSize: 12.5, fontWeight: 300,
+                fontFamily: SANS, fontSize: 20, fontWeight: 300,
                 lineHeight: 2.0, color: aboutBody,
                 letterSpacing: '0.025em', margin: 0,
                 transition: 'color 0.4s ease'
               }} className="!text-[rgba(255,255,255,0.8)]">
-
               {personalData.about}
             </p>
 
@@ -285,13 +286,11 @@ const Home = () => {
 
       {/* ── About Me: mobile ── */}
       <section className="about-mobile" style={{ padding: '60px 44px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 22 }}>
-          <span style={{ fontFamily: SANS, fontSize: 9, fontWeight: 300, letterSpacing: '0.42em', color: aboutLabel, textTransform: 'uppercase', flexShrink: 0 }}>
-            ABOUT ME
-          </span>
-          <div style={{ flex: 1, height: '0.5px', background: aboutLine }} />
-        </div>
-        <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, lineHeight: 2.0, color: aboutBody, letterSpacing: '0.02em', margin: 0 }}>
+        <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, letterSpacing: '0.25em', color: 'rgba(255,255,255,1)', textTransform: 'uppercase', display: 'block', marginBottom: 14 }}>
+          ABOUT ME
+        </span>
+        <div style={{ width: '100%', height: '0.5px', background: 'rgba(255,255,255,0.4)', marginBottom: 22 }} />
+        <p style={{ fontFamily: SANS, fontSize: 20, fontWeight: 300, lineHeight: 2.0, color: aboutBody, letterSpacing: '0.02em', margin: 0 }}>
           {personalData.about}
         </p>
       </section>
@@ -300,39 +299,90 @@ const Home = () => {
            MOTIVATION + SKILLS  second screen
            ════════════════════════════════════════ */}
       <section
-        className="motivation-section"
         style={{
-          minHeight: '100vh',
           padding: '96px 44px 80px',
           display: 'flex',
-          gap: 80
+          flexDirection: 'column',
+          gap: 72
         }}>
 
-        {/* Motivation */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <SectionLabel dark={dark}>MOTIVATION</SectionLabel>
-          <p
-            style={{
-              fontFamily: SANS, fontSize: 12, fontWeight: 300,
-              lineHeight: 2.2, color: bodyText,
-              letterSpacing: '0.025em', maxWidth: 420,
-              transition: 'color 0.4s ease'
-            }}>
+        {/* Top row: Motivation (55%) + Image placeholder (40%) */}
+        <div style={{ display: 'flex', gap: '5%', alignItems: 'flex-start' }}>
 
-            {personalData.motivation}
-          </p>
+          {/* Motivation */}
+          <div style={{ width: '55%', minWidth: 0 }}>
+            <SectionLabel dark={dark}>MOTIVATION</SectionLabel>
+            <p
+              style={{
+                fontFamily: SANS, fontSize: 14, fontWeight: 300,
+                lineHeight: 1.9, color: 'rgba(255,255,255,0.85)',
+                letterSpacing: 0,
+              }}>
+              {personalData.motivation}
+            </p>
+          </div>
+
+          {/* Image */}
+          <div
+            style={{
+              width: '40%',
+              aspectRatio: '16 / 9',
+              borderRadius: 12,
+              overflow: 'hidden',
+              flexShrink: 0,
+              boxShadow: '0 8px 40px rgba(0,0,0,0.5)',
+            }}>
+            <img
+              src="/beauty-1.jpeg"
+              alt="Beauty"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          </div>
         </div>
 
-        {/* Skills */}
-        <div style={{ flex: 1, minWidth: 0 }}>
+        {/* Skills — full width below */}
+        <div style={{ width: '100%' }}>
           <SectionLabel dark={dark}>SKILLS</SectionLabel>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 40 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
             <SkillGroup dark={dark} title="MARKETING" items={skillsData.marketing} />
             <SkillGroup dark={dark} title="ANALYTICS" items={skillsData.analytics} />
             <SkillGroup dark={dark} title="TOOLS" items={skillsData.tools} />
           </div>
         </div>
+
       </section>
+
+      {/* ── Bottom-right page navigation ── */}
+      <div style={{
+        position: 'fixed',
+        bottom: 68,
+        right: 26,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-end',
+        gap: 6,
+        zIndex: 10,
+      }}>
+        {[{ label: 'WORKS', path: '/works' }, { label: 'GALLERY', path: '/gallery' }].map(({ label, path }) => (
+          <Link
+            key={path}
+            to={path}
+            style={{
+              fontFamily: SANS,
+              fontSize: 14,
+              fontWeight: 300,
+              letterSpacing: '0.15em',
+              color: 'rgba(255,255,255,0.7)',
+              textDecoration: 'none',
+              transition: 'color 0.2s ease',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,1)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
+          >
+            {label} →
+          </Link>
+        ))}
+      </div>
 
     </div>);
 
