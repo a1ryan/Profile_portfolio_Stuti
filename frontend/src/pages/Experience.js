@@ -235,6 +235,16 @@ const DetailCard = ({ exp, onClose }) => {
             </li>
           ))}
         </ul>
+
+        {exp.closing && (
+          <p style={{
+            fontFamily: SANS, fontSize: 13, fontWeight: 300,
+            lineHeight: 1.8, color: 'rgba(255,255,255,0.6)',
+            letterSpacing: '0.01em', fontStyle: 'italic',
+            margin: '20px 0 0', borderTop: '0.5px solid rgba(255,255,255,0.1)',
+            paddingTop: 16,
+          }}>{exp.closing}</p>
+        )}
       </div>
     </div>
   );
@@ -335,7 +345,7 @@ const Works = () => {
                   <img
                     src={exp.image}
                     alt={exp.role}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12 }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, objectPosition: exp.id === 1 ? 'center 55%' : exp.id === 3 ? 'center 70%' : 'center' }}
                   />
                 ) : (
                   <span style={{
@@ -437,12 +447,22 @@ const Works = () => {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
-            <div style={{
-              width: 42, height: 42, borderRadius: '50%',
-              border: `1px solid ${fg(dark, 0.18)}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'border-color 0.4s ease',
-            }}>
+            <div
+              onClick={() => {
+                const nextIndex = Math.min(activeIndex + 1, total - 1);
+                sectionRefs.current[nextIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }}
+              style={{
+                width: 42, height: 42, borderRadius: '50%',
+                border: `1px solid ${fg(dark, 0.18)}`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'border-color 0.2s ease, background 0.2s ease',
+                cursor: activeIndex < total - 1 ? 'pointer' : 'default',
+                opacity: activeIndex < total - 1 ? 1 : 0.3,
+              }}
+              onMouseEnter={e => { if (activeIndex < total - 1) { e.currentTarget.style.borderColor = '#e040fb'; e.currentTarget.style.background = 'rgba(224,64,251,0.1)'; }}}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = fg(dark, 0.18); e.currentTarget.style.background = 'transparent'; }}
+            >
               <span style={{ color: fg(dark, 0.35), fontSize: 14, lineHeight: 1, transition: 'color 0.4s ease' }}>↓</span>
             </div>
           </div>

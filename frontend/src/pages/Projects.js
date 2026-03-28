@@ -8,6 +8,40 @@ const MONO  = "'Courier New', Courier, monospace";
 
 const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
+const ExploreButton = ({ onClick, visible }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        position: 'relative', zIndex: 2,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
+        cursor: 'pointer',
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.8s ease 0.3s',
+        transform: hovered ? 'translateY(-4px)' : 'translateY(0)',
+      }}
+    >
+      <span style={{
+        fontFamily: SANS, fontSize: 11, fontWeight: 300,
+        letterSpacing: '0.35em',
+        color: hovered ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.55)',
+        textTransform: 'uppercase',
+        transition: 'color 0.25s ease, transform 0.25s cubic-bezier(0.22,1,0.36,1)',
+      }}>explore</span>
+      <span style={{
+        fontSize: 18,
+        color: hovered ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.50)',
+        animation: 'bounce-arrow 1.6s ease-in-out infinite',
+        display: 'inline-block',
+        transition: 'color 0.25s ease',
+      }}>↓</span>
+    </div>
+  );
+};
+
 /* ── Intro overlay — always dark ── */
 const IntroOverlay = ({ onDismiss }) => {
   const [textIn, setTextIn] = useState(false);
@@ -99,24 +133,7 @@ const IntroOverlay = ({ onDismiss }) => {
           A collection of projects and events — from AI-powered brand concepts
           to large-scale student activations.
         </p>
-        <div onClick={handleClick} style={{
-          position: 'relative', zIndex: 2,
-          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
-          cursor: 'pointer',
-          opacity: textIn ? 1 : 0,
-          transition: 'opacity 0.8s ease 0.3s',
-        }}>
-          <span style={{
-            fontFamily: SANS, fontSize: 11, fontWeight: 300,
-            letterSpacing: '0.35em', color: 'rgba(255,255,255,0.35)',
-            textTransform: 'uppercase',
-          }}>explore</span>
-          <span style={{
-            fontSize: 18, color: 'rgba(255,255,255,0.3)',
-            animation: 'bounce-arrow 1.6s ease-in-out infinite',
-            display: 'inline-block',
-          }}>↓</span>
-        </div>
+        <ExploreButton onClick={handleClick} visible={textIn} />
       </div>
     </>
   );
@@ -445,7 +462,7 @@ const Projects = () => {
           }}>
             <p style={{
               fontFamily: MONO, fontSize: 14, fontWeight: 400,
-              letterSpacing: '0.15em', color: fg(dark, 0.68),
+              letterSpacing: '0.15em', color: fg(dark, 0.88),
               margin: '0 0 36px 0', transition: 'color 0.4s ease',
             }}>
               [ {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} ]
@@ -478,20 +495,22 @@ const Projects = () => {
             <button
               onClick={() => active.link ? setLinkProject(active) : setSelected(active)}
               style={{
-                background: 'none', border: `0.5px solid ${fg(dark, 0.2)}`,
+                background: 'none', border: '1px solid #e040fb',
                 borderRadius: 999, padding: '8px 20px',
                 fontFamily: SANS, fontSize: 11, fontWeight: 300,
-                letterSpacing: '0.2em', color: fg(dark, 0.68),
+                letterSpacing: '0.2em', color: '#ffffff',
                 cursor: 'pointer', alignSelf: 'flex-start',
-                transition: 'color 0.2s ease, border-color 0.2s ease',
+                transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease',
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.color = fg(dark, 0.9);
-                e.currentTarget.style.borderColor = fg(dark, 0.68);
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))';
+                e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)';
+                e.currentTarget.style.transform = 'translateY(-3px)';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.color = fg(dark, 0.68);
-                e.currentTarget.style.borderColor = fg(dark, 0.2);
+                e.currentTarget.style.background = 'none';
+                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >READ MORE →</button>
           </div>

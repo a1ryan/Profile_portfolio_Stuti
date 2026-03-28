@@ -69,12 +69,12 @@ export const experienceData = [
     image: "/pulpo-image.png",
     description: "Working at the intersection of AI and beauty, supporting prestige brand rollouts and partnership management.",
     bullets: [
-      "Provided AI tool rollout for prestige brands like Elf Cosmetics, KIKO Milano, & Sephora, ensuring operational excellence and execution.",
-      "Managed post-launch analysis & feedback collection from markets for 5+ makeup brands, translating findings into actionable insights.",
-      "Built 5+ competitor intelligence and category trend analyses to implement long-term global and local marketing strategies.",
-      "Built 30+ mockups and launch materials for makeup brands to maintain smooth communication between global and local teams.",
-      "Monitored a €1M partnership via daily coordination with key markets and players, managing cross-functionally within stakeholders."
-    ]
+      "Supported AI-powered solution such as virtual try-on and skin analysis rollout for beauty brands, understanding the company product and competitors.",
+      "Exposure to brands across EMEA, the US, and Asia, which has helped me understand different market needs, consumer expectations, and beauty habits.",
+      "Closely involved in brand coordination, rollout materials, presentation development, and client meetings, giving me insight into both the strategic and operational side of beauty-tech.",
+      "Also contributed to company events and logistics, including participation in events such as NRF Paris, which added to my understanding of industry networking."
+    ],
+    closing: "This experience has especially deepened my interest in how innovation and AI are shaping the future of beauty experiences."
   },
   {
     id: 2,
@@ -86,10 +86,12 @@ export const experienceData = [
     image: "/Geetanjali.jpeg",
     description: "Led growth initiatives and trade marketing for a premium beauty salon chain in India.",
     bullets: [
-      "Delivered +18% YoY revenue growth through campaigns, promotional plans, and sell-out initiatives in premium retail channels.",
-      "Managed weekly Excel reporting on sales, product mix, and KPIs to support quantitative performance analysis and decision-making.",
-      "Increased L'Oréal sell-out by 10–15% through merchandising discipline, in-store visibility, and incentive-led activation support."
-    ]
+      "At Geetanjali Salon, I was closely involved in the consumer side of beauty, contributing to growth while supporting daily operations, staff coordination, and the overall premium salon experience.",
+      "This role helped me understand how customers perceive beauty products once they reach them, and how factors such as service, trust, and attention to detail influence their decisions.",
+      "It also showed me how campaigns, promotions, merchandising, and product placement can shape customer interest and strengthen product visibility.",
+      "Working in this environment deepened my understanding of consumer expectations, premium standards, and the emotional side of beauty retail."
+    ],
+    closing: "It gave me a much more direct understanding of how beauty is experienced in real life."
   },
   {
     id: 3,
@@ -98,13 +100,15 @@ export const experienceData = [
     location: "India",
     period: "Jan 2023 – June 2023",
     type: "Internship",
-    image: "/makeup.jpeg",
+    image: "/BM5.jpg",
     description: "Developed brand campaigns and market strategies to drive portfolio growth and market share expansion.",
     bullets: [
-      "Created 5+ campaigns for brand portfolio growth and market share expansion, ensuring brand consistency across all channels.",
-      "Participated in weekly calls and shared market insights to support regional markets, boosting operational trade requests by 10%.",
-      "Improved campaign reach 5x at 30% lower spend through performance tracking, audience analysis, and creative iteration."
-    ]
+      "Worked on helping different brands strengthen their digital presence through campaigns, creative assets, and audience-focused communication.",
+      "Contributed to how brands present themselves online and connect with their target audience in a more relevant and engaging way.",
+      "Supported the creation of campaign materials by understanding client requirements, brand tone, and visual consistency.",
+      "This experience helped me understand the importance of brand voice, storytelling, and communication strategy in shaping brand perception."
+    ],
+    closing: "It added the digital and campaign side to my overall understanding of brand building."
   }
 ];
 
@@ -148,7 +152,7 @@ export const projectsData = [
     location: "Emlyon Business School",
     period: "Oct 2024 – Present",
     category: "Data Analysis / Visualization",
-    image: "/dashboard.jpg",
+    image: "/DV 1.jpg",
     description: "Dashboards built using Power BI and advanced data visualization techniques to track KPIs, uncover insights, and support strategic decision-making.",
     link: "https://drive.google.com/file/d/1C1iLtOMjacwB9n3AKBvCAjue3-PBDpEa/view?usp=sharing"
   },
@@ -158,7 +162,7 @@ export const projectsData = [
     location: "Emlyon Business School",
     period: "Dec 2025 – Feb 2026",
     category: "Beauty & Fashion",
-    image: "/paris-project.png",
+    image: "/FS2.jpg",
     description: "A strategic market clustering project analyzing Paris’s luxury and fashion landscape to identify brand patterns, consumer segments, and growth opportunities.",
     link: "https://drive.google.com/file/d/1ArQyq3awuojkgFsioChsl9RkiR1J1ip5/view?usp=sharing"
   },
