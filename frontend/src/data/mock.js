@@ -4,7 +4,7 @@ export const personalData = {
   title: "Brand Marketing Intern",
   email: "stuti.jain@edu.em-lyon.com",
   phone: "+33 07 45 31 06 44",
-  location: "Lyon, France",
+  location: "Paris, France",
   linkedin: "https://www.linkedin.com/in/stutijain1409/",
   instagram: "https://www.instagram.com/",
   github: "https://github.com/",
@@ -15,18 +15,23 @@ export const personalData = {
 
 export const skillsData = {
   marketing: [
-    "Trade Marketing",
-    "Brand Marketing",
-    "4Ps Implementation",
-    "Trade Plans",
-    "Market Study",
+    "Market Research",
+    "Stakeholder Coordination",
     "Competitor Benchmarking",
+    "Consumer Insights",
+    "4Ps Implementation",
+    "Brand Management",
+    "Trade Marketing",
+    "Product Development",
+    "Client Management",
     "Launch Plan"
   ],
   analytics: [
     "KPI Dashboards",
     "Monthly Reporting",
     "Post-launch Review",
+    "Performance Analysis",
+    "Data Mining",
     "Advanced Excel",
     "Power BI",
     "Tableau",
@@ -34,14 +39,22 @@ export const skillsData = {
     "Python"
   ],
   tools: [
-    "MS Office Toolkit",
-    "Jira",
-    "Notion",
+    "PowerPoint",
+    "MS Word",
     "Figma",
     "Canva",
-    "Meta Business",
     "Photoshop",
-    "InDesign"
+    "Illustrator",
+    "InDesign",
+    "Meta Business",
+    "SEA",
+    "Jira",
+    "Notion",
+    "Slack",
+    "Hubspot",
+    "AutoCAD",
+    "Sketchup",
+    "Revit"
   ]
 };
 
@@ -100,19 +113,21 @@ export const educationData = [
     id: 1,
     degree: "Grand École – Master in Management",
     school: "Emlyon Business School",
-    location: "Lyon, France",
+    link: "https://em-lyon.com/fr",
+    location: "Paris, France",
     period: "Aug 2024 – Present",
     gpa: "GPA: 4/4",
-    courses: ["Trade Marketing", "Global Strategies and Operations", "Project Management", "Strategic Competitiveness"]
+    courses: "Excel Tools Workshop, Product Marketing, Marketing Analytics (Data Mining, IS & Databases, Dashboarding), Global Strategies and Operations, Project Management, E-commerce, Digital Marketing, Economic Competitiveness"
   },
   {
     id: 2,
     degree: "Bachelor of Architecture",
     school: "Jamia Millia Islamia",
+    popupSubheading: "Bachelor of Architecture",
     location: "Delhi, India",
     period: "Jul 2017 – July 2022",
     gpa: "CGPA: 8",
-    courses: []
+    courses: "Retail Design, Engineering Drawings, Plan Layout, Spatial Storytelling, Consumer Journey Mapping, Visual Communication, Brand Environment Design, Presentation & Pitching"
   }
 ];
 

@@ -52,18 +52,44 @@ const IntroOverlay = ({ onDismiss }) => {
       `}</style>
       <div style={{
         position: 'fixed', inset: 0, zIndex: 300,
-        background: '#111',
+        background: '#0b000e',
         display: 'flex', flexDirection: 'column',
         alignItems: 'center', justifyContent: 'center',
         padding: '0 10vw',
         opacity: fading ? 0 : 1,
         transition: 'opacity 0.65s ease',
         pointerEvents: fading ? 'none' : 'auto',
+        overflow: 'hidden',
       }}>
+
+        {/* ── Background video ── */}
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 0,
+          WebkitMaskImage: 'radial-gradient(ellipse 90% 80% at 50% 50%, transparent 28%, black 60%)',
+          maskImage: 'radial-gradient(ellipse 90% 80% at 50% 50%, transparent 28%, black 60%)',
+          opacity: 0.55,
+          filter: 'brightness(1.35) contrast(1.1) saturate(1.2)',
+        }}>
+          <video
+            autoPlay loop muted playsInline
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          >
+            <source src="/background video 2.mp4" type="video/mp4" />
+          </video>
+        </div>
+
+        {/* Dark vignette over video to protect text readability */}
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 1,
+          background: 'radial-gradient(ellipse 55% 60% at 50% 50%, rgba(11,0,14,0.82) 0%, rgba(11,0,14,0.3) 100%)',
+          pointerEvents: 'none',
+        }} />
+
         <p style={{
+          position: 'relative', zIndex: 2,
           fontFamily: SANS, fontSize: 20, fontWeight: 300,
           lineHeight: 1.85, letterSpacing: '0.04em',
-          color: 'rgba(255,255,255,0.88)',
+          color: 'rgba(255,255,255,1.0)',
           textAlign: 'center', maxWidth: 720,
           margin: '0 0 52px 0',
           opacity: textIn ? 1 : 0,
@@ -74,6 +100,7 @@ const IntroOverlay = ({ onDismiss }) => {
           to large-scale student activations.
         </p>
         <div onClick={handleClick} style={{
+          position: 'relative', zIndex: 2,
           display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10,
           cursor: 'pointer',
           opacity: textIn ? 1 : 0,
@@ -220,7 +247,7 @@ const DetailCard = ({ project, onClose }) => {
           {[project.period, project.category].filter(Boolean).map((label) => (
             <span key={label} style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 300,
-              letterSpacing: '0.18em', color: 'rgba(255,255,255,0.5)',
+              letterSpacing: '0.18em', color: 'rgba(255,255,255,0.70)',
               border: '0.5px solid rgba(255,255,255,0.18)',
               borderRadius: 999, padding: '4px 14px',
             }}>{label}</span>
@@ -235,7 +262,7 @@ const DetailCard = ({ project, onClose }) => {
 
         <p style={{
           fontFamily: SANS, fontSize: 13, fontWeight: 300,
-          letterSpacing: '0.08em', color: 'rgba(255,255,255,0.5)',
+          letterSpacing: '0.08em', color: 'rgba(255,255,255,0.70)',
           margin: '0 0 32px 0',
         }}>{project.location}</p>
 
@@ -244,7 +271,7 @@ const DetailCard = ({ project, onClose }) => {
         {project.description && (
           <p style={{
             fontFamily: SANS, fontSize: 14, fontWeight: 300,
-            lineHeight: 1.85, color: 'rgba(255,255,255,0.7)',
+            lineHeight: 1.85, color: 'rgba(255,255,255,0.90)',
             letterSpacing: 0, margin: '0 0 28px 0', fontStyle: 'italic',
           }}>{project.description}</p>
         )}
@@ -259,7 +286,7 @@ const DetailCard = ({ project, onClose }) => {
                 }} />
                 <span style={{
                   fontFamily: SANS, fontSize: 14, fontWeight: 300,
-                  lineHeight: 1.8, color: 'rgba(255,255,255,0.8)', letterSpacing: 0,
+                  lineHeight: 1.8, color: 'rgba(255,255,255,0.95)', letterSpacing: 0,
                 }}>{bullet}</span>
               </li>
             ))}
@@ -378,7 +405,7 @@ const Projects = () => {
                 <div style={{
                   position: 'absolute', bottom: 16, right: 20,
                   fontFamily: SANS, fontSize: 10, fontWeight: 300,
-                  letterSpacing: '0.2em', color: fg(dark, 0.5),
+                  letterSpacing: '0.2em', color: fg(dark, 0.68),
                   textTransform: 'uppercase', pointerEvents: 'none',
                 }}>VIEW ↗</div>
               </div>
@@ -418,7 +445,7 @@ const Projects = () => {
           }}>
             <p style={{
               fontFamily: MONO, fontSize: 14, fontWeight: 400,
-              letterSpacing: '0.15em', color: fg(dark, 0.5),
+              letterSpacing: '0.15em', color: fg(dark, 0.68),
               margin: '0 0 36px 0', transition: 'color 0.4s ease',
             }}>
               [ {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} ]
@@ -433,7 +460,7 @@ const Projects = () => {
 
             <p style={{
               fontFamily: SANS, fontSize: 13, fontWeight: 300,
-              letterSpacing: '0.08em', color: fg(dark, 0.5),
+              letterSpacing: '0.08em', color: fg(dark, 0.68),
               margin: '0 0 32px 0', transition: 'color 0.4s ease',
             }}>
               {active.location}{active.category ? ` · ${active.category}` : ''}
@@ -442,7 +469,7 @@ const Projects = () => {
             {active.description && (
               <p style={{
                 fontFamily: SANS, fontSize: 14, fontWeight: 300,
-                lineHeight: 1.8, color: fg(dark, 0.8),
+                lineHeight: 1.8, color: fg(dark, 0.95),
                 letterSpacing: 0, margin: '0 0 28px 0', maxWidth: 360,
                 transition: 'color 0.4s ease',
               }}>{active.description}</p>
@@ -454,16 +481,16 @@ const Projects = () => {
                 background: 'none', border: `0.5px solid ${fg(dark, 0.2)}`,
                 borderRadius: 999, padding: '8px 20px',
                 fontFamily: SANS, fontSize: 11, fontWeight: 300,
-                letterSpacing: '0.2em', color: fg(dark, 0.5),
+                letterSpacing: '0.2em', color: fg(dark, 0.68),
                 cursor: 'pointer', alignSelf: 'flex-start',
                 transition: 'color 0.2s ease, border-color 0.2s ease',
               }}
               onMouseEnter={e => {
                 e.currentTarget.style.color = fg(dark, 0.9);
-                e.currentTarget.style.borderColor = fg(dark, 0.5);
+                e.currentTarget.style.borderColor = fg(dark, 0.68);
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.color = fg(dark, 0.5);
+                e.currentTarget.style.color = fg(dark, 0.68);
                 e.currentTarget.style.borderColor = fg(dark, 0.2);
               }}
             >READ MORE →</button>
