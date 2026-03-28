@@ -8,8 +8,8 @@ export const personalData = {
   linkedin: "https://www.linkedin.com/in/stutijain1409/",
   instagram: "https://www.instagram.com/",
   github: "https://github.com/",
-  about: "A rigorous candidate with strong attention to detail. Passionate about the beauty industry with 2+ years in beauty-tech and beauty premium retail. I thrive in fast-paced, diverse, and international environments and have a strong interest in fragrances and makeup.",
-  motivation: "I'm a trade marketing specialist with a growing focus on brand strategy and consumer experience. While I'm still exploring where I want my career to evolve, I've discovered that bridging the gap between commercial objectives and creative brand execution is what excites me the most. That's why I'm currently seeking a 6-month end-of-year internship from July 2026 where I can apply my skills in a dynamic international environment.",
+  about: "An organised,proactive and detail-oriented candidate seeking a 6-month end-of-year internship in marketing. Passionate about the luxury and beauty industry with 2+ years of marketing experience in beauty tech and premium retail, thrive in a fast-paced, diverse, and international environment.",
+  motivation: "Beauty, to me, is one of the most intimate forms of self-expression it is how people choose to be seen, felt, and remembered. I have always been drawn to the world of beauty and luxury, If beauty is how a product makes you feel, luxury is the care, craft, and emotion that elevate that feeling.",
   photoUrl: null
 };
 
@@ -53,7 +53,7 @@ export const experienceData = [
     location: "Paris, France",
     period: "Sept 2025 – Present",
     type: "Internship",
-    image: "/pulpoAR.jpg",
+    image: "/pulpo-image.png",
     description: "Working at the intersection of AI and beauty, supporting prestige brand rollouts and partnership management.",
     bullets: [
       "Provided AI tool rollout for prestige brands like Elf Cosmetics, KIKO Milano, & Sephora, ensuring operational excellence and execution.",
@@ -122,16 +122,39 @@ export const projectsData = [
     title: "L'Oréal Brandstorm",
     location: "France",
     period: "Dec 2024 – Mar 2025",
-    bullets: [
-      "Designed an AI-powered wellness app validated by 500+ consumer interviews, focusing on digital and physical product experience.",
-      "Produced a pitch-ready presentation on PowerPoint, including a product prototype and video stories using AI tools for stakeholders."
-    ]
+    category: "Innovation / Brand Strategy",
+    image: "/loreal-project.png",
+    link: "https://drive.google.com/file/d/1u7pml9cPyZs1VcY-5POyF5NRD1v1NM_Z/view?usp=sharing",
+    description: "An AI-powered wellness concept developed for the L'Oréal Brandstorm competition, validated through extensive consumer research."
   },
   {
     id: 2,
+    title: "Data Visualization Project",
+    location: "Emlyon Business School",
+    period: "Oct 2024 – Present",
+    category: "Data Analysis / Visualization",
+    image: "/dashboard.jpg",
+    description: "Dashboards built using Power BI and advanced data visualization techniques to track KPIs, uncover insights, and support strategic decision-making.",
+    link: "https://drive.google.com/file/d/1C1iLtOMjacwB9n3AKBvCAjue3-PBDpEa/view?usp=sharing"
+  },
+  {
+    id: 3,
+    title: "Paris Fashion & Luxury Market Study",
+    location: "Emlyon Business School",
+    period: "Dec 2025 – Feb 2026",
+    category: "Beauty & Fashion",
+    image: "/paris-project.png",
+    description: "A strategic market clustering project analyzing Paris’s luxury and fashion landscape to identify brand patterns, consumer segments, and growth opportunities.",
+    link: "https://drive.google.com/file/d/1ArQyq3awuojkgFsioChsl9RkiR1J1ip5/view?usp=sharing"
+  },
+  {
+    id: 4,
     title: "Student Association Plug'n'Play",
     location: "Emlyon Business School",
     period: "Oct 2024 – Present",
+    category: "Event Management / Leadership",
+    image: null,
+    description: "End-to-end event management for one of Emlyon's most active student associations, handling logistics, budgets, and stakeholder communications.",
     bullets: [
       "Organized a large-scale gaming event for 200+ students, managing end-to-end logistics, vendor relations, and project budget.",
       "Managed budget and planning for a 2-day offsite stay across logistics, internal stakeholders, and communications workstreams."
