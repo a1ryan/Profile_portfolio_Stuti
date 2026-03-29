@@ -27,7 +27,7 @@ const SCALE = 4; // render at 1/SCALE resolution, upscale with smoothing
    vivid colors only appear in brightest plasma peaks → better text readability */
 const STOPS = [
   { t: 0.00, r:  11, g:  0, b:  14 },  // #0b000e  near-black deep purple
-  { t: 0.52, r:  22, g:  0, b:  41 },  // #160029  dark purple  (holds dark for longer)
+  { t: 0.52, r:  13, g:  0, b:  24 },  // #0d0018  deeper dark purple
   { t: 0.78, r:  91, g: 28, b: 143 },  // #5b1c8f  rich vivid purple
   { t: 0.92, r: 105, g: 49, b: 202 },  // #6931ca  bright purple
   { t: 1.00, r: 163, g: 32, b: 179 },  // #a320b3  magenta accent

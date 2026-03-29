@@ -8,6 +8,10 @@ import Home from "./pages/Home";
 import Experience from "./pages/Experience";
 import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
+import Blogs from "./pages/Blogs";
+import BlogGenZ from "./pages/BlogGenZ";
+import BlogSkinFirst from "./pages/BlogSkinFirst";
+import BlogAIBeauty from "./pages/BlogAIBeauty";
 
 const ComingSoon = ({ title }) => (
   <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingLeft: 44 }}>
@@ -28,7 +32,10 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/works" element={<Experience />} />
               <Route path="/projects" element={<Projects />} />
-              <Route path="/gallery" element={<ComingSoon title="GALLERY" />} />
+              <Route path="/gallery" element={<Blogs />} />
+              <Route path="/blog/gen-z-beauty" element={<BlogGenZ />} />
+              <Route path="/blog/skin-first-revolution" element={<BlogSkinFirst />} />
+              <Route path="/blog/ai-beauty-retail" element={<BlogAIBeauty />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/cv-request" element={<Contact />} />
             </Routes>

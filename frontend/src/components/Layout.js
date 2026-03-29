@@ -94,7 +94,7 @@ const Layout = ({ children }) => {
         transition: 'background 0.5s ease, color 0.4s ease',
       }}
     >
-      {/* Fabric/linen texture — z-index -1, beneath everything */}
+      {/* Fabric/linen texture — z-index 2, above canvas but below content */}
       <div className="bg-texture" />
 
       {/* Canvas background — z-index 0, behind all content */}
