@@ -45,6 +45,7 @@ const PremiumButton = ({ children, onClick }) => {
         background,
         border,
         padding: '12px 28px',
+        borderRadius: '12px',
         cursor: 'pointer',
         transform,
         boxShadow,
@@ -234,14 +235,22 @@ const SplashPage = () => {
           </h2>
           <p style={{
             fontFamily: SANS,
-            fontSize: 'clamp(14px, 1.15vw, 18px)',
+            fontSize: 'clamp(16px, 1.4vw, 22px)',
             fontWeight: 300,
-            color: 'rgba(255,255,255,0.85)',
+            color: 'rgba(255,255,255,0.92)',
             margin: 0,
-            letterSpacing: '0.03em',
-            lineHeight: 1.8,
+            letterSpacing: '0.02em',
+            lineHeight: 1.7,
           }}>
-            A marketing professional seeking an<br />internship in the beauty industry.
+            A <span style={{ fontWeight: 700 }}>Marketing Professional</span> seeking an{' '}
+            <span style={{
+              color: 'rgba(210,170,255,0.95)',
+              background: 'rgba(123,47,247,0.18)',
+              borderRadius: 6,
+              padding: '1px 8px',
+              fontWeight: 700,
+            }}>internship</span>
+            {' '}in the beauty industry.
           </p>
           <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6 }}>
             <PremiumButton onClick={() => navigate('/projects')}>Projects</PremiumButton>
@@ -257,32 +266,31 @@ const SplashPage = () => {
           width: '34%',
           paddingRight: 'calc(48px + 1vw)',
           paddingLeft: 20,
+          paddingTop: 60,
           pointerEvents: 'auto',
           display: 'flex',
           flexDirection: 'column',
           gap: 26,
         }}>
-          <h2 style={{
-            fontFamily: SERIF,
-            fontSize: 'clamp(32px, 3.8vw, 62px)',
-            fontWeight: 700,
-            color: 'rgba(255,255,255,0.97)',
-            margin: 0,
-            lineHeight: 1.15,
-            letterSpacing: '-0.02em',
-          }}>
-            About Me
-          </h2>
           <p style={{
-            fontFamily: SANS,
-            fontSize: 'clamp(14px, 1.15vw, 18px)',
+            fontFamily: SERIF,
+            fontSize: '1.85rem',
             fontWeight: 300,
-            color: 'rgba(255,255,255,0.90)',
+            color: '#ffffff',
             margin: 0,
-            lineHeight: 1.9,
-            letterSpacing: '0.02em',
+            lineHeight: 1.3,
+            letterSpacing: '-0.01em',
           }}>
-            Curious about how beauty brands create experiences that feel more personal, thoughtful, and impactful. My interest lies in shaping the future of beauty through consumer understanding, AI, and innovation.
+            Curious about how{' '}
+            <span style={{
+              color: '#e040fb',
+              fontWeight: 900,
+              fontStyle: 'normal',
+              fontSize: '2.1rem',
+            }}>Beauty</span>
+            <br />
+            creates experiences that feel more{' '}
+            <span style={{ fontWeight: 900 }}>personal, thoughtful, and impactful.</span>
           </p>
           <div style={{ marginTop: 6 }}>
             <PremiumButton onClick={() => navigate('/cv-request')}>Request my CV</PremiumButton>

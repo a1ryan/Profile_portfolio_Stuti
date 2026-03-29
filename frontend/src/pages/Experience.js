@@ -8,6 +8,22 @@ const MONO  = "'Courier New', Courier, monospace";
 
 const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
+const BoldText = ({ text, words = [] }) => {
+  if (!words.length) return <>{text}</>;
+  const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, i) =>
+        words.some(w => w.toLowerCase() === part.toLowerCase())
+          ? <span key={i} style={{ color: 'rgba(210,170,255,0.95)', fontWeight: 700 }}>{part}</span>
+          : part
+      )}
+    </>
+  );
+};
+
 const ExploreButton = ({ onClick, visible }) => {
   const [hovered, setHovered] = useState(false);
   return (
@@ -141,6 +157,36 @@ const IntroOverlay = ({ onDismiss }) => {
   );
 };
 
+/* ── Interactive bullet card ── */
+const BulletCard = ({ text }) => {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <li
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        background: hovered
+          ? 'linear-gradient(135deg, rgba(123,47,247,0.18) 0%, rgba(224,64,251,0.10) 100%)'
+          : 'rgba(255,255,255,0.04)',
+        border: `1px solid ${hovered ? 'rgba(224,64,251,0.45)' : 'rgba(255,255,255,0.09)'}`,
+        borderLeft: `3px solid ${hovered ? '#e040fb' : '#7b2ff7'}`,
+        borderRadius: 10,
+        padding: '14px 20px',
+        marginBottom: 10,
+        fontFamily: SANS,
+        fontSize: 15,
+        fontWeight: 300,
+        lineHeight: 1.85,
+        color: hovered ? '#ffffff' : 'rgba(255,255,255,0.92)',
+        transform: hovered ? 'translateX(5px)' : 'translateX(0)',
+        boxShadow: hovered ? '0 4px 24px rgba(224,64,251,0.18), inset 0 0 0 1px rgba(224,64,251,0.1)' : 'none',
+        transition: 'all 0.22s ease',
+        cursor: 'default',
+      }}
+    >{text}</li>
+  );
+};
+
 /* ── Detail modal — always dark ── */
 const DetailCard = ({ exp, onClose }) => {
   const [mounted, setMounted] = useState(false);
@@ -190,14 +236,22 @@ const DetailCard = ({ exp, onClose }) => {
         >✕</button>
 
         <div style={{ display: 'flex', gap: 10, marginBottom: 28 }}>
-          {[exp.period, exp.type].map((label) => (
-            <span key={label} style={{
-              fontFamily: SANS, fontSize: 11, fontWeight: 300,
-              letterSpacing: '0.18em', color: 'rgba(255,255,255,0.70)',
-              border: '0.5px solid rgba(255,255,255,0.18)',
-              borderRadius: 999, padding: '4px 14px',
-            }}>{label}</span>
-          ))}
+          <span style={{
+            fontFamily: SANS, fontSize: '0.78rem', fontWeight: 500,
+            color: '#fff',
+            background: 'linear-gradient(135deg, #3b0080 0%, #7b2ff7 100%)',
+            borderRadius: 20, padding: '6px 18px',
+            letterSpacing: '0.08em',
+            boxShadow: '0 2px 12px rgba(123,47,247,0.45)',
+          }}>{exp.period}</span>
+          <span style={{
+            fontFamily: SANS, fontSize: '0.78rem', fontWeight: 500,
+            color: '#fff',
+            background: 'linear-gradient(135deg, #a0009a 0%, #e040fb 100%)',
+            borderRadius: 20, padding: '6px 18px',
+            letterSpacing: '0.08em',
+            boxShadow: '0 2px 12px rgba(224,64,251,0.40)',
+          }}>{exp.type}</span>
         </div>
 
         <h2 style={{
@@ -216,31 +270,22 @@ const DetailCard = ({ exp, onClose }) => {
         <div style={{ width: '100%', height: '0.5px', background: 'rgba(255,255,255,0.1)', marginBottom: 28 }} />
 
         <p style={{
-          fontFamily: SANS, fontSize: 14, fontWeight: 300,
-          lineHeight: 1.85, color: 'rgba(255,255,255,0.90)',
+          fontFamily: SANS, fontSize: 16, fontWeight: 300,
+          lineHeight: 1.85, color: 'rgba(210,170,255,0.95)',
           letterSpacing: 0, margin: '0 0 28px 0', fontStyle: 'italic',
         }}>{exp.description}</p>
 
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           {exp.bullets.map((bullet, i) => (
-            <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-              <span style={{
-                marginTop: 8, width: 4, height: 4, borderRadius: '50%',
-                background: 'rgba(255,255,255,0.35)', flexShrink: 0, display: 'inline-block',
-              }} />
-              <span style={{
-                fontFamily: SANS, fontSize: 14, fontWeight: 300,
-                lineHeight: 1.8, color: 'rgba(255,255,255,0.95)', letterSpacing: 0,
-              }}>{bullet}</span>
-            </li>
+            <BulletCard key={i} text={bullet} />
           ))}
         </ul>
 
         {exp.closing && (
           <p style={{
-            fontFamily: SANS, fontSize: 13, fontWeight: 300,
-            lineHeight: 1.8, color: 'rgba(255,255,255,0.6)',
-            letterSpacing: '0.01em', fontStyle: 'italic',
+            fontFamily: SANS, fontSize: 16, fontWeight: 300,
+            lineHeight: 1.85, color: 'rgba(210,170,255,0.95)',
+            letterSpacing: 0, fontStyle: 'italic',
             margin: '20px 0 0', borderTop: '0.5px solid rgba(255,255,255,0.1)',
             paddingTop: 16,
           }}>{exp.closing}</p>
@@ -381,7 +426,7 @@ const Works = () => {
               fontFamily: SANS, fontSize: 25, fontWeight: 300,
               letterSpacing: '0.42em', color: fg(dark, 0.9),
               textTransform: 'uppercase', transition: 'color 0.4s ease',
-            }}>WORKS</span>
+            }}>WORK EXPERIENCE</span>
             <span style={{
               fontFamily: SANS, fontSize: 20, fontWeight: 300,
               letterSpacing: '0.06em', color: fg(dark, 0.28),
@@ -417,11 +462,13 @@ const Works = () => {
             }}>{active.company} · {active.type}</p>
 
             <p style={{
-              fontFamily: SANS, fontSize: 14, fontWeight: 300,
+              fontFamily: SANS, fontSize: 16, fontWeight: 300,
               lineHeight: 1.8, color: fg(dark, 0.95),
               letterSpacing: 0, margin: '0 0 28px 0', maxWidth: 360,
               transition: 'color 0.4s ease',
-            }}>{active.description}</p>
+            }}>
+              <BoldText text={active.description} words={active.descHighlights || []} />
+            </p>
 
             <button
               onClick={() => setSelected(active)}

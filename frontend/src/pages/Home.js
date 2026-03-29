@@ -175,15 +175,22 @@ const Home = () => {
         transition: 'opacity 0.9s cubic-bezier(0.22,1,0.36,1)',
       }}>
 
-        {/* ── LEFT COLUMN: ID card ── */}
+        {/* ── LEFT COLUMN: photo ── */}
         <div className="idcard-swing" style={{
           width: '45%', display: 'flex',
-          justifyContent: 'center', alignItems: 'flex-start', flexShrink: 0,
+          justifyContent: 'center', alignItems: 'center', flexShrink: 0,
         }}>
           <img
-            src="/idcard.png"
-            alt="ID Card"
-            style={{ width: '100%', height: '100vh', objectFit: 'contain', objectPosition: 'top', display: 'block' }}
+            src="/portfolio image.png"
+            alt="Portfolio"
+            style={{
+              width: '100%', maxWidth: 400, height: 500,
+              objectFit: 'cover', objectPosition: 'top center',
+              display: 'block',
+              borderRadius: 16,
+              WebkitMaskImage: 'radial-gradient(ellipse 85% 90% at 50% 40%, black 40%, transparent 100%)',
+              maskImage: 'radial-gradient(ellipse 85% 90% at 50% 40%, black 40%, transparent 100%)',
+            }}
           />
         </div>
 

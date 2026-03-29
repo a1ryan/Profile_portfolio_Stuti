@@ -91,6 +91,7 @@ const SubmitButton = ({ children, disabled }) => {
         letterSpacing: '0.22em', textTransform: 'uppercase',
         color: disabled ? 'rgba(255,255,255,0.3)' : '#ffffff',
         background, border, padding: '13px 40px',
+        borderRadius: '12px',
         cursor: disabled ? 'not-allowed' : 'pointer',
         transform, boxShadow, transition,
         alignSelf: 'flex-start',

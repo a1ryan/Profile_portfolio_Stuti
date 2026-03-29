@@ -53,7 +53,7 @@ const BlogAIBeauty = () => {
 
   const numberHeadStyle = {
     fontFamily: SERIF, fontSize: '1.15rem', fontWeight: 700,
-    color: 'rgba(255,255,255,0.9)', margin: '2rem 0 0.6rem',
+    color: 'rgba(210,170,255,0.95)', margin: '2rem 0 0.6rem',
     lineHeight: 1.4,
   };
 
@@ -102,7 +102,7 @@ const BlogAIBeauty = () => {
 
         <p style={{
           fontFamily: SANS, fontSize: '1.1rem', fontWeight: 300,
-          color: 'rgba(255,255,255,0.55)', margin: '0 0 28px',
+          color: 'rgba(210,170,255,0.95)', margin: '0 0 28px',
           lineHeight: 1.6, letterSpacing: '0.01em',
         }}>Why AI is the New Frontier of Beauty Retail</p>
 
@@ -110,7 +110,7 @@ const BlogAIBeauty = () => {
 
         <p style={{
           fontFamily: SANS, fontSize: 12, fontWeight: 300,
-          color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em',
+          color: 'rgba(255,255,255,0.75)', letterSpacing: '0.1em',
           marginBottom: 40,
         }}>
           By Stuti Jain &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; 6 min read

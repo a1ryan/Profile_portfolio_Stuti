@@ -4,11 +4,48 @@ import { Linkedin, Instagram, Github, Mail, Menu, X } from 'lucide-react';
 import { personalData } from '../data/mock';
 import { useTheme } from '../context/ThemeContext';
 import HoloCanvas from './HoloCanvas';
+import Chatbot from './Chatbot';
 
 const SANS = "'Josefin Sans', sans-serif";
 
 const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
   const [hovered, setHovered] = React.useState(false);
+
+  if (item.gradient) {
+    return (
+      <Link
+        to={item.path}
+        onClick={onClick}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{
+          fontFamily: SANS,
+          fontSize: 15,
+          fontWeight: 600,
+          letterSpacing: '0.18em',
+          textDecoration: 'none',
+          display: 'inline-block',
+          padding: '5px 10px',
+          marginLeft: -8,
+          marginRight: 10,
+          borderRadius: 8,
+          background: active || hovered
+            ? 'linear-gradient(135deg, rgba(192,38,211,0.25), rgba(123,47,247,0.25))'
+            : 'rgba(180,100,255,0.08)',
+          border: `1px solid ${active || hovered ? 'rgba(224,64,251,0.5)' : 'rgba(180,100,255,0.25)'}`,
+          WebkitBackgroundClip: 'unset',
+          backgroundClip: 'unset',
+          WebkitTextFillColor: 'unset',
+          color: active || hovered ? '#e040fb' : 'rgba(210,170,255,0.8)',
+          transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
+          boxShadow: hovered ? '0 4px 16px rgba(192,38,211,0.25)' : 'none',
+          transition: 'all 0.22s ease',
+        }}
+      >
+        {item.label}
+      </Link>
+    );
+  }
 
   return (
     <Link
@@ -47,7 +84,8 @@ const Layout = ({ children }) => {
     { label: 'HOME',        path: '/' },
     { label: 'WORKS',       path: '/works' },
     { label: 'PROJECTS',    path: '/projects' },
-    { label: 'BLOGS',        path: '/gallery' },
+    { label: 'BLOGS',       path: '/gallery' },
+    { label: 'ASK AI ✦',   path: '/ai', gradient: true },
     { label: 'GET IN TOUCH', path: '/contact' },
   ];
 
@@ -251,6 +289,9 @@ const Layout = ({ children }) => {
       >
         © Stuti Jain
       </footer>
+
+      {/* Chatbot */}
+      <Chatbot />
 
       {/* Mobile overlay */}
       {mobileMenuOpen && (

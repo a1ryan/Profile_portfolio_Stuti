@@ -12,6 +12,7 @@ import Blogs from "./pages/Blogs";
 import BlogGenZ from "./pages/BlogGenZ";
 import BlogSkinFirst from "./pages/BlogSkinFirst";
 import BlogAIBeauty from "./pages/BlogAIBeauty";
+import AIAssistant from "./pages/AIAssistant";
 
 const ComingSoon = ({ title }) => (
   <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', paddingLeft: 44 }}>
@@ -36,6 +37,7 @@ function App() {
               <Route path="/blog/gen-z-beauty" element={<BlogGenZ />} />
               <Route path="/blog/skin-first-revolution" element={<BlogSkinFirst />} />
               <Route path="/blog/ai-beauty-retail" element={<BlogAIBeauty />} />
+              <Route path="/ai" element={<AIAssistant />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/cv-request" element={<Contact />} />
             </Routes>

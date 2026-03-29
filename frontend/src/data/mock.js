@@ -67,7 +67,8 @@ export const experienceData = [
     period: "Sept 2025 – Present",
     type: "Internship",
     image: "/pulpo-image.png",
-    description: "Working at the intersection of AI and beauty, supporting prestige brand rollouts and partnership management.",
+    description: "Working at the intersection of AI and beauty, supporting prestige brand rollouts, strategic partnerships, and multi-market expansion.",
+    descHighlights: ["AI and beauty", "prestige brand rollouts"],
     bullets: [
       "Supported AI-powered solution such as virtual try-on and skin analysis rollout for beauty brands, understanding the company product and competitors.",
       "Exposure to brands across EMEA, the US, and Asia, which has helped me understand different market needs, consumer expectations, and beauty habits.",
@@ -142,9 +143,11 @@ export const projectsData = [
     location: "France",
     period: "Dec 2024 – Mar 2025",
     category: "Innovation / Brand Strategy",
-    image: "/loreal-project.png",
+    image: null,
+    video: "/2.mp4",
     link: "https://drive.google.com/file/d/1u7pml9cPyZs1VcY-5POyF5NRD1v1NM_Z/view?usp=sharing",
-    description: "An AI-powered wellness concept developed for the L'Oréal Brandstorm competition, validated through extensive consumer research."
+    description: "An AI-powered men's care and wellness ecosystem designed to simplify daily skincare by delivering a more personalized and seamless routine.",
+    highlights: ["AI-powered", "men's wellness ecosystem", "personalized", "seamless"]
   },
   {
     id: 2,
@@ -153,31 +156,34 @@ export const projectsData = [
     period: "Oct 2024 – Present",
     category: "Data Analysis / Visualization",
     image: "/DV 1.jpg",
-    description: "Dashboards built using Power BI and advanced data visualization techniques to track KPIs, uncover insights, and support strategic decision-making.",
+    description: "Created interactive Power BI dashboards to analyze large datasets, monitor KPIs, uncover actionable insights, and drive strategic decision-making.",
+    highlights: ["Power BI dashboards", "KPIs", "actionable insights", "strategic decision-making"],
     link: "https://drive.google.com/file/d/1C1iLtOMjacwB9n3AKBvCAjue3-PBDpEa/view?usp=sharing"
   },
   {
     id: 3,
+    title: "Interior Retail Design",
+    location: "India. Luxury Wellness & Hospitality Interior Concepts",
+    period: "",
+    category: "",
+    image: "/moodboard 5.png",
+    imagePosition: "center bottom",
+    description: "Premium interior concepts for salon, spa, and restaurant spaces, blending materiality, ambience, and spatial storytelling to elevate the customer experience.",
+    highlights: ["Premium interior concepts", "spatial storytelling", "customer experience"],
+    gallery: ["/moodbaord 3.png", "/moodbaord 4.png"],
+    bullets: [
+    ]
+  },
+  {
+    id: 4,
     title: "Paris Fashion & Luxury Market Study",
     location: "Emlyon Business School",
     period: "Dec 2025 – Feb 2026",
     category: "Beauty & Fashion",
     image: "/FS2.jpg",
-    description: "A strategic market clustering project analyzing Paris’s luxury and fashion landscape to identify brand patterns, consumer segments, and growth opportunities.",
+    description: "A strategic market clustering project focused on Paris’s luxury and fashion landscape, uncovering brand patterns, consumer segments, and key growth opportunities.",
+    highlights: ["Paris’s luxury and fashion landscape"],
     link: "https://drive.google.com/file/d/1ArQyq3awuojkgFsioChsl9RkiR1J1ip5/view?usp=sharing"
-  },
-  {
-    id: 4,
-    title: "Student Association Plug'n'Play",
-    location: "Emlyon Business School",
-    period: "Oct 2024 – Present",
-    category: "Event Management / Leadership",
-    image: null,
-    description: "End-to-end event management for one of Emlyon's most active student associations, handling logistics, budgets, and stakeholder communications.",
-    bullets: [
-      "Organized a large-scale gaming event for 200+ students, managing end-to-end logistics, vendor relations, and project budget.",
-      "Managed budget and planning for a 2-day offsite stay across logistics, internal stakeholders, and communications workstreams."
-    ]
   }
 ];
 

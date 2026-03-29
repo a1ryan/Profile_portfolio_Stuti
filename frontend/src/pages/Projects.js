@@ -8,6 +8,27 @@ const MONO  = "'Courier New', Courier, monospace";
 
 const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
+const HL_STYLE = {
+  color: 'rgba(210,170,255,0.95)',
+  fontWeight: 700,
+};
+
+const HighlightText = ({ text, words = [] }) => {
+  if (!words.length) return <>{text}</>;
+  const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
+  const parts = text.split(regex);
+  return (
+    <>
+      {parts.map((part, i) =>
+        words.some(w => w.toLowerCase() === part.toLowerCase())
+          ? <span key={i} style={HL_STYLE}>{part}</span>
+          : part
+      )}
+    </>
+  );
+};
+
 const ExploreButton = ({ onClick, visible }) => {
   const [hovered, setHovered] = useState(false);
   return (
@@ -287,13 +308,15 @@ const DetailCard = ({ project, onClose }) => {
 
         {project.description && (
           <p style={{
-            fontFamily: SANS, fontSize: 14, fontWeight: 300,
+            fontFamily: SANS, fontSize: 16, fontWeight: 300,
             lineHeight: 1.85, color: 'rgba(255,255,255,0.90)',
             letterSpacing: 0, margin: '0 0 28px 0', fontStyle: 'italic',
-          }}>{project.description}</p>
+          }}>
+            <HighlightText text={project.description} words={project.highlights || []} />
+          </p>
         )}
 
-        {project.bullets && (
+        {project.bullets && project.bullets.length > 0 && (
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 14 }}>
             {project.bullets.map((bullet, i) => (
               <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
@@ -308,6 +331,19 @@ const DetailCard = ({ project, onClose }) => {
               </li>
             ))}
           </ul>
+        )}
+
+        {project.gallery && project.gallery.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 8 }}>
+            {project.gallery.map((src, i) => (
+              <img
+                key={i}
+                src={src}
+                alt={`Gallery ${i + 1}`}
+                style={{ width: '100%', display: 'block', borderRadius: 12 }}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>
@@ -387,11 +423,11 @@ const Projects = () => {
                 onClick={() => project.link ? setLinkProject(project) : setSelected(project)}
                 style={{
                   width: 580, height: 340,
-                  background: cardBg,
-                  border: `1px solid ${cardBorder}`,
+                  background: project.video ? 'transparent' : cardBg,
+                  border: project.video ? 'none' : `1px solid ${cardBorder}`,
                   borderRadius: 12,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: cardShadow,
+                  boxShadow: project.video ? 'none' : cardShadow,
                   flexShrink: 0, overflow: 'hidden',
                   cursor: 'pointer',
                   transition: 'transform 0.25s ease, box-shadow 0.25s ease, background 0.4s ease',
@@ -406,11 +442,23 @@ const Projects = () => {
                   e.currentTarget.style.boxShadow = cardShadow;
                 }}
               >
-                {project.image ? (
+                {project.video ? (
+                  <video
+                    autoPlay loop muted playsInline
+                    style={{
+                      width: '130%', height: '130%', objectFit: 'cover',
+                      position: 'absolute',
+                      WebkitMaskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 55%, transparent 90%)',
+                      maskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 55%, transparent 90%)',
+                    }}
+                  >
+                    <source src={project.video} type="video/mp4" />
+                  </video>
+                ) : project.image ? (
                   <img
                     src={project.image}
                     alt={project.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12 }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, objectPosition: project.imagePosition || 'center' }}
                   />
                 ) : (
                   <span style={{
@@ -485,11 +533,13 @@ const Projects = () => {
 
             {active.description && (
               <p style={{
-                fontFamily: SANS, fontSize: 14, fontWeight: 300,
+                fontFamily: SANS, fontSize: 16, fontWeight: 300,
                 lineHeight: 1.8, color: fg(dark, 0.95),
                 letterSpacing: 0, margin: '0 0 28px 0', maxWidth: 360,
                 transition: 'color 0.4s ease',
-              }}>{active.description}</p>
+              }}>
+                <HighlightText text={active.description} words={active.highlights || []} />
+              </p>
             )}
 
             <button
