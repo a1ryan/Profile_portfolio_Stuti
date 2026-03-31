@@ -231,7 +231,7 @@ const SplashPage = () => {
             lineHeight: 1.15,
             letterSpacing: '-0.02em',
           }}>
-            Welcome to<br />my portfolio
+            Welcome to<br />my portfolio!
           </h2>
           <p style={{
             fontFamily: SANS,

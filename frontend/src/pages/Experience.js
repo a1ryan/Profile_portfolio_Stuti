@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { experienceData, personalData } from '../data/mock';
 import { useTheme } from '../context/ThemeContext';
 
@@ -157,6 +158,276 @@ const IntroOverlay = ({ onDismiss }) => {
   );
 };
 
+/* ── Background video with optional time-range loop ── */
+const BgVideo = ({ src, startTime = 0, endTime, opacity }) => {
+  const ref = React.useRef(null);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const onMeta = () => { el.currentTime = startTime; };
+    const onUpdate = () => {
+      if (endTime && el.currentTime >= endTime) {
+        el.currentTime = startTime;
+      }
+    };
+
+    el.addEventListener('loadedmetadata', onMeta);
+    el.addEventListener('timeupdate', onUpdate);
+    return () => {
+      el.removeEventListener('loadedmetadata', onMeta);
+      el.removeEventListener('timeupdate', onUpdate);
+    };
+  }, [startTime, endTime]);
+
+  return (
+    <video
+      ref={ref}
+      autoPlay muted loop playsInline
+      style={{
+        position: 'absolute', inset: 0,
+        width: '100%', height: '100%',
+        objectFit: 'cover',
+        opacity,
+        transition: 'opacity 0.3s ease',
+        borderRadius: 16,
+      }}
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  );
+};
+
+/* ── Shared lightbox — rendered via portal to escape any transform stacking context ── */
+const Lightbox = ({ onClose, children }) => {
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return ReactDOM.createPortal(
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', top: 0, left: 0,
+        width: '100vw', height: '100vh',
+        background: 'rgba(0,0,0,0.88)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        zIndex: 99999,
+        animation: 'lbFadeIn 0.22s ease forwards',
+      }}
+    >
+      <div onClick={e => e.stopPropagation()} style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {children}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute', top: -36, right: 0,
+            background: 'none', border: 'none', cursor: 'pointer',
+            color: 'rgba(255,255,255,0.5)', fontSize: 22, lineHeight: 1,
+            transition: 'color 0.2s ease',
+          }}
+          onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+          onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
+        >✕</button>
+      </div>
+      <style>{`
+        @keyframes lbFadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+        @keyframes lbPop {
+          from { opacity: 0; transform: scale(0.88); }
+          to   { opacity: 1; transform: scale(1); }
+        }
+      `}</style>
+    </div>,
+    document.body
+  );
+};
+
+/* ── PulpoAR card gallery ── */
+const CardGallery = ({ cards }) => {
+  const [selected, setSelected] = React.useState(null);
+  const [hovered, setHovered] = React.useState(null);
+
+  return (
+    <div style={{ marginTop: 32 }}>
+      <p style={{
+        fontFamily: SANS, fontSize: 22, fontWeight: 400,
+        letterSpacing: '0.28em', color: 'rgba(224,64,251,0.85)',
+        textTransform: 'uppercase', marginBottom: 16,
+      }}>Works</p>
+
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: 16,
+      }}>
+        {cards.map((card, i) => {
+          const isHovered = hovered === i;
+          return (
+            <div
+              key={i}
+              onClick={() => card.src && setSelected(i)}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              style={{
+                position: 'relative',
+                border: `1px solid ${isHovered ? 'rgba(192,132,252,0.8)' : 'rgba(180,100,255,0.3)'}`,
+                borderRadius: 16,
+                padding: '2rem',
+                display: 'flex', flexDirection: 'column',
+                alignItems: 'center', justifyContent: 'center',
+                gap: 12,
+                cursor: card.src ? 'pointer' : 'default',
+                boxShadow: isHovered ? '0 0 30px rgba(192,132,252,0.3)' : 'none',
+                transition: 'all 0.3s ease',
+                minHeight: 140,
+                overflow: 'hidden',
+                background: card.src && card.mediaType === 'image'
+                  ? `url(${encodeURI(card.src)}) center/cover no-repeat`
+                  : 'rgba(255,255,255,0.04)',
+              }}
+            >
+              {/* Dark tint overlay */}
+              <div style={{
+                position: 'absolute', inset: 0,
+                background: isHovered ? 'rgba(10,0,18,0.55)' : 'rgba(10,0,18,0.72)',
+                borderRadius: 16,
+                transition: 'background 0.3s ease',
+              }} />
+
+              {/* Video background for video cards */}
+              {card.src && card.mediaType === 'video' && (
+                <BgVideo
+                  src={card.src}
+                  startTime={card.startTime || 0}
+                  endTime={card.endTime}
+                  opacity={isHovered ? 0.45 : 0.28}
+                />
+              )}
+
+              {/* Content sits above background */}
+              <span style={{ fontSize: '2rem', lineHeight: 1, position: 'relative', zIndex: 1 }}>{card.icon}</span>
+              <span style={{
+                fontFamily: SANS,
+                fontSize: '1.4rem', fontWeight: 600,
+                color: '#c084fc',
+                textShadow: '0 0 20px rgba(192,132,252,0.8), 0 0 40px rgba(192,132,252,0.4), 0 0 60px rgba(192,132,252,0.2)',
+                letterSpacing: '0.05em',
+                textAlign: 'center',
+                lineHeight: 1.3,
+                position: 'relative', zIndex: 1,
+              }}>{card.title}</span>
+            </div>
+          );
+        })}
+      </div>
+
+      {selected !== null && cards[selected].src && (
+        <Lightbox onClose={() => setSelected(null)}>
+          {cards[selected].mediaType === 'video' ? (
+            <video
+              autoPlay muted loop playsInline
+              onLoadedMetadata={e => {
+                if (cards[selected].startTime) e.target.currentTime = cards[selected].startTime;
+              }}
+              style={{
+                maxWidth: '82vw', maxHeight: '82vh',
+                width: 'auto', height: 'auto',
+                objectFit: 'contain', borderRadius: 12,
+                boxShadow: '0 0 60px rgba(192,132,252,0.35)',
+                animation: 'lbPop 0.25s cubic-bezier(0.22,1,0.36,1) forwards',
+              }}
+            >
+              <source src={cards[selected].src} type="video/mp4" />
+            </video>
+          ) : (
+            <img
+              src={cards[selected].src}
+              alt={cards[selected].title}
+              style={{
+                maxWidth: '82vw', maxHeight: '82vh',
+                width: 'auto', height: 'auto',
+                objectFit: 'contain', borderRadius: 12,
+                boxShadow: '0 0 60px rgba(192,132,252,0.35)',
+                animation: 'lbPop 0.25s cubic-bezier(0.22,1,0.36,1) forwards',
+              }}
+            />
+          )}
+        </Lightbox>
+      )}
+    </div>
+  );
+};
+
+/* ── Moodboard photo grid ── */
+const rotations = [-2, 1.5, -1, 2, -1.5, 1];
+const GalleryGrid = ({ images }) => {
+  const [selected, setSelected] = React.useState(null);
+  const [hovered, setHovered] = React.useState(null);
+  const cols = images.length === 4 ? 2 : 3;
+
+  return (
+    <div style={{ marginTop: 32, padding: '20px 0 40px' }}>
+      <p style={{
+        fontFamily: SANS, fontSize: 22, fontWeight: 400,
+        letterSpacing: '0.28em', color: 'rgba(224,64,251,0.85)',
+        textTransform: 'uppercase', marginBottom: 16,
+      }}>Works</p>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: `repeat(${cols}, 1fr)`,
+        gap: 12,
+      }}>
+        {images.map((src, i) => (
+          <div
+            key={i}
+            onClick={() => setSelected(i)}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+            style={{
+              aspectRatio: '4/3',
+              borderRadius: 8,
+              overflow: 'hidden',
+              transition: 'opacity 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease',
+              opacity: hovered !== null && hovered !== i ? 0.4 : 1,
+              cursor: 'pointer',
+              transform: hovered === i ? `rotate(${rotations[i] || 0}deg) scale(1.04)` : `rotate(${rotations[i] || 0}deg)`,
+              boxShadow: hovered === i ? '0 8px 28px rgba(192,132,252,0.35)' : '0 4px 14px rgba(0,0,0,0.4)',
+            }}
+          >
+            <img
+              src={src}
+              alt={`gallery ${i + 1}`}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+          </div>
+        ))}
+      </div>
+
+      {selected !== null && (
+        <Lightbox onClose={() => setSelected(null)}>
+          <img
+            src={images[selected]}
+            alt={`gallery ${selected + 1}`}
+            style={{
+              maxWidth: '82vw', maxHeight: '82vh',
+              width: 'auto', height: 'auto',
+              objectFit: 'contain', borderRadius: 12,
+              boxShadow: '0 0 60px rgba(192,132,252,0.35)',
+              animation: 'lbPop 0.25s cubic-bezier(0.22,1,0.36,1) forwards',
+            }}
+          />
+        </Lightbox>
+      )}
+    </div>
+  );
+};
+
 /* ── Interactive bullet card ── */
 const BulletCard = ({ text }) => {
   const [hovered, setHovered] = React.useState(false);
@@ -273,9 +544,13 @@ const DetailCard = ({ exp, onClose }) => {
           fontFamily: SANS, fontSize: 16, fontWeight: 300,
           lineHeight: 1.85, color: 'rgba(210,170,255,0.95)',
           letterSpacing: 0, margin: '0 0 28px 0', fontStyle: 'italic',
-        }}>{exp.description}</p>
+        }}><BoldText text={exp.description} words={exp.descHighlights || []} /></p>
 
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+        {exp.galleryCards && exp.galleryCards.length > 0 && (
+          <CardGallery cards={exp.galleryCards} />
+        )}
+
+        <ul style={{ listStyle: 'none', padding: 0, margin: '28px 0 0' }}>
           {exp.bullets.map((bullet, i) => (
             <BulletCard key={i} text={bullet} />
           ))}
@@ -289,6 +564,10 @@ const DetailCard = ({ exp, onClose }) => {
             margin: '20px 0 0', borderTop: '0.5px solid rgba(255,255,255,0.1)',
             paddingTop: 16,
           }}>{exp.closing}</p>
+        )}
+
+        {exp.gallery && exp.gallery.length > 0 && (
+          <GalleryGrid images={exp.gallery} />
         )}
       </div>
     </div>
@@ -390,7 +669,7 @@ const Works = () => {
                   <img
                     src={exp.image}
                     alt={exp.role}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, objectPosition: exp.id === 1 ? 'center 55%' : exp.id === 3 ? 'center 70%' : 'center' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, objectPosition: exp.id === 1 ? 'center 55%' : exp.id === 2 ? 'center top' : exp.id === 3 ? 'center 70%' : 'center' }}
                   />
                 ) : (
                   <span style={{

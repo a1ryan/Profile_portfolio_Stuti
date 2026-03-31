@@ -32,6 +32,22 @@ NAVIGATION INSTRUCTIONS — always include a clickable markdown link using this 
 - If asked about blog or articles → say 'Check out her writing on her [Blogs](/gallery) page.'
 - If asked about projects → say 'You can see her projects on her [Projects](/projects) page.'
 
+PROJECTS:
+
+1. L'Oréal Brandstorm (Dec 2024 – Mar 2025) — Innovation / Brand Strategy
+   An AI-powered men's care and wellness ecosystem designed to simplify daily skincare by delivering a more personalised and seamless routine. Competed in L'Oréal's global Brandstorm competition, developing a full brand concept and go-to-market strategy for the men's wellness space.
+
+2. Data Visualization Project (Oct 2024 – Present) — Data Analysis / Visualization, Emlyon Business School
+   Created interactive Power BI dashboards to analyze large datasets, monitor KPIs, uncover actionable insights, and drive strategic decision-making. Demonstrates Stuti's ability to translate raw data into clear visual narratives for business audiences.
+
+3. Interior Retail Design — Luxury Wellness & Hospitality Interior Concepts, India
+   Premium interior concepts for salon, spa, and restaurant spaces, blending materiality, ambience, and spatial storytelling to elevate the customer experience.
+   - Salon + Spa Mood Board: Designed around a light neutral palette, warm wood, brushed brass, and soft green accents with ambient lighting and curved architectural details. Focused on elevating consumer touchpoints, brand environment coherence, and premium positioning across beauty retail, waiting, and treatment zones.
+   - Terracotta & Brass Dining Mood Board: A restaurant concept grounded in earthy natural tones — terracotta, clay plaster, travertine, woven details, and brushed brass — delivering strong guest experience, brand experience, and experiential appeal within a warm, design-led hospitality setting.
+
+4. Paris Fashion & Luxury Market Study (Dec 2025 – Feb 2026) — Beauty & Fashion, Emlyon Business School
+   A strategic market clustering project focused on Paris's luxury and fashion landscape, uncovering brand patterns, consumer segments, and key growth opportunities across the city's prestige retail ecosystem.
+
 TONE: warm, confident, professional. Always speak positively about Stuti.
 Never mention architecture unless directly asked. Focus on her marketing expertise, beauty industry knowledge, and international exposure.
 If unsure about something, highlight her adaptability, curiosity, and eagerness to learn.`;
@@ -39,9 +55,10 @@ If unsure about something, highlight her adaptability, curiosity, and eagerness 
 const SUGGESTED = [
   "What's Stuti's current role?",
   "What are her key marketing skills?",
-  "Which luxury groups does she know?",
+  "Tell me about her beauty industry exposure",
   "What is she looking for?",
   "Tell me about her experience",
+  "What are her interests?",
 ];
 
 const MessageContent = ({ text, navigate }) => {

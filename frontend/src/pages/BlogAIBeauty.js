@@ -33,28 +33,38 @@ const BlogAIBeauty = () => {
   const navigate = useNavigate();
 
   const h2Style = {
-    fontFamily: SERIF, fontSize: '1.8rem', fontWeight: 700,
-    color: '#ffffff', margin: '3rem 0 1rem',
-    borderLeft: '3px solid #e040fb', paddingLeft: '1rem',
-    lineHeight: 1.3,
+    fontFamily: SERIF, fontSize: '2.4rem', fontWeight: 700,
+    color: '#ffffff', margin: '4rem 0 1.2rem',
+    borderLeft: '3px solid #e040fb', paddingLeft: '1.2rem',
+    lineHeight: 1.2,
   };
 
   const h3Style = {
-    fontFamily: SERIF, fontSize: '1.2rem', fontWeight: 600,
-    color: 'rgba(200,150,255,1)', margin: '2rem 0 0.6rem',
-    lineHeight: 1.4,
+    fontFamily: SERIF, fontSize: '1.45rem', fontWeight: 600,
+    color: 'rgba(200,150,255,1)', margin: '2.5rem 0 0.8rem',
+    lineHeight: 1.35,
   };
 
   const bodyStyle = {
-    fontFamily: SANS, fontSize: '1.05rem', fontWeight: 300,
-    color: 'rgba(255,255,255,0.85)', lineHeight: 1.9,
-    letterSpacing: '0.01em', margin: '0 0 1rem',
+    fontFamily: SANS, fontSize: '1.1rem', fontWeight: 300,
+    color: 'rgba(255,255,255,0.85)', lineHeight: 2.0,
+    letterSpacing: '0.01em', margin: '0 0 1.2rem',
   };
 
   const numberHeadStyle = {
-    fontFamily: SERIF, fontSize: '1.15rem', fontWeight: 700,
-    color: 'rgba(210,170,255,0.95)', margin: '2rem 0 0.6rem',
+    fontFamily: SERIF, fontSize: '1.3rem', fontWeight: 700,
+    color: 'rgba(210,170,255,0.95)', margin: '2.5rem 0 0.8rem',
     lineHeight: 1.4,
+  };
+
+  const pullQuoteStyle = {
+    fontFamily: SERIF, fontSize: '1.65rem', fontWeight: 300,
+    fontStyle: 'italic', color: 'rgba(210,170,255,0.9)',
+    textAlign: 'center', lineHeight: 1.6,
+    padding: '2.5rem 2rem',
+    borderTop: '0.5px solid rgba(224,64,251,0.3)',
+    borderBottom: '0.5px solid rgba(224,64,251,0.3)',
+    margin: '3.5rem 0',
   };
 
   return (

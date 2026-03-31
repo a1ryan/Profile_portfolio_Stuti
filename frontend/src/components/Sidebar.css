@@ -1,0 +1,5 @@
+/* increase left nav font size */
+.sidebar-item.work-experience,
+.sidebar-item.get-in-touch {
+  font-size: 1.25rem !important;
+}

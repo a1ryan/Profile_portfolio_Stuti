@@ -333,6 +333,53 @@ const DetailCard = ({ project, onClose }) => {
           </ul>
         )}
 
+        {project.moodboards && project.moodboards.length > 0 && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 48, marginTop: 8 }}>
+            {project.moodboards.map((mb, i) => (
+              <div key={i}>
+                <h3 style={{
+                  fontFamily: SERIF, fontSize: 26, fontWeight: 300,
+                  letterSpacing: '0.05em', color: 'rgba(255,255,255,1)',
+                  textTransform: 'uppercase', lineHeight: 1.2,
+                  margin: '0 0 20px 0',
+                }}>{mb.title}</h3>
+
+                <p style={{
+                  fontFamily: SANS, fontSize: 15, fontWeight: 500,
+                  letterSpacing: '0.22em', color: 'rgba(210,170,255,0.85)',
+                  textTransform: 'uppercase', margin: '0 0 12px 0',
+                }}>Context</p>
+                <p style={{
+                  fontFamily: SANS, fontSize: 16, fontWeight: 300,
+                  lineHeight: 1.9, color: 'rgba(255,255,255,0.82)',
+                  margin: '0 0 28px 0',
+                }}>
+                  <HighlightText text={mb.context} words={mb.highlights || []} />
+                </p>
+
+                <img
+                  src={mb.image}
+                  alt={mb.title}
+                  style={{ width: '100%', display: 'block', borderRadius: 12, marginBottom: 28 }}
+                />
+
+                <p style={{
+                  fontFamily: SANS, fontSize: 15, fontWeight: 500,
+                  letterSpacing: '0.22em', color: 'rgba(210,170,255,0.85)',
+                  textTransform: 'uppercase', margin: '0 0 12px 0',
+                }}>Solution</p>
+                <p style={{
+                  fontFamily: SANS, fontSize: 16, fontWeight: 300,
+                  lineHeight: 1.9, color: 'rgba(255,255,255,0.82)',
+                  margin: 0,
+                }}>
+                  <HighlightText text={mb.solution} words={mb.highlights || []} />
+                </p>
+              </div>
+            ))}
+          </div>
+        )}
+
         {project.gallery && project.gallery.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginTop: 8 }}>
             {project.gallery.map((src, i) => (

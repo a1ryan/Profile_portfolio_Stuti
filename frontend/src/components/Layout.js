@@ -57,7 +57,7 @@ const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
         fontFamily: SANS,
         fontSize: 17,
         fontWeight: 300,
-        letterSpacing: '0.20em',
+        letterSpacing: item.label.length > 10 ? '0.05em' : '0.20em',
         color: active ? fgActive : (hovered ? fgHover : fgMuted),
         textDecoration: 'none',
         padding: '6px 0 5px',
@@ -76,13 +76,13 @@ const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
 };
 
 const Layout = ({ children }) => {
-  const { dark: darkMode, setDark: setDarkMode } = useTheme();
+  const { dark: darkMode } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const location = useLocation();
 
   const navItems = [
     { label: 'HOME',        path: '/' },
-    { label: 'WORKS',       path: '/works' },
+    { label: 'WORK EXPERIENCE', path: '/works' },
     { label: 'PROJECTS',    path: '/projects' },
     { label: 'BLOGS',       path: '/gallery' },
     { label: 'ASK AI ✦',   path: '/ai', gradient: true },
@@ -142,31 +142,6 @@ const Layout = ({ children }) => {
 
       {/* Grain texture overlay */}
       {darkMode && <div className="holo-noise" />}
-
-      {/* ─ Theme toggle ─ top-right */}
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        aria-label="Toggle theme"
-        id="theme-toggle"
-        style={{
-          position: 'fixed', top: 26, right: 26, zIndex: 100,
-          width: 42, height: 22, borderRadius: 11,
-          background: toggleBg,
-          display: 'flex', alignItems: 'center', padding: '0 3px',
-          border: 'none', cursor: 'pointer',
-          transition: 'background 0.35s ease',
-        }}
-      >
-        <div
-          style={{
-            width: 16, height: 16, borderRadius: '50%',
-            background: toggleFg,
-            transform: darkMode ? 'translateX(20px)' : 'translateX(0px)',
-            transition: 'transform 0.3s ease, background 0.3s ease',
-            flexShrink: 0,
-          }}
-        />
-      </button>
 
       {/* ─ Mobile hamburger ─ */}
       <button
@@ -236,27 +211,7 @@ const Layout = ({ children }) => {
           >
             <Linkedin size={20} strokeWidth={1.5} />
           </a>
-          <a
-            href={personalData.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: fgMuted, transition: 'color 0.2s ease', display: 'flex' }}
-            onMouseEnter={e => e.currentTarget.style.color = fgActive}
-            onMouseLeave={e => e.currentTarget.style.color = fgMuted}
-          >
-            <Instagram size={20} strokeWidth={1.5} />
-          </a>
-          <a
-            href={personalData.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: fgMuted, transition: 'color 0.2s ease', display: 'flex' }}
-            onMouseEnter={e => e.currentTarget.style.color = fgActive}
-            onMouseLeave={e => e.currentTarget.style.color = fgMuted}
-          >
-            <Github size={20} strokeWidth={1.5} />
-          </a>
-          <a
+<a
             href={`mailto:${personalData.email}`}
             style={{ color: fgMuted, transition: 'color 0.2s ease', display: 'flex' }}
             onMouseEnter={e => e.currentTarget.style.color = fgActive}
