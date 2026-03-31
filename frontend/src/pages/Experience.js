@@ -591,27 +591,34 @@ const Works = () => {
     setActiveIndex(0);
     prevIndex.current = 0;
 
-    const observers = sectionRefs.current.map((el, index) => {
-      if (!el) return null;
-      const obs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting && index !== prevIndex.current) {
-              setVisible(false);
-              setTimeout(() => {
-                setActiveIndex(index);
-                prevIndex.current = index;
-                setVisible(true);
-              }, 220);
-            }
-          });
-        },
-        { threshold: 0.5 }
-      );
-      obs.observe(el);
-      return obs;
-    });
-    return () => observers.forEach(obs => obs && obs.disconnect());
+    let observers = [];
+    const timer = setTimeout(() => {
+      observers = sectionRefs.current.map((el, index) => {
+        if (!el) return null;
+        const obs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting && index !== prevIndex.current) {
+                setVisible(false);
+                setTimeout(() => {
+                  setActiveIndex(index);
+                  prevIndex.current = index;
+                  setVisible(true);
+                }, 220);
+              }
+            });
+          },
+          { threshold: 0.5 }
+        );
+        obs.observe(el);
+        return obs;
+      });
+    }, 150);
+
+    return () => {
+      clearTimeout(timer);
+      observers.forEach(obs => obs && obs.disconnect());
+    };
   }, [introGone]);
 
   const active = experienceData[activeIndex];

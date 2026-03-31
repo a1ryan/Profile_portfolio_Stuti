@@ -143,6 +143,7 @@ export const educationData = [
     period: "Aug 2024 – Present",
     gpa: "GPA: 4/4",
     logo: "/Logo_emlyon_2021.png",
+    courseworkLabel: "View Relevant Coursework & Projects",
     courses: "Excel Tools Workshop, Product Marketing, Marketing Analytics (Data Mining, IS & Databases, Dashboarding), Global Strategies and Operations, Project Management, E-commerce, Digital Marketing, Economic Competitiveness",
     galleryCards: [
       { title: "Skin POD — Innovation & Marketing Project",    icon: "✨", mediaType: "pdf",   src: "https://drive.google.com/file/d/1ekMmpvpclo-fdMO7FYiVuA--kWmtJbht/preview" },
@@ -160,13 +161,7 @@ export const educationData = [
     period: "Jul 2017 – July 2022",
     gpa: "CGPA: 8",
     logo: "/jamia png.jpg",
-    courses: "Retail Design, Engineering Drawings, Plan Layout, Spatial Storytelling, Consumer Journey Mapping, Visual Communication, Brand Environment Design, Presentation & Pitching",
-    galleryCards: [
-      { title: "Project 1", icon: "📁", mediaType: "image", src: "" },
-      { title: "Project 2", icon: "📁", mediaType: "image", src: "" },
-      { title: "Project 3", icon: "📁", mediaType: "image", src: "" },
-      { title: "Project 4", icon: "📁", mediaType: "image", src: "" },
-    ]
+    courses: "Retail Design, Engineering Drawings, Plan Layout, Spatial Storytelling, Consumer Journey Mapping, Visual Communication, Brand Environment Design, Presentation & Pitching"
   }
 ];
 

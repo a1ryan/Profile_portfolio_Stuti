@@ -345,9 +345,9 @@ const Home = () => {
            ════════════════════════════════════════ */}
       <section style={{
         minHeight: '100vh',
-        display: 'flex', alignItems: 'flex-start',
+        display: 'flex', alignItems: 'center',
         paddingLeft: 44, paddingRight: 44,
-        paddingTop: 0, paddingBottom: 32,
+        paddingTop: 80, paddingBottom: 60,
         gap: '5%',
         opacity: mounted ? 1 : 0,
         transition: 'opacity 0.9s cubic-bezier(0.22,1,0.36,1)',
@@ -505,7 +505,7 @@ const Home = () => {
                       onMouseEnter={e => { e.currentTarget.style.color = 'rgba(255,182,213,1)'; e.currentTarget.style.borderBottomColor = 'rgba(255,182,213,0.8)'; }}
                       onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,182,213,0.85)'; e.currentTarget.style.borderBottomColor = 'rgba(255,182,213,0.4)'; }}
                     >
-                      View School Projects & Coursework →
+                      {edu.courseworkLabel || 'View Relevant Coursework'} →
                     </span>
                   )}
                 </div>
