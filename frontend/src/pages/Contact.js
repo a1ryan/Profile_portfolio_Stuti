@@ -9,9 +9,9 @@ import { useTheme } from '../context/ThemeContext';
 // 3. Create an email template and note the Template ID
 // 4. Copy your Public Key from Account → API Keys
 // Then replace the three placeholders below:
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID  = 'stuti-portfolio';
+const EMAILJS_TEMPLATE_ID = 'template_g812yik';
+const EMAILJS_PUBLIC_KEY  = 'TbxJb_H73FXgRiJDm';
 // ───────────────────────────────────────────────────────────────
 
 const SERIF = "'Raleway', 'Josefin Sans', sans-serif";
