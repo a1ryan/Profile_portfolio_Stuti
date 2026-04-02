@@ -184,14 +184,29 @@ const SplashPage = () => {
       <img
         src="/avatar-final.png"
         alt=""
-        style={{
+        style={isMobile ? {
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: imgVisible
+            ? 'translate(-50%, -50%)'
+            : 'translate(-50%, -40%)',
+          height: '70vh',
+          width: 'auto',
+          userSelect: 'none',
+          pointerEvents: 'none',
+          display: 'block',
+          zIndex: 3,
+          opacity: imgVisible ? 1 : 0,
+          transition: 'transform 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.9s ease-out',
+        } : {
           position: 'absolute',
           bottom: 0,
-          left: isMobile ? '50%' : 'calc(49vw + 77px)',
+          left: 'calc(49vw + 77px)',
           transform: imgVisible
             ? 'translateX(-50%) translateY(0)'
             : 'translateX(-50%) translateY(80px)',
-          height: isMobile ? '62vh' : '121vh',
+          height: '121vh',
           objectFit: 'contain',
           objectPosition: 'bottom',
           userSelect: 'none',
@@ -203,85 +218,152 @@ const SplashPage = () => {
         }}
       />
 
-      {/* ── Mobile: top gradient so text stays readable over photo ── */}
+      {/* ── Mobile layout ── */}
       {isMobile && (
-        <div style={{
-          position: 'absolute', top: 0, left: 0, right: 0,
-          height: '52%',
-          background: 'linear-gradient(to bottom, rgba(11,0,14,0.95) 0%, rgba(11,0,14,0.75) 65%, transparent 100%)',
-          zIndex: 1, pointerEvents: 'none',
-        }} />
+        <>
+          {/* Top dark gradient */}
+          <div style={{
+            position: 'absolute', top: 0, left: 0, right: 0,
+            height: '32%',
+            background: 'linear-gradient(to bottom, rgba(11,0,14,0.97) 0%, rgba(11,0,14,0.7) 65%, transparent 100%)',
+            zIndex: 4, pointerEvents: 'none',
+          }} />
+
+          {/* Bottom dark gradient */}
+          <div style={{
+            position: 'absolute', bottom: 0, left: 0, right: 0,
+            height: '34%',
+            background: 'linear-gradient(to top, rgba(11,0,14,0.98) 0%, rgba(11,0,14,0.75) 60%, transparent 100%)',
+            zIndex: 4, pointerEvents: 'none',
+          }} />
+
+          {/* Title — top center */}
+          <div style={{
+            position: 'absolute', top: '6vh', left: 0, right: 0,
+            textAlign: 'center', zIndex: 5, pointerEvents: 'none',
+            opacity: textVisible ? 1 : 0,
+            transition: 'opacity 1.4s ease-in',
+            padding: '0 24px',
+          }}>
+            <p style={{
+              fontFamily: SANS, fontSize: 10, fontWeight: 400,
+              letterSpacing: '0.28em', textTransform: 'uppercase',
+              color: 'rgba(224,64,251,0.9)', margin: '0 0 10px',
+            }}>
+              Marketing · Beauty
+            </p>
+            <h2 style={{
+              fontFamily: SERIF, fontSize: 'clamp(22px, 6vw, 28px)',
+              fontWeight: 700, color: 'rgba(255,255,255,0.97)',
+              margin: '0 0 8px', lineHeight: 1.2, letterSpacing: '-0.02em',
+            }}>
+              Welcome to<br />my portfolio!
+            </h2>
+            <p style={{
+              fontFamily: SANS, fontSize: 12, fontWeight: 300,
+              color: 'rgba(255,255,255,0.6)',
+              margin: 0, letterSpacing: '0.04em', lineHeight: 1.5,
+            }}>
+              A Marketing Professional seeking an{' '}
+              <span style={{ color: 'rgba(210,170,255,0.9)', fontWeight: 600 }}>internship</span>
+              {' '}in the beauty industry.
+            </p>
+          </div>
+
+          {/* Quote + buttons — bottom */}
+          <div style={{
+            position: 'absolute', bottom: 54, left: 20, right: 20,
+            zIndex: 5,
+            opacity: textVisible ? 1 : 0,
+            transition: 'opacity 1.4s ease-in',
+          }}>
+            <p style={{
+              fontFamily: SERIF, fontSize: 14, fontWeight: 300,
+              color: 'rgba(255,255,255,0.88)',
+              margin: '0 0 18px', lineHeight: 1.6, letterSpacing: '-0.01em',
+              textAlign: 'center',
+            }}>
+              Curious about how{' '}
+              <span style={{ color: '#e040fb', fontWeight: 700, fontSize: 16 }}>Beauty</span>
+              {' '}creates experiences that feel more{' '}
+              <span style={{ fontWeight: 700 }}>personal, thoughtful, and impactful.</span>
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
+              <PremiumButton onClick={() => navigate('/projects')}>Projects</PremiumButton>
+              <PremiumButton onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
+            </div>
+          </div>
+        </>
       )}
 
-      {/* ── Left + Right panels ── */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: isMobile ? 'column' : 'row',
-          alignItems: 'flex-start',
-          paddingLeft: isMobile ? 24 : 154,
-          paddingRight: isMobile ? 24 : 0,
-          paddingTop: isMobile ? '14vh' : '22vh',
-          zIndex: 2,
-          pointerEvents: 'none',
-          opacity: textVisible ? 1 : 0,
-          transition: 'opacity 1.4s ease-in',
-        }}
-      >
-
-        {/* LEFT */}
-        <div style={{
-          width: isMobile ? '100%' : '34%',
-          paddingLeft: isMobile ? 0 : 'calc(28px + 3vw)',
-          paddingRight: isMobile ? 0 : 20,
-          pointerEvents: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: isMobile ? 12 : 26,
-        }}>
-          <h2 style={{
-            fontFamily: SERIF,
-            fontSize: isMobile ? 'clamp(20px, 6vw, 28px)' : 'clamp(32px, 3.8vw, 62px)',
-            fontWeight: 700,
-            color: 'rgba(255,255,255,0.97)',
-            margin: 0,
-            lineHeight: 1.2,
-            letterSpacing: '-0.02em',
+      {/* ── Desktop: Left + Right panels ── */}
+      {!isMobile && (
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'flex-start',
+            paddingLeft: 154,
+            paddingRight: 0,
+            paddingTop: '22vh',
+            zIndex: 2,
+            pointerEvents: 'none',
+            opacity: textVisible ? 1 : 0,
+            transition: 'opacity 1.4s ease-in',
+          }}
+        >
+          {/* LEFT */}
+          <div style={{
+            width: '34%',
+            paddingLeft: 'calc(28px + 3vw)',
+            paddingRight: 20,
+            pointerEvents: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 26,
           }}>
-            Welcome to<br />my portfolio!
-          </h2>
-          <p style={{
-            fontFamily: SANS,
-            fontSize: isMobile ? 13 : 'clamp(16px, 1.4vw, 22px)',
-            fontWeight: 300,
-            color: 'rgba(255,255,255,0.88)',
-            margin: 0,
-            letterSpacing: '0.02em',
-            lineHeight: 1.6,
-          }}>
-            A <span style={{ fontWeight: 700 }}>Marketing Professional</span> seeking an{' '}
-            <span style={{
-              color: 'rgba(210,170,255,0.95)',
-              background: 'rgba(123,47,247,0.18)',
-              borderRadius: 6,
-              padding: '1px 8px',
+            <h2 style={{
+              fontFamily: SERIF,
+              fontSize: 'clamp(32px, 3.8vw, 62px)',
               fontWeight: 700,
-            }}>internship</span>
-            {' '}in the beauty industry.
-          </p>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 2 }}>
-            <PremiumButton onClick={() => navigate('/projects')}>Projects</PremiumButton>
-            <PremiumButton onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
+              color: 'rgba(255,255,255,0.97)',
+              margin: 0,
+              lineHeight: 1.2,
+              letterSpacing: '-0.02em',
+            }}>
+              Welcome to<br />my portfolio!
+            </h2>
+            <p style={{
+              fontFamily: SANS,
+              fontSize: 'clamp(16px, 1.4vw, 22px)',
+              fontWeight: 300,
+              color: 'rgba(255,255,255,0.88)',
+              margin: 0,
+              letterSpacing: '0.02em',
+              lineHeight: 1.6,
+            }}>
+              A <span style={{ fontWeight: 700 }}>Marketing Professional</span> seeking an{' '}
+              <span style={{
+                color: 'rgba(210,170,255,0.95)',
+                background: 'rgba(123,47,247,0.18)',
+                borderRadius: 6,
+                padding: '1px 8px',
+                fontWeight: 700,
+              }}>internship</span>
+              {' '}in the beauty industry.
+            </p>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 2 }}>
+              <PremiumButton onClick={() => navigate('/projects')}>Projects</PremiumButton>
+              <PremiumButton onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
+            </div>
           </div>
-        </div>
 
-        {/* CENTER spacer — avatar renders here (desktop only) */}
-        {!isMobile && <div style={{ flex: 1 }} />}
+          {/* CENTER spacer */}
+          <div style={{ flex: 1 }} />
 
-        {/* RIGHT — hidden on mobile */}
-        {!isMobile && (
+          {/* RIGHT */}
           <div style={{
             width: '34%',
             paddingRight: 'calc(48px + 1vw)',
@@ -316,16 +398,17 @@ const SplashPage = () => {
               <PremiumButton onClick={() => navigate('/cv-request')}>Request my CV</PremiumButton>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-      </div>
-
-      {/* ── STUTI JAIN — bottom left ── */}
+      {/* ── STUTI JAIN — bottom ── */}
       <div style={{
         position: 'absolute',
         bottom: 28,
-        left: isMobile ? 24 : 182,
-        zIndex: 3,
+        left: isMobile ? 0 : 182,
+        right: isMobile ? 0 : 'auto',
+        textAlign: isMobile ? 'center' : 'left',
+        zIndex: isMobile ? 6 : 3,
         pointerEvents: 'none',
         opacity: textVisible ? 1 : 0,
         transition: 'opacity 1.4s ease-in',
