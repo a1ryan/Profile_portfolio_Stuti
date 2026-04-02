@@ -37,6 +37,17 @@ body {
 .sidebar-open {
   transform: translateX(0) !important;
 }
+
+/* ── Global mobile padding ── */
+@media (max-width: 767px) {
+  input, textarea, select {
+    font-size: 16px !important; /* prevents iOS zoom */
+  }
+  /* Push content down to clear hamburger button */
+  .main-content {
+    padding-top: 56px;
+  }
+}
 /* desktop: About Me panel shown */
 .about-desktop { display: none; }
 .about-mobile  { display: block; }

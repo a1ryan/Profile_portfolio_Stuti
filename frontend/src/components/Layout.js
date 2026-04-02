@@ -149,7 +149,7 @@ const Layout = ({ children }) => {
         style={{
           position: 'fixed', top: 22, left: 22, zIndex: 60,
           background: 'transparent', border: 'none', cursor: 'pointer',
-          color: fgActive, display: 'none',
+          color: fgActive,
         }}
         className="md-hidden-toggle"
       >

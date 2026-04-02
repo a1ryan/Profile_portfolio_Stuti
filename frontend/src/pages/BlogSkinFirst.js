@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const SERIF = "'Raleway', 'Josefin Sans', sans-serif";
@@ -31,41 +31,49 @@ const ImgPlaceholder = ({ caption }) => (
 
 const BlogSkinFirst = () => {
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const h2Style = {
-    fontFamily: SERIF, fontSize: '2.4rem', fontWeight: 700,
-    color: '#ffffff', margin: '4rem 0 1.2rem',
-    borderLeft: '3px solid #e040fb', paddingLeft: '1.2rem',
-    lineHeight: 1.2,
+    fontFamily: SERIF, fontSize: isMobile ? '1.25rem' : '2.4rem', fontWeight: 700,
+    color: '#ffffff', margin: isMobile ? '2rem 0 0.8rem' : '4rem 0 1.2rem',
+    borderLeft: '3px solid #e040fb', paddingLeft: '0.9rem',
+    lineHeight: 1.25,
   };
 
   const h3Style = {
-    fontFamily: SERIF, fontSize: '1.45rem', fontWeight: 600,
-    color: 'rgba(200,150,255,1)', margin: '2.5rem 0 0.8rem',
+    fontFamily: SERIF, fontSize: isMobile ? '1rem' : '1.45rem', fontWeight: 600,
+    color: 'rgba(200,150,255,1)', margin: isMobile ? '1.5rem 0 0.5rem' : '2.5rem 0 0.8rem',
     lineHeight: 1.35,
   };
 
   const bodyStyle = {
-    fontFamily: SANS, fontSize: '1.1rem', fontWeight: 300,
-    color: 'rgba(255,255,255,0.85)', lineHeight: 2.0,
-    letterSpacing: '0.01em', margin: '0 0 1.2rem',
+    fontFamily: SANS, fontSize: isMobile ? '0.875rem' : '1.1rem', fontWeight: 300,
+    color: 'rgba(255,255,255,0.85)', lineHeight: isMobile ? 1.75 : 2.0,
+    letterSpacing: '0.01em', margin: isMobile ? '0 0 0.85rem' : '0 0 1.2rem',
   };
 
   const numberHeadStyle = {
-    fontFamily: SERIF, fontSize: '1.3rem', fontWeight: 700,
-    color: 'rgba(255,255,255,0.9)', margin: '2.5rem 0 0.8rem',
+    fontFamily: SERIF, fontSize: isMobile ? '1rem' : '1.3rem', fontWeight: 700,
+    color: 'rgba(255,255,255,0.9)', margin: isMobile ? '1.5rem 0 0.5rem' : '2.5rem 0 0.8rem',
     lineHeight: 1.4,
   };
 
   const pullQuoteStyle = {
-    fontFamily: SERIF, fontSize: '1.65rem', fontWeight: 300,
+    fontFamily: SERIF, fontSize: isMobile ? '1rem' : '1.65rem', fontWeight: 300,
     fontStyle: 'italic', color: 'rgba(210,170,255,0.9)',
-    textAlign: 'center', lineHeight: 1.6,
-    padding: '2.5rem 2rem',
+    textAlign: 'center', lineHeight: 1.55,
+    padding: isMobile ? '1.5rem 1rem' : '2.5rem 2rem',
     borderTop: '0.5px solid rgba(224,64,251,0.3)',
     borderBottom: '0.5px solid rgba(224,64,251,0.3)',
-    margin: '3.5rem 0',
+    margin: isMobile ? '2rem 0' : '3.5rem 0',
   };
+
+  const px = isMobile ? '16px' : '44px';
 
   return (
     <div style={{ minHeight: '100vh', paddingBottom: 80 }}>
@@ -74,7 +82,7 @@ const BlogSkinFirst = () => {
       <div style={{
         position: 'sticky', top: 0, zIndex: 50,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '18px 44px',
+        padding: `18px ${px}`,
         background: 'rgba(11,0,14,0.85)', backdropFilter: 'blur(14px)',
         borderBottom: '0.5px solid rgba(255,255,255,0.06)',
       }}>
@@ -97,7 +105,7 @@ const BlogSkinFirst = () => {
       </div>
 
       {/* ── Hero ── */}
-      <div style={{ padding: '64px 44px 0', maxWidth: 900, margin: '0 auto' }}>
+      <div style={{ padding: isMobile ? `28px ${px} 0` : '64px 44px 0', maxWidth: 900, margin: '0 auto' }}>
         <span style={{
           fontFamily: SANS, fontSize: 11, fontWeight: 400,
           letterSpacing: '0.28em', color: 'rgba(224,64,251,0.9)',
@@ -105,9 +113,9 @@ const BlogSkinFirst = () => {
         }}>Beauty Innovation</span>
 
         <h1 style={{
-          fontFamily: SERIF, fontSize: 'clamp(2rem, 4vw, 3rem)',
+          fontFamily: SERIF, fontSize: isMobile ? 'clamp(1.3rem, 5vw, 1.6rem)' : 'clamp(2rem, 4vw, 3rem)',
           fontWeight: 700, color: '#ffffff',
-          margin: '0 0 16px', lineHeight: 1.15, letterSpacing: '-0.02em',
+          margin: '0 0 12px', lineHeight: 1.2, letterSpacing: '-0.02em',
         }}>The Skin-First Revolution</h1>
 
         <p style={{
@@ -128,20 +136,20 @@ const BlogSkinFirst = () => {
 
         {/* Cover image */}
         <div style={{
-          width: '100%', height: 450, borderRadius: 16, overflow: 'hidden',
-          marginBottom: 64,
+          width: '100%', height: isMobile ? 200 : 450, borderRadius: isMobile ? 10 : 16, overflow: 'hidden',
+          marginBottom: isMobile ? 28 : 64,
         }}>
           <img src="/b2 cv.jpg" alt="Cover" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
         </div>
       </div>
 
       {/* ── Article body ── */}
-      <div style={{ maxWidth: 1000, margin: '0 auto', padding: '0 44px' }}>
+      <div style={{ maxWidth: 1000, margin: '0 auto', padding: isMobile ? `0 ${px}` : '0 44px' }}>
         <div style={{
           background: 'rgba(0,0,0,0.3)',
           backdropFilter: 'blur(10px)',
-          borderRadius: 20,
-          padding: '3rem',
+          borderRadius: isMobile ? 12 : 20,
+          padding: isMobile ? '1.25rem' : '3rem',
         }}>
 
           {/* Intro */}

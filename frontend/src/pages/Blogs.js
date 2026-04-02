@@ -146,9 +146,17 @@ const blogPosts = [
 
 const Blogs = () => {
   const { dark } = useTheme();
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+  React.useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const px = isMobile ? 20 : 44;
 
   return (
-    <div style={{ minHeight: '100vh', paddingLeft: 44, paddingRight: 44, paddingTop: 80, paddingBottom: 120 }}>
+    <div style={{ minHeight: '100vh', paddingLeft: px, paddingRight: px, paddingTop: isMobile ? 16 : 80, paddingBottom: 120 }}>
 
       {/* Header */}
       <div style={{ marginBottom: 64 }}>
@@ -160,7 +168,7 @@ const Blogs = () => {
           Beauty · Marketing · Insights
         </span>
         <h1 style={{
-          fontFamily: SERIF, fontSize: 'clamp(36px, 5vw, 72px)',
+          fontFamily: SERIF, fontSize: isMobile ? 'clamp(22px, 6vw, 28px)' : 'clamp(36px, 5vw, 72px)',
           fontWeight: 700, color: fg(dark, 1),
           margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1,
         }}>
@@ -170,7 +178,7 @@ const Blogs = () => {
       </div>
 
       {/* Cards grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 20 : 32 }}>
         {blogPosts.map((post, i) => (
           <BlogCard key={i} post={post} />
         ))}

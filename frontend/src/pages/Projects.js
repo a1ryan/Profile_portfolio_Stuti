@@ -405,9 +405,16 @@ const Projects = () => {
   const [selected, setSelected]       = useState(null);
   const [linkProject, setLinkProject] = useState(null);
   const [introGone, setIntroGone]     = useState(false);
+  const [isMobile, setIsMobile]       = useState(window.innerWidth < 768);
   const prevIndex   = useRef(0);
   const sectionRefs = useRef([]);
   const total = projectsData.length;
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   useEffect(() => {
     if (!introGone) return;
@@ -455,183 +462,127 @@ const Projects = () => {
     ? '0 16px 80px rgba(0,0,0,0.85), 0 0 0 0.5px rgba(255,255,255,0.10)'
     : '0 16px 80px rgba(0,0,0,0.2), 0 0 0 0.5px rgba(18,18,18,0.12)';
 
+  /* ── Card renderer (shared between mobile and desktop) ── */
+  const renderCard = (project) => (
+    <div
+      onClick={() => project.link ? setLinkProject(project) : setSelected(project)}
+      style={{
+        width: isMobile ? '100%' : 580,
+        height: isMobile ? 220 : 340,
+        background: project.video ? 'transparent' : cardBg,
+        border: project.video ? 'none' : `1px solid ${cardBorder}`,
+        borderRadius: 12,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: project.video ? 'none' : cardShadow,
+        flexShrink: 0, overflow: 'hidden',
+        cursor: 'pointer',
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease, background 0.4s ease',
+        position: 'relative',
+      }}
+      onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.015)'; e.currentTarget.style.boxShadow = cardShadowHover; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = cardShadow; }}
+    >
+      {project.video ? (
+        <video autoPlay loop muted playsInline style={{ width: '130%', height: '130%', objectFit: 'cover', position: 'absolute', WebkitMaskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 55%, transparent 90%)', maskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 55%, transparent 90%)' }}>
+          <source src={project.video} type="video/mp4" />
+        </video>
+      ) : project.image ? (
+        <img src={project.image} alt={project.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, objectPosition: project.imagePosition || 'center' }} />
+      ) : (
+        <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.3em', color: fg(dark, 0.18), textTransform: 'uppercase' }}>{project.title}</span>
+      )}
+      <div style={{ position: 'absolute', bottom: 16, right: 20, fontFamily: SANS, fontSize: 10, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 0.68), textTransform: 'uppercase', pointerEvents: 'none' }}>VIEW ↗</div>
+    </div>
+  );
+
   return (
     <>
       {!introGone && <IntroOverlay onDismiss={() => setIntroGone(true)} />}
 
-      <div style={{ display: 'flex', alignItems: 'flex-start' }}>
-
-        {/* ── LEFT: scrollable image panels ── */}
-        <div style={{ width: '55%', flexShrink: 0 }}>
+      {isMobile ? (
+        /* ── MOBILE: stacked list layout ── */
+        <div style={{ padding: '16px 0 60px' }}>
+          <div style={{ padding: '0 20px 24px', borderBottom: `0.5px solid ${fg(dark, 0.08)}`, marginBottom: 8 }}>
+            <span style={{ fontFamily: SANS, fontSize: 18, fontWeight: 300, letterSpacing: '0.3em', color: fg(dark, 0.9), textTransform: 'uppercase' }}>PROJECTS</span>
+          </div>
           {projectsData.map((project, index) => (
-            <div
-              key={project.id}
-              ref={el => (sectionRefs.current[index] = el)}
-              style={{
-                height: '100vh',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                padding: '48px 40px',
-              }}
-            >
-              <div
-                onClick={() => project.link ? setLinkProject(project) : setSelected(project)}
-                style={{
-                  width: 580, height: 340,
-                  background: project.video ? 'transparent' : cardBg,
-                  border: project.video ? 'none' : `1px solid ${cardBorder}`,
-                  borderRadius: 12,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: project.video ? 'none' : cardShadow,
-                  flexShrink: 0, overflow: 'hidden',
-                  cursor: 'pointer',
-                  transition: 'transform 0.25s ease, box-shadow 0.25s ease, background 0.4s ease',
-                  position: 'relative',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'scale(1.015)';
-                  e.currentTarget.style.boxShadow = cardShadowHover;
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.boxShadow = cardShadow;
-                }}
-              >
-                {project.video ? (
-                  <video
-                    autoPlay loop muted playsInline
-                    style={{
-                      width: '130%', height: '130%', objectFit: 'cover',
-                      position: 'absolute',
-                      WebkitMaskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 55%, transparent 90%)',
-                      maskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%, black 55%, transparent 90%)',
-                    }}
-                  >
-                    <source src={project.video} type="video/mp4" />
-                  </video>
-                ) : project.image ? (
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 12, objectPosition: project.imagePosition || 'center' }}
-                  />
-                ) : (
-                  <span style={{
-                    fontFamily: SANS, fontSize: 11, fontWeight: 300,
-                    letterSpacing: '0.3em', color: fg(dark, 0.18),
-                    textTransform: 'uppercase',
-                  }}>{project.title}</span>
+            <div key={project.id} ref={el => (sectionRefs.current[index] = el)} style={{ padding: '32px 20px' }}>
+              {renderCard(project)}
+              <div style={{ marginTop: 20 }}>
+                <p style={{ fontFamily: MONO, fontSize: 12, fontWeight: 400, letterSpacing: '0.15em', color: fg(dark, 0.55), margin: '0 0 10px 0' }}>
+                  [ {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} ]
+                </p>
+                <h2 style={{ fontFamily: SERIF, fontSize: 24, fontWeight: 300, letterSpacing: '0.05em', color: fg(dark, 1), textTransform: 'uppercase', lineHeight: 1.2, margin: '0 0 8px 0' }}>{project.title}</h2>
+                <p style={{ fontFamily: SANS, fontSize: 12, fontWeight: 300, letterSpacing: '0.08em', color: fg(dark, 0.68), margin: '0 0 16px 0' }}>
+                  {project.location}{project.category ? ` · ${project.category}` : ''}
+                </p>
+                {project.description && (
+                  <p style={{ fontFamily: SANS, fontSize: 14, fontWeight: 300, lineHeight: 1.8, color: fg(dark, 0.90), margin: '0 0 20px 0' }}>
+                    <HighlightText text={project.description} words={project.highlights || []} />
+                  </p>
                 )}
-                <div style={{
-                  position: 'absolute', bottom: 16, right: 20,
-                  fontFamily: SANS, fontSize: 10, fontWeight: 300,
-                  letterSpacing: '0.2em', color: fg(dark, 0.68),
-                  textTransform: 'uppercase', pointerEvents: 'none',
-                }}>VIEW ↗</div>
+                <button
+                  onClick={() => project.link ? setLinkProject(project) : setSelected(project)}
+                  style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: '#ffffff', cursor: 'pointer' }}
+                >READ MORE →</button>
               </div>
+              {index < projectsData.length - 1 && (
+                <div style={{ width: '100%', height: '0.5px', background: fg(dark, 0.08), marginTop: 32 }} />
+              )}
             </div>
           ))}
         </div>
+      ) : (
+        /* ── DESKTOP: side-by-side layout ── */
+        <div style={{ display: 'flex', alignItems: 'flex-start' }}>
 
-        {/* ── RIGHT: sticky info panel ── */}
-        <div style={{
-          width: '45%',
-          position: 'sticky', top: 0, height: '100vh',
-          display: 'flex', flexDirection: 'column',
-          padding: '200px 44px 44px 40px',
-          borderLeft: `0.5px solid ${fg(dark, 0.08)}`,
-          boxSizing: 'border-box',
-          transition: 'border-color 0.4s ease',
-        }}>
-
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
-            <span style={{
-              fontFamily: SANS, fontSize: 25, fontWeight: 300,
-              letterSpacing: '0.42em', color: fg(dark, 0.9),
-              textTransform: 'uppercase', transition: 'color 0.4s ease',
-            }}>PROJECTS</span>
-            <span style={{
-              fontFamily: SANS, fontSize: 20, fontWeight: 300,
-              letterSpacing: '0.06em', color: fg(dark, 0.28),
-              transition: 'color 0.4s ease',
-            }}>/{personalData.firstName.toLowerCase()}{personalData.lastName.toLowerCase()}</span>
+          {/* LEFT: scrollable image panels */}
+          <div style={{ width: '55%', flexShrink: 0 }}>
+            {projectsData.map((project, index) => (
+              <div key={project.id} ref={el => (sectionRefs.current[index] = el)} style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 40px' }}>
+                {renderCard(project)}
+              </div>
+            ))}
           </div>
 
-          <div style={{ width: '100%', height: '0.5px', background: fg(dark, 0.12), marginBottom: 0, flexShrink: 0, transition: 'background 0.4s ease' }} />
+          {/* RIGHT: sticky info panel */}
+          <div style={{ width: '45%', position: 'sticky', top: 0, height: '100vh', display: 'flex', flexDirection: 'column', padding: '200px 44px 44px 40px', borderLeft: `0.5px solid ${fg(dark, 0.08)}`, boxSizing: 'border-box', transition: 'border-color 0.4s ease' }}>
 
-          <div style={{
-            flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center',
-            opacity: visible ? 1 : 0, transition: 'opacity 0.4s ease',
-          }}>
-            <p style={{
-              fontFamily: MONO, fontSize: 14, fontWeight: 400,
-              letterSpacing: '0.15em', color: fg(dark, 0.88),
-              margin: '0 0 36px 0', transition: 'color 0.4s ease',
-            }}>
-              [ {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} ]
-            </p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <span style={{ fontFamily: SANS, fontSize: 25, fontWeight: 300, letterSpacing: '0.42em', color: fg(dark, 0.9), textTransform: 'uppercase', transition: 'color 0.4s ease' }}>PROJECTS</span>
+              <span style={{ fontFamily: SANS, fontSize: 20, fontWeight: 300, letterSpacing: '0.06em', color: fg(dark, 0.28), transition: 'color 0.4s ease' }}>/{personalData.firstName.toLowerCase()}{personalData.lastName.toLowerCase()}</span>
+            </div>
+            <div style={{ width: '100%', height: '0.5px', background: fg(dark, 0.12), marginBottom: 0, flexShrink: 0, transition: 'background 0.4s ease' }} />
 
-            <h2 style={{
-              fontFamily: SERIF, fontSize: 32, fontWeight: 300,
-              letterSpacing: '0.05em', color: fg(dark, 1),
-              textTransform: 'uppercase', lineHeight: 1.2,
-              margin: '0 0 14px 0', transition: 'color 0.4s ease',
-            }}>{active.title}</h2>
-
-            <p style={{
-              fontFamily: SANS, fontSize: 13, fontWeight: 300,
-              letterSpacing: '0.08em', color: fg(dark, 0.68),
-              margin: '0 0 32px 0', transition: 'color 0.4s ease',
-            }}>
-              {active.location}{active.category ? ` · ${active.category}` : ''}
-            </p>
-
-            {active.description && (
-              <p style={{
-                fontFamily: SANS, fontSize: 16, fontWeight: 300,
-                lineHeight: 1.8, color: fg(dark, 0.95),
-                letterSpacing: 0, margin: '0 0 28px 0', maxWidth: 360,
-                transition: 'color 0.4s ease',
-              }}>
-                <HighlightText text={active.description} words={active.highlights || []} />
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', opacity: visible ? 1 : 0, transition: 'opacity 0.4s ease' }}>
+              <p style={{ fontFamily: MONO, fontSize: 14, fontWeight: 400, letterSpacing: '0.15em', color: fg(dark, 0.88), margin: '0 0 36px 0', transition: 'color 0.4s ease' }}>
+                [ {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')} ]
               </p>
-            )}
+              <h2 style={{ fontFamily: SERIF, fontSize: 32, fontWeight: 300, letterSpacing: '0.05em', color: fg(dark, 1), textTransform: 'uppercase', lineHeight: 1.2, margin: '0 0 14px 0', transition: 'color 0.4s ease' }}>{active.title}</h2>
+              <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, letterSpacing: '0.08em', color: fg(dark, 0.68), margin: '0 0 32px 0', transition: 'color 0.4s ease' }}>
+                {active.location}{active.category ? ` · ${active.category}` : ''}
+              </p>
+              {active.description && (
+                <p style={{ fontFamily: SANS, fontSize: 16, fontWeight: 300, lineHeight: 1.8, color: fg(dark, 0.95), letterSpacing: 0, margin: '0 0 28px 0', maxWidth: 360, transition: 'color 0.4s ease' }}>
+                  <HighlightText text={active.description} words={active.highlights || []} />
+                </p>
+              )}
+              <button
+                onClick={() => active.link ? setLinkProject(active) : setSelected(active)}
+                style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: '#ffffff', cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              >READ MORE →</button>
+            </div>
 
-            <button
-              onClick={() => active.link ? setLinkProject(active) : setSelected(active)}
-              style={{
-                background: 'none', border: '1px solid #e040fb',
-                borderRadius: 999, padding: '8px 20px',
-                fontFamily: SANS, fontSize: 11, fontWeight: 300,
-                letterSpacing: '0.2em', color: '#ffffff',
-                cursor: 'pointer', alignSelf: 'flex-start',
-                transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))';
-                e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)';
-                e.currentTarget.style.transform = 'translateY(-3px)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'none';
-                e.currentTarget.style.boxShadow = 'none';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
-            >READ MORE →</button>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
-            <div style={{
-              width: 42, height: 42, borderRadius: '50%',
-              border: `1px solid ${fg(dark, 0.18)}`,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'border-color 0.4s ease',
-            }}>
-              <span style={{ color: fg(dark, 0.35), fontSize: 14, lineHeight: 1, transition: 'color 0.4s ease' }}>↓</span>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}>
+              <div style={{ width: 42, height: 42, borderRadius: '50%', border: `1px solid ${fg(dark, 0.18)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color 0.4s ease' }}>
+                <span style={{ color: fg(dark, 0.35), fontSize: 14, lineHeight: 1, transition: 'color 0.4s ease' }}>↓</span>
+              </div>
             </div>
           </div>
-
         </div>
-      </div>
+      )}
 
       {selected && <DetailCard project={selected} onClose={() => setSelected(null)} />}
       {linkProject && <LinkModal project={linkProject} onClose={() => setLinkProject(null)} />}

@@ -289,11 +289,11 @@ const SkillPill = ({ item, dark }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily: SANS, fontSize: 13, fontWeight: 300,
+        fontFamily: SANS, fontSize: 11, fontWeight: 300,
         color: hovered ? '#ffffff' : fg(dark, 0.95),
         border: `1px solid ${hovered ? '#e040fb' : fg(dark, 0.25)}`,
-        borderRadius: 999, padding: '6px 16px',
-        display: 'inline-block', margin: 4,
+        borderRadius: 999, padding: '5px 12px',
+        display: 'inline-block', margin: 3,
         background: hovered ? 'linear-gradient(135deg, rgba(224,64,251,0.25), rgba(123,47,247,0.25))' : 'transparent',
         cursor: 'default',
         transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
@@ -306,12 +306,12 @@ const SkillPill = ({ item, dark }) => {
   );
 };
 
-const SkillGroup = ({ title, items, dark }) => (
+const SkillGroup = ({ title, items, dark, isMobile }) => (
   <div>
     <p style={{
-      fontFamily: SANS, fontSize: 15, fontWeight: 400,
+      fontFamily: SANS, fontSize: isMobile ? 11 : 15, fontWeight: 400,
       letterSpacing: '0.2em', color: fg(dark, 0.72),
-      textTransform: 'uppercase', marginBottom: 16,
+      textTransform: 'uppercase', marginBottom: isMobile ? 10 : 16,
       transition: 'color 0.4s ease',
     }}>
       {title}
@@ -329,10 +329,17 @@ const Home = () => {
   const { dark } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [eduPopup, setEduPopup] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80);
     return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   return (
@@ -345,24 +352,25 @@ const Home = () => {
            ════════════════════════════════════════ */}
       <section style={{
         minHeight: '100vh',
-        display: 'flex', alignItems: 'center',
-        paddingLeft: 44, paddingRight: 44,
-        paddingTop: 80, paddingBottom: 60,
-        gap: '5%',
+        display: 'flex', alignItems: isMobile ? 'flex-start' : 'center',
+        flexDirection: isMobile ? 'column' : 'row',
+        paddingLeft: isMobile ? 20 : 44, paddingRight: isMobile ? 20 : 44,
+        paddingTop: isMobile ? 16 : 80, paddingBottom: 60,
+        gap: isMobile ? 32 : '5%',
         opacity: mounted ? 1 : 0,
         transition: 'opacity 0.9s cubic-bezier(0.22,1,0.36,1)',
       }}>
 
         {/* ── LEFT COLUMN: photo ── */}
         <div className="idcard-swing" style={{
-          width: '45%', display: 'flex',
+          width: isMobile ? '100%' : '45%', display: 'flex',
           justifyContent: 'center', alignItems: 'center', flexShrink: 0,
         }}>
           <img
             src="/profile photo final.jpg"
             alt="Portfolio"
             style={{
-              width: '100%', maxWidth: 400, height: 500,
+              width: '100%', maxWidth: isMobile ? '100%' : 400, height: isMobile ? 300 : 500,
               objectFit: 'cover', objectPosition: 'center center',
               display: 'block',
               borderRadius: 16,
@@ -373,13 +381,13 @@ const Home = () => {
         </div>
 
         {/* ── RIGHT COLUMN: text content ── */}
-        <div style={{ width: '45%', display: 'flex', flexDirection: 'column', alignSelf: 'center' }}>
+        <div style={{ width: isMobile ? '100%' : '45%', display: 'flex', flexDirection: 'column', alignSelf: 'center' }}>
 
           <h1 style={{
-            fontFamily: SERIF, fontSize: 'clamp(32px, 3.8vw, 62px)',
+            fontFamily: SERIF, fontSize: isMobile ? 'clamp(20px, 5.5vw, 26px)' : 'clamp(32px, 3.8vw, 62px)',
             fontWeight: 700, letterSpacing: '-0.02em',
-            whiteSpace: 'nowrap', color: '#B05575',
-            margin: 0, lineHeight: 1.15,
+            whiteSpace: isMobile ? 'normal' : 'nowrap', color: '#B05575',
+            margin: 0, lineHeight: 1.2,
           }}>
             Hi, I am Stuti JAIN !
           </h1>
@@ -392,8 +400,8 @@ const Home = () => {
           }} />
 
           <p style={{
-            fontFamily: SANS, fontSize: 18, fontWeight: 300,
-            lineHeight: 2.0, color: fg(dark, 0.95),
+            fontFamily: SANS, fontSize: isMobile ? 13 : 18, fontWeight: 300,
+            lineHeight: isMobile ? 1.75 : 2.0, color: fg(dark, 0.95),
             letterSpacing: '0.025em', margin: 0, textAlign: 'justify',
             transition: 'color 0.4s ease',
           }}>
@@ -549,13 +557,13 @@ const Home = () => {
       {/* ════════════════════════════════════════
            MOTIVATION + SKILLS  second screen
            ════════════════════════════════════════ */}
-      <section style={{ padding: '96px 44px 150px', display: 'flex', flexDirection: 'column', gap: 72 }}>
+      <section style={{ padding: isMobile ? '40px 20px 80px' : '96px 44px 150px', display: 'flex', flexDirection: 'column', gap: isMobile ? 48 : 72 }}>
 
-        <div style={{ display: 'flex', gap: '5%', alignItems: 'center' }}>
-          <div style={{ width: '55%', minWidth: 0, marginTop: '-60px' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '5%', alignItems: 'center' }}>
+          <div style={{ width: isMobile ? '100%' : '55%', minWidth: 0, marginTop: isMobile ? 0 : '-60px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
               <span style={{
-                fontFamily: SANS, fontSize: 29, fontWeight: 300,
+                fontFamily: SANS, fontSize: isMobile ? 17 : 29, fontWeight: 300,
                 letterSpacing: '0.2em', color: fg(dark, 1),
                 textTransform: 'uppercase', flexShrink: 0,
                 transition: 'color 0.4s ease',
@@ -565,8 +573,8 @@ const Home = () => {
               <div style={{ flex: 1, height: '0.5px', background: fg(dark, 0.13), transition: 'background 0.4s ease' }} />
             </div>
             <p style={{
-              fontFamily: SANS, fontSize: 27, fontWeight: 300,
-              lineHeight: 1.9, color: fg(dark, 1.0), letterSpacing: 0,
+              fontFamily: SANS, fontSize: isMobile ? 15 : 27, fontWeight: 300,
+              lineHeight: isMobile ? 1.75 : 1.9, color: fg(dark, 1.0), letterSpacing: 0,
               transition: 'color 0.4s ease',
             }}>
               <span style={{
@@ -585,8 +593,8 @@ const Home = () => {
             </p>
           </div>
           <div style={{
-            width: '28%', aspectRatio: '9 / 12',
-            flexShrink: 0, marginLeft: '5%', marginTop: '-5%',
+            width: isMobile ? '100%' : '28%', aspectRatio: isMobile ? '16 / 9' : '9 / 12',
+            flexShrink: 0, marginLeft: isMobile ? 0 : '5%', marginTop: isMobile ? 0 : '-5%',
             WebkitMaskImage: 'radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 80%)',
             maskImage: 'radial-gradient(ellipse 65% 70% at 50% 50%, black 20%, transparent 80%)',
           }}>
@@ -605,7 +613,7 @@ const Home = () => {
         <div style={{ width: '100%' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 28 }}>
             <span style={{
-              fontFamily: SANS, fontSize: 29, fontWeight: 300,
+              fontFamily: SANS, fontSize: isMobile ? 17 : 29, fontWeight: 300,
               letterSpacing: '0.2em', color: fg(dark, 1),
               textTransform: 'uppercase', flexShrink: 0,
               transition: 'color 0.4s ease',
@@ -614,10 +622,10 @@ const Home = () => {
             </span>
             <div style={{ flex: 1, height: '0.5px', background: fg(dark, 0.13), transition: 'background 0.4s ease' }} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40, fontSize: 15 }}>
-            <SkillGroup title="MARKETING" items={skillsData.marketing} dark={dark} />
-            <SkillGroup title="ANALYTICS" items={skillsData.analytics} dark={dark} />
-            <SkillGroup title="TOOLS"     items={skillsData.tools}     dark={dark} />
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 32 : 40, fontSize: 15 }}>
+            <SkillGroup title="MARKETING" items={skillsData.marketing} dark={dark} isMobile={isMobile} />
+            <SkillGroup title="ANALYTICS" items={skillsData.analytics} dark={dark} isMobile={isMobile} />
+            <SkillGroup title="TOOLS"     items={skillsData.tools}     dark={dark} isMobile={isMobile} />
           </div>
         </div>
 

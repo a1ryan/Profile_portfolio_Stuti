@@ -69,12 +69,19 @@ const SplashPage = () => {
 
   const [imgVisible,  setImgVisible]  = useState(false);
   const [textVisible, setTextVisible] = useState(false);
+  const [isMobile,    setIsMobile]    = useState(window.innerWidth < 768);
 
   /* entrance animations */
   useEffect(() => {
     const t1 = setTimeout(() => setImgVisible(true),  60);
     const t2 = setTimeout(() => setTextVisible(true), 700);
     return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
   }, []);
 
   /* dismiss — slides splash off upward */
@@ -173,18 +180,18 @@ const SplashPage = () => {
       {/* ── Canvas background — z-index 0, behind avatar and panels ── */}
       <HoloCanvas style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
 
-      {/* ── Avatar — centered in content area (after 154px sidebar) ── */}
+      {/* ── Avatar ── */}
       <img
         src="/avatar-final.png"
         alt=""
         style={{
           position: 'absolute',
           bottom: 0,
-          left: 'calc(49vw + 77px)',   /* slightly left of content midpoint */
+          left: isMobile ? '50%' : 'calc(49vw + 77px)',
           transform: imgVisible
             ? 'translateX(-50%) translateY(0)'
             : 'translateX(-50%) translateY(80px)',
-          height: '121vh',
+          height: isMobile ? '62vh' : '121vh',
           objectFit: 'contain',
           objectPosition: 'bottom',
           userSelect: 'none',
@@ -196,15 +203,27 @@ const SplashPage = () => {
         }}
       />
 
-      {/* ── Left + Right panels — paddingLeft:154 clears the fixed sidebar ── */}
+      {/* ── Mobile: top gradient so text stays readable over photo ── */}
+      {isMobile && (
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0,
+          height: '52%',
+          background: 'linear-gradient(to bottom, rgba(11,0,14,0.95) 0%, rgba(11,0,14,0.75) 65%, transparent 100%)',
+          zIndex: 1, pointerEvents: 'none',
+        }} />
+      )}
+
+      {/* ── Left + Right panels ── */}
       <div
         style={{
           position: 'absolute',
           inset: 0,
           display: 'flex',
-          alignItems: 'flex-start',  /* top-align so both headings sit on the same line */
-          paddingLeft: 154,
-          paddingTop: '22vh',         /* push content to visual centre of viewport */
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: 'flex-start',
+          paddingLeft: isMobile ? 24 : 154,
+          paddingRight: isMobile ? 24 : 0,
+          paddingTop: isMobile ? '14vh' : '22vh',
           zIndex: 2,
           pointerEvents: 'none',
           opacity: textVisible ? 1 : 0,
@@ -214,33 +233,33 @@ const SplashPage = () => {
 
         {/* LEFT */}
         <div style={{
-          width: '34%',
-          paddingLeft: 'calc(28px + 3vw)',
-          paddingRight: 20,
+          width: isMobile ? '100%' : '34%',
+          paddingLeft: isMobile ? 0 : 'calc(28px + 3vw)',
+          paddingRight: isMobile ? 0 : 20,
           pointerEvents: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          gap: 26,
+          gap: isMobile ? 12 : 26,
         }}>
           <h2 style={{
             fontFamily: SERIF,
-            fontSize: 'clamp(32px, 3.8vw, 62px)',
+            fontSize: isMobile ? 'clamp(20px, 6vw, 28px)' : 'clamp(32px, 3.8vw, 62px)',
             fontWeight: 700,
             color: 'rgba(255,255,255,0.97)',
             margin: 0,
-            lineHeight: 1.15,
+            lineHeight: 1.2,
             letterSpacing: '-0.02em',
           }}>
             Welcome to<br />my portfolio!
           </h2>
           <p style={{
             fontFamily: SANS,
-            fontSize: 'clamp(16px, 1.4vw, 22px)',
+            fontSize: isMobile ? 13 : 'clamp(16px, 1.4vw, 22px)',
             fontWeight: 300,
-            color: 'rgba(255,255,255,0.92)',
+            color: 'rgba(255,255,255,0.88)',
             margin: 0,
             letterSpacing: '0.02em',
-            lineHeight: 1.7,
+            lineHeight: 1.6,
           }}>
             A <span style={{ fontWeight: 700 }}>Marketing Professional</span> seeking an{' '}
             <span style={{
@@ -252,58 +271,60 @@ const SplashPage = () => {
             }}>internship</span>
             {' '}in the beauty industry.
           </p>
-          <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginTop: 6 }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 2 }}>
             <PremiumButton onClick={() => navigate('/projects')}>Projects</PremiumButton>
             <PremiumButton onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
           </div>
         </div>
 
-        {/* CENTER spacer — avatar renders here */}
-        <div style={{ flex: 1 }} />
+        {/* CENTER spacer — avatar renders here (desktop only) */}
+        {!isMobile && <div style={{ flex: 1 }} />}
 
-        {/* RIGHT */}
-        <div style={{
-          width: '34%',
-          paddingRight: 'calc(48px + 1vw)',
-          paddingLeft: 20,
-          paddingTop: 60,
-          pointerEvents: 'auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 26,
-        }}>
-          <p style={{
-            fontFamily: SERIF,
-            fontSize: '1.85rem',
-            fontWeight: 300,
-            color: '#ffffff',
-            margin: 0,
-            lineHeight: 1.3,
-            letterSpacing: '-0.01em',
+        {/* RIGHT — hidden on mobile */}
+        {!isMobile && (
+          <div style={{
+            width: '34%',
+            paddingRight: 'calc(48px + 1vw)',
+            paddingLeft: 20,
+            paddingTop: 60,
+            pointerEvents: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 26,
           }}>
-            Curious about how{' '}
-            <span style={{
-              color: '#e040fb',
-              fontWeight: 900,
-              fontStyle: 'normal',
-              fontSize: '2.1rem',
-            }}>Beauty</span>
-            <br />
-            creates experiences that feel more{' '}
-            <span style={{ fontWeight: 900 }}>personal, thoughtful, and impactful.</span>
-          </p>
-          <div style={{ marginTop: 6 }}>
-            <PremiumButton onClick={() => navigate('/cv-request')}>Request my CV</PremiumButton>
+            <p style={{
+              fontFamily: SERIF,
+              fontSize: '1.85rem',
+              fontWeight: 300,
+              color: '#ffffff',
+              margin: 0,
+              lineHeight: 1.3,
+              letterSpacing: '-0.01em',
+            }}>
+              Curious about how{' '}
+              <span style={{
+                color: '#e040fb',
+                fontWeight: 900,
+                fontStyle: 'normal',
+                fontSize: '2.1rem',
+              }}>Beauty</span>
+              <br />
+              creates experiences that feel more{' '}
+              <span style={{ fontWeight: 900 }}>personal, thoughtful, and impactful.</span>
+            </p>
+            <div style={{ marginTop: 6 }}>
+              <PremiumButton onClick={() => navigate('/cv-request')}>Request my CV</PremiumButton>
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
 
-      {/* ── STUTI JAIN — bottom left, also offset past sidebar ── */}
+      {/* ── STUTI JAIN — bottom left ── */}
       <div style={{
         position: 'absolute',
         bottom: 28,
-        left: 182,   /* 154px sidebar + 28px breathing room */
+        left: isMobile ? 24 : 182,
         zIndex: 3,
         pointerEvents: 'none',
         opacity: textVisible ? 1 : 0,

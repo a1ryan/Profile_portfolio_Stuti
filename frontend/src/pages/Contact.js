@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import emailjs from '@emailjs/browser';
 import { personalData } from '../data/mock';
 import { useTheme } from '../context/ThemeContext';
@@ -152,6 +152,12 @@ const RequestCVButton = () => {
 /* ══════════════════════════════════════════════════════════════ */
 const Contact = () => {
   const { dark } = useTheme();
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const [form, setForm] = useState({
     name: '', email: '', company: '', role: '', phone: '', message: '',
@@ -193,10 +199,12 @@ const Contact = () => {
 
   const isValid = true;
 
+  const px = isMobile ? 20 : 44;
+
   return (
     <div style={{
       minHeight: '100vh',
-      padding: '80px 60px 80px 44px',
+      padding: isMobile ? `16px ${px}px 60px` : '80px 60px 80px 44px',
       display: 'flex',
       flexDirection: 'column',
       gap: 0,
@@ -214,7 +222,7 @@ const Contact = () => {
             color: '#e040fb', margin: '0 0 24px 0',
           }}>Message Sent</p>
           <h1 style={{
-            fontFamily: SERIF, fontSize: 'clamp(32px, 4vw, 58px)',
+            fontFamily: SERIF, fontSize: isMobile ? 'clamp(20px, 6vw, 26px)' : 'clamp(32px, 4vw, 58px)',
             fontWeight: 700, color: fg(dark, 0.97),
             margin: '0 0 20px 0', lineHeight: 1.15, letterSpacing: '-0.02em',
           }}>
@@ -230,10 +238,10 @@ const Contact = () => {
         </div>
       ) : (
 
-        <div style={{ display: 'flex', gap: '8%', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 40 : '8%', alignItems: 'flex-start' }}>
 
           {/* ── LEFT: title + intro ── */}
-          <div style={{ width: '36%', flexShrink: 0, paddingTop: 8 }}>
+          <div style={{ width: isMobile ? '100%' : '36%', flexShrink: 0, paddingTop: 8 }}>
 
             <p style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 400,
@@ -256,8 +264,8 @@ const Contact = () => {
             }} />
 
             <p style={{
-              fontFamily: SANS, fontSize: 17, fontWeight: 300,
-              color: fg(dark, 1.0), lineHeight: 1.85,
+              fontFamily: SANS, fontSize: isMobile ? 13 : 17, fontWeight: 300,
+              color: fg(dark, 1.0), lineHeight: isMobile ? 1.65 : 1.85,
               letterSpacing: '0.02em', margin: '0 0 40px 0',
             }}>
               If you would like to know more about my background, projects,
@@ -312,7 +320,7 @@ const Contact = () => {
           >
 
             {/* Row 1: Name + Email */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
               <Field label="Full Name" required>
                 <input
                   type="text"
@@ -338,7 +346,7 @@ const Contact = () => {
             </div>
 
             {/* Row 2: Company + Role */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
               <Field label="Company or Organization" required>
                 <input
                   type="text"
@@ -364,7 +372,7 @@ const Contact = () => {
             </div>
 
             {/* Row 3: Phone */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
               <Field label="Phone Number">
                 <input
                   type="tel"
