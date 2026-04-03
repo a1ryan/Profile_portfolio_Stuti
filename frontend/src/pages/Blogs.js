@@ -8,6 +8,7 @@ const SANS  = "'Josefin Sans', sans-serif";
 const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
 const BlogCard = ({ post }) => {
+  const { dark } = useTheme();
   const [hovered, setHovered] = React.useState(false);
   const [linkHovered, setLinkHovered] = React.useState(false);
   const navigate = useNavigate();
@@ -18,8 +19,8 @@ const BlogCard = ({ post }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: 'rgba(15,0,25,0.6)',
-        border: `1px solid ${hovered ? 'rgba(224,64,251,0.5)' : 'rgba(255,255,255,0.08)'}`,
+        background: dark ? 'rgba(15,0,25,0.6)' : 'rgba(248,245,255,0.95)',
+        border: `1px solid ${hovered ? 'rgba(224,64,251,0.5)' : fg(dark, 0.08)}`,
         borderRadius: 16,
         overflow: 'hidden',
         cursor: 'pointer',
@@ -69,7 +70,7 @@ const BlogCard = ({ post }) => {
 
         <h3 style={{
           fontFamily: SERIF, fontSize: 22, fontWeight: 700,
-          color: '#ffffff', margin: '0 0 8px', lineHeight: 1.25,
+          color: fg(dark, 1), margin: '0 0 8px', lineHeight: 1.25,
           letterSpacing: '-0.01em',
         }}>
           {post.title}
@@ -77,7 +78,7 @@ const BlogCard = ({ post }) => {
 
         <p style={{
           fontFamily: SANS, fontSize: 13, fontWeight: 300,
-          color: 'rgba(255,255,255,0.55)', margin: '0 0 20px',
+          color: fg(dark, 0.55), margin: '0 0 20px',
           lineHeight: 1.6, letterSpacing: '0.01em',
         }}>
           {post.subtitle}
@@ -85,11 +86,11 @@ const BlogCard = ({ post }) => {
 
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          borderTop: '0.5px solid rgba(255,255,255,0.08)', paddingTop: 16,
+          borderTop: `0.5px solid ${fg(dark, 0.08)}`, paddingTop: 16,
         }}>
           <span style={{
             fontFamily: SANS, fontSize: 11, fontWeight: 300,
-            color: 'rgba(255,255,255,0.35)', letterSpacing: '0.08em',
+            color: fg(dark, 0.35), letterSpacing: '0.08em',
           }}>
             {post.date} · {post.readTime}
           </span>
@@ -98,9 +99,9 @@ const BlogCard = ({ post }) => {
             onMouseLeave={() => setLinkHovered(false)}
             style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 300,
-              letterSpacing: '0.15em', color: linkHovered ? '#ffffff' : 'rgba(255,182,213,0.85)',
+              letterSpacing: '0.15em', color: linkHovered ? fg(dark, 1) : (dark ? 'rgba(255,182,213,0.85)' : 'rgba(180,80,120,0.9)'),
               textTransform: 'uppercase',
-              borderBottom: `1px solid ${linkHovered ? 'rgba(255,255,255,0.6)' : 'rgba(255,182,213,0.3)'}`,
+              borderBottom: `1px solid ${linkHovered ? fg(dark, 0.6) : 'rgba(255,182,213,0.3)'}`,
               transform: linkHovered ? 'translateY(-3px)' : 'translateY(0)',
               display: 'inline-block',
               transition: 'color 0.2s ease, border-color 0.2s ease, transform 0.2s cubic-bezier(0.22,1,0.36,1)',

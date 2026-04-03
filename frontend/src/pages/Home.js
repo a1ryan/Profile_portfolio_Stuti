@@ -11,6 +11,7 @@ const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
 /* ── Education coursework popup ── */
 const EduCardGrid = ({ cards }) => {
+  const { dark } = useTheme();
   const [selected, setSelected] = useState(null);
   const [hovered, setHovered] = useState(null);
 
@@ -39,7 +40,7 @@ const EduCardGrid = ({ cards }) => {
                 position: 'relative', overflow: 'hidden',
                 background: card.src && card.mediaType === 'image'
                   ? `url(${encodeURI(card.src)}) center/cover no-repeat`
-                  : 'rgba(255,255,255,0.04)',
+                  : dark ? 'rgba(255,255,255,0.04)' : 'rgba(18,18,18,0.04)',
                 border: `1px solid ${isHovered ? 'rgba(192,132,252,0.8)' : 'rgba(180,100,255,0.3)'}`,
                 borderRadius: 12, padding: '1.4rem',
                 display: 'flex', flexDirection: 'column',
@@ -52,7 +53,7 @@ const EduCardGrid = ({ cards }) => {
             >
               <div style={{
                 position: 'absolute', inset: 0, borderRadius: 12,
-                background: isHovered ? 'rgba(10,0,18,0.55)' : 'rgba(10,0,18,0.72)',
+                background: isHovered ? (dark ? 'rgba(10,0,18,0.55)' : 'rgba(255,255,255,0.35)') : (dark ? 'rgba(10,0,18,0.72)' : 'rgba(255,255,255,0.55)'),
                 transition: 'background 0.3s ease',
               }} />
               {card.src && card.mediaType === 'video' && (
@@ -138,7 +139,7 @@ const EduCardGrid = ({ cards }) => {
           <div
             onClick={e => e.stopPropagation()}
             style={{
-              background: '#111', borderRadius: 16, overflow: 'hidden',
+              background: dark ? '#111' : '#ffffff', borderRadius: 16, overflow: 'hidden',
               width: '85vw', height: '85vh',
               display: 'flex', flexDirection: 'column',
               position: 'relative',
@@ -149,9 +150,9 @@ const EduCardGrid = ({ cards }) => {
               onClick={() => setSelected(null)}
               style={{
                 position: 'absolute', top: 14, right: 18, zIndex: 1,
-                background: 'rgba(0,0,0,0.5)', border: '1px solid rgba(255,255,255,0.2)',
+                background: 'rgba(0,0,0,0.5)', border: `1px solid ${fg(dark, 0.2)}`,
                 borderRadius: 999, width: 32, height: 32,
-                cursor: 'pointer', color: 'rgba(255,255,255,0.7)',
+                cursor: 'pointer', color: fg(dark, 0.7),
                 fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >✕</button>
@@ -168,6 +169,7 @@ const EduCardGrid = ({ cards }) => {
 };
 
 const EduPopup = ({ edu, onClose }) => {
+  const { dark } = useTheme();
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 20);
@@ -189,7 +191,7 @@ const EduPopup = ({ edu, onClose }) => {
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: '#0f0015', border: '1px solid rgba(224,64,251,0.25)',
+          background: dark ? '#0f0015' : '#ffffff', border: '1px solid rgba(224,64,251,0.25)',
           borderRadius: 16, padding: '40px 48px', maxWidth: 620, width: '90%',
           maxHeight: '85vh', overflowY: 'auto',
           transform: mounted ? 'translateY(0)' : 'translateY(20px)',
@@ -203,17 +205,17 @@ const EduPopup = ({ edu, onClose }) => {
             position: 'absolute', top: 20, right: 24,
             background: 'none', border: 'none', cursor: 'pointer',
             fontFamily: SANS, fontSize: 20, fontWeight: 300,
-            color: 'rgba(255,255,255,0.35)',
+            color: fg(dark, 0.35),
           }}
-          onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.9)'}
-          onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+          onMouseEnter={e => e.currentTarget.style.color = fg(dark, 0.9)}
+          onMouseLeave={e => e.currentTarget.style.color = fg(dark, 0.35)}
         >✕</button>
 
         {/* Header row: school name + logo */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, marginBottom: 6 }}>
           <h2 style={{
             fontFamily: SERIF, fontSize: 24, fontWeight: 700,
-            color: '#ffffff', margin: 0, letterSpacing: '-0.01em', flex: 1,
+            color: fg(dark, 1), margin: 0, letterSpacing: '-0.01em', flex: 1,
           }}>
             {edu.school}
           </h2>
@@ -244,11 +246,11 @@ const EduPopup = ({ edu, onClose }) => {
           </p>
         )}
 
-        <div style={{ width: '100%', height: '0.5px', background: 'rgba(255,255,255,0.1)', marginBottom: 20 }} />
+        <div style={{ width: '100%', height: '0.5px', background: fg(dark, 0.1), marginBottom: 20 }} />
 
         <p style={{
           fontFamily: SANS, fontSize: 15, fontWeight: 300,
-          lineHeight: 1.9, color: 'rgba(255,255,255,0.85)',
+          lineHeight: 1.9, color: fg(dark, 0.85),
           letterSpacing: '0.02em', margin: 0,
         }}>
           {edu.courses}
@@ -405,7 +407,7 @@ const Home = () => {
             letterSpacing: '0.025em', margin: 0, textAlign: 'justify',
             transition: 'color 0.4s ease',
           }}>
-            PGE Grande Ecole candidate in France, currently seeking a 6-month <span style={{ fontWeight: 700 }}>end-of-studies internship</span> in marketing. With 2 years of experience across <span style={{ color: 'rgba(210,170,255,0.95)', fontWeight: 700 }}>beauty tech</span> and <span style={{ color: 'rgba(210,170,255,0.95)', fontWeight: 700 }}>premium retail</span>, I bring hands-on exposure to <span style={{ color: '#ffffff', fontWeight: 700 }}>brand activation, product rollout, retail operations, performance reporting, and project management,</span> along with a strong passion for the beauty and luxury industries.
+            PGE Grande Ecole candidate in France, currently seeking a 6-month <span style={{ fontWeight: 700 }}>end-of-studies internship</span> in marketing. With 2 years of experience across <span style={{ color: 'rgba(210,170,255,0.95)', fontWeight: 700 }}>beauty tech</span> and <span style={{ color: 'rgba(210,170,255,0.95)', fontWeight: 700 }}>premium retail</span>, I bring hands-on exposure to <span style={{ color: fg(dark, 1), fontWeight: 700 }}>brand activation, product rollout, retail operations, performance reporting, and project management,</span> along with a strong passion for the beauty and luxury industries.
           </p>
 
           <div style={{ marginTop: 40 }}>
@@ -528,7 +530,7 @@ const Home = () => {
               style={{
                 fontFamily: SANS, fontSize: 11, fontWeight: 400,
                 letterSpacing: '0.22em', textTransform: 'uppercase',
-                color: '#ffffff', textDecoration: 'none',
+                color: fg(dark, 1), textDecoration: 'none',
                 border: '1px solid #e040fb',
                 borderRadius: '12px',
                 padding: '12px 28px',

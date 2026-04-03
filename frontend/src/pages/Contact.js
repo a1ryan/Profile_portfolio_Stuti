@@ -20,12 +20,12 @@ const SANS  = "'Josefin Sans', sans-serif";
 const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
 /* ── Reusable field wrapper ── */
-const Field = ({ label, required, children }) => (
+const Field = ({ label, required, children, dark }) => (
   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
     <label style={{
       fontFamily: SANS, fontSize: 11, fontWeight: 400,
       letterSpacing: '0.18em', textTransform: 'uppercase',
-      color: 'rgba(255,255,255,0.85)',
+      color: fg(dark, 0.85),
     }}>
       {label}{required && <span style={{ color: '#e040fb', marginLeft: 4 }}>*</span>}
     </label>
@@ -33,29 +33,9 @@ const Field = ({ label, required, children }) => (
   </div>
 );
 
-/* ── Input / Textarea shared styles ── */
-const inputStyle = {
-  fontFamily: SANS, fontSize: 14, fontWeight: 300,
-  padding: '13px 16px',
-  width: '100%',
-  boxSizing: 'border-box',
-  letterSpacing: '0.02em',
-};
-
-const InputField = ({ type = 'text', placeholder, value, onChange, onFocus, onBlur }) => (
-  <input
-    type={type}
-    placeholder={placeholder}
-    value={value}
-    onChange={onChange}
-    onFocus={onFocus}
-    onBlur={onBlur}
-    style={inputStyle}
-  />
-);
-
 /* ── Submit button — matches PremiumButton on splash ── */
 const SubmitButton = ({ children, disabled }) => {
+  const { dark } = useTheme();
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
 
@@ -66,7 +46,7 @@ const SubmitButton = ({ children, disabled }) => {
   let border     = '1px solid #e040fb';
 
   if (disabled) {
-    border = '1px solid rgba(255,255,255,0.2)';
+    border = `1px solid ${fg(dark, 0.2)}`;
   } else if (pressed) {
     background = 'linear-gradient(135deg, rgba(240,111,255,0.7), rgba(155,79,255,0.7))';
     boxShadow  = '0 4px 15px rgba(224,64,251,0.6)';
@@ -89,7 +69,7 @@ const SubmitButton = ({ children, disabled }) => {
       style={{
         fontFamily: SANS, fontSize: 11, fontWeight: 400,
         letterSpacing: '0.22em', textTransform: 'uppercase',
-        color: disabled ? 'rgba(255,255,255,0.3)' : '#ffffff',
+        color: disabled ? fg(dark, 0.3) : fg(dark, 1),
         background, border, padding: '13px 40px',
         borderRadius: '12px',
         cursor: disabled ? 'not-allowed' : 'pointer',
@@ -104,6 +84,7 @@ const SubmitButton = ({ children, disabled }) => {
 
 /* ── Request CV CTA button (left panel) ── */
 const RequestCVButton = () => {
+  const { dark } = useTheme();
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
 
@@ -138,7 +119,7 @@ const RequestCVButton = () => {
       style={{
         fontFamily: SANS, fontSize: 11, fontWeight: 400,
         letterSpacing: '0.22em', textTransform: 'uppercase',
-        color: '#ffffff', background, border,
+        color: fg(dark, 1), background, border,
         padding: '12px 28px', cursor: 'pointer',
         transform, boxShadow, transition,
         alignSelf: 'flex-start', marginBottom: 32,
@@ -167,6 +148,19 @@ const Contact = () => {
   const [submitting, setSubmitting]     = useState(false);
 
   const set = (key) => (e) => setForm(f => ({ ...f, [key]: e.target.value }));
+
+  const inputStyle = {
+    fontFamily: SANS, fontSize: 14, fontWeight: 300,
+    padding: '13px 16px',
+    width: '100%',
+    boxSizing: 'border-box',
+    letterSpacing: '0.02em',
+    background: dark ? 'rgba(255,255,255,0.04)' : 'rgba(18,18,18,0.05)',
+    color: fg(dark, 1),
+    border: `1px solid ${fg(dark, 0.2)}`,
+    borderRadius: 8,
+    outline: 'none',
+  };
 
   const focusStyle = () => inputStyle;
 
@@ -321,7 +315,7 @@ const Contact = () => {
 
             {/* Row 1: Name + Email */}
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
-              <Field label="Full Name" required>
+              <Field label="Full Name" required dark={dark}>
                 <input
                   type="text"
                   placeholder="Stuti Jain"
@@ -332,7 +326,7 @@ const Contact = () => {
                   style={focusStyle()}
                 />
               </Field>
-              <Field label="Email Address" required>
+              <Field label="Email Address" required dark={dark}>
                 <input
                   type="email"
                   placeholder="hello@example.com"
@@ -347,7 +341,7 @@ const Contact = () => {
 
             {/* Row 2: Company + Role */}
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
-              <Field label="Company or Organization" required>
+              <Field label="Company or Organization" required dark={dark}>
                 <input
                   type="text"
                   placeholder="Brand / Agency / Studio"
@@ -358,7 +352,7 @@ const Contact = () => {
                   style={focusStyle()}
                 />
               </Field>
-              <Field label="Role / Position">
+              <Field label="Role / Position" dark={dark}>
                 <input
                   type="text"
                   placeholder="e.g. Marketing Manager"
@@ -373,7 +367,7 @@ const Contact = () => {
 
             {/* Row 3: Phone */}
             <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 20 }}>
-              <Field label="Phone Number">
+              <Field label="Phone Number" dark={dark}>
                 <input
                   type="tel"
                   placeholder="+1 000 000 0000"
@@ -387,7 +381,7 @@ const Contact = () => {
             </div>
 
             {/* Message */}
-            <Field label="Message">
+            <Field label="Message" dark={dark}>
               <textarea
                 rows={5}
                 placeholder="Anything you'd like to share..."

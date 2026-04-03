@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Linkedin, Instagram, Github, Mail, Menu, X } from 'lucide-react';
+import { Linkedin, Instagram, Github, Mail, Menu, X, Sun, Moon } from 'lucide-react';
 import { personalData } from '../data/mock';
 import { useTheme } from '../context/ThemeContext';
 import HoloCanvas from './HoloCanvas';
@@ -76,7 +76,7 @@ const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
 };
 
 const Layout = ({ children }) => {
-  const { dark: darkMode } = useTheme();
+  const { dark: darkMode, setDark } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const location = useLocation();
 
@@ -154,6 +154,34 @@ const Layout = ({ children }) => {
         className="md-hidden-toggle"
       >
         {mobileMenuOpen ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
+      </button>
+
+      {/* ─ Dark / Light toggle ─ */}
+      <button
+        onClick={() => setDark(!darkMode)}
+        title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        style={{
+          position: 'fixed', top: 18, right: 22, zIndex: 60,
+          background: toggleBg,
+          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'}`,
+          borderRadius: 20,
+          cursor: 'pointer',
+          color: toggleFg,
+          display: 'flex', alignItems: 'center', gap: 6,
+          padding: '6px 12px',
+          transition: 'background 0.3s ease, border-color 0.3s ease',
+        }}
+      >
+        {darkMode
+          ? <Sun  size={14} strokeWidth={1.8} />
+          : <Moon size={14} strokeWidth={1.8} />
+        }
+        <span style={{
+          fontFamily: SANS, fontSize: 10, fontWeight: 400,
+          letterSpacing: '0.14em', textTransform: 'uppercase',
+        }}>
+          {darkMode ? 'Light' : 'Dark'}
+        </span>
       </button>
 
       {/* ─ Left sidebar ─ */}

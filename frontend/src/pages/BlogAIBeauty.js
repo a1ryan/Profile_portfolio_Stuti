@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext';
 
 const SERIF = "'Raleway', 'Josefin Sans', sans-serif";
 const SANS  = "'Josefin Sans', sans-serif";
+
+const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
 const ImgPlaceholder = ({ caption }) => (
   <div style={{ margin: '2.5rem 0' }}>
@@ -31,6 +34,7 @@ const ImgPlaceholder = ({ caption }) => (
 
 const BlogAIBeauty = () => {
   const navigate = useNavigate();
+  const { dark } = useTheme();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -40,7 +44,7 @@ const BlogAIBeauty = () => {
 
   const h2Style = {
     fontFamily: SERIF, fontSize: isMobile ? '1.25rem' : '2.4rem', fontWeight: 700,
-    color: '#ffffff', margin: isMobile ? '2rem 0 0.8rem' : '4rem 0 1.2rem',
+    color: fg(dark, 1), margin: isMobile ? '2rem 0 0.8rem' : '4rem 0 1.2rem',
     borderLeft: '3px solid #e040fb', paddingLeft: '0.9rem',
     lineHeight: 1.25,
   };
@@ -53,7 +57,7 @@ const BlogAIBeauty = () => {
 
   const bodyStyle = {
     fontFamily: SANS, fontSize: isMobile ? '0.875rem' : '1.1rem', fontWeight: 300,
-    color: 'rgba(255,255,255,0.85)', lineHeight: isMobile ? 1.75 : 2.0,
+    color: fg(dark, 0.85), lineHeight: isMobile ? 1.75 : 2.0,
     letterSpacing: '0.01em', margin: isMobile ? '0 0 0.85rem' : '0 0 1.2rem',
   };
 
@@ -83,23 +87,23 @@ const BlogAIBeauty = () => {
         position: 'sticky', top: 0, zIndex: 50,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: `18px ${px}`,
-        background: 'rgba(11,0,14,0.85)', backdropFilter: 'blur(14px)',
-        borderBottom: '0.5px solid rgba(255,255,255,0.06)',
+        background: dark ? 'rgba(11,0,14,0.85)' : 'rgba(244,243,239,0.92)', backdropFilter: 'blur(14px)',
+        borderBottom: `0.5px solid ${fg(dark, 0.06)}`,
       }}>
         <button
           onClick={() => navigate('/gallery')}
           style={{
             fontFamily: SANS, fontSize: 12, fontWeight: 300,
-            letterSpacing: '0.15em', color: 'rgba(255,255,255,0.55)',
+            letterSpacing: '0.15em', color: fg(dark, 0.55),
             background: 'none', border: 'none', cursor: 'pointer',
             textTransform: 'uppercase', transition: 'color 0.2s ease',
           }}
-          onMouseEnter={e => e.currentTarget.style.color = '#ffffff'}
-          onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.55)'}
+          onMouseEnter={e => e.currentTarget.style.color = fg(dark, 1)}
+          onMouseLeave={e => e.currentTarget.style.color = fg(dark, 0.55)}
         >← Back</button>
         <span style={{
           fontFamily: SERIF, fontSize: 16, fontWeight: 700,
-          color: 'rgba(255,255,255,0.9)', letterSpacing: '0.05em',
+          color: fg(dark, 0.9), letterSpacing: '0.05em',
         }}>Stuti Jain</span>
         <div style={{ width: 60 }} />
       </div>
@@ -114,7 +118,7 @@ const BlogAIBeauty = () => {
 
         <h1 style={{
           fontFamily: SERIF, fontSize: isMobile ? 'clamp(1.3rem, 5vw, 1.6rem)' : 'clamp(2rem, 4vw, 3rem)',
-          fontWeight: 700, color: '#ffffff',
+          fontWeight: 700, color: fg(dark, 1),
           margin: '0 0 12px', lineHeight: 1.2, letterSpacing: '-0.02em',
         }}>The Algorithmic Atelier</h1>
 
@@ -124,11 +128,11 @@ const BlogAIBeauty = () => {
           lineHeight: 1.6, letterSpacing: '0.01em',
         }}>Why AI is the New Frontier of Beauty Retail</p>
 
-        <div style={{ height: '0.5px', background: 'rgba(255,255,255,0.12)', marginBottom: 20 }} />
+        <div style={{ height: '0.5px', background: fg(dark, 0.12), marginBottom: 20 }} />
 
         <p style={{
           fontFamily: SANS, fontSize: 12, fontWeight: 300,
-          color: 'rgba(255,255,255,0.75)', letterSpacing: '0.1em',
+          color: fg(dark, 0.75), letterSpacing: '0.1em',
           marginBottom: 40,
         }}>
           By Stuti Jain &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; 6 min read
@@ -146,7 +150,7 @@ const BlogAIBeauty = () => {
       {/* ── Article body ── */}
       <div style={{ maxWidth: 1000, margin: '0 auto', padding: isMobile ? `0 ${px}` : '0 44px' }}>
         <div style={{
-          background: 'rgba(0,0,0,0.3)',
+          background: dark ? 'rgba(10,0,18,0.7)' : 'rgba(255,255,255,0.95)',
           backdropFilter: 'blur(10px)',
           borderRadius: isMobile ? 12 : 20,
           padding: isMobile ? '1.25rem' : '3rem',
@@ -155,7 +159,7 @@ const BlogAIBeauty = () => {
           {/* Intro */}
           <p style={{
             fontFamily: SANS, fontSize: '1.2rem', fontWeight: 300,
-            color: 'rgba(255,255,255,0.7)', lineHeight: 1.9,
+            color: fg(dark, 0.7), lineHeight: 1.9,
             fontStyle: 'italic', margin: '0 0 3rem',
           }}>
             For years, the holy grail of e-commerce was bridging the gap between the tactile
@@ -266,8 +270,8 @@ const BlogAIBeauty = () => {
 
           {/* Closing */}
           <div style={{
-            borderTop: '0.5px solid rgba(255,255,255,0.1)',
-            borderBottom: '0.5px solid rgba(255,255,255,0.1)',
+            borderTop: `0.5px solid ${fg(dark, 0.1)}`,
+            borderBottom: `0.5px solid ${fg(dark, 0.1)}`,
             padding: '2.5rem 0', margin: '3rem 0 2rem', textAlign: 'center',
           }}>
             <p style={{
@@ -288,7 +292,7 @@ const BlogAIBeauty = () => {
 
         {/* ── Article footer ── */}
         <div style={{ marginTop: 48 }}>
-          <div style={{ height: '0.5px', background: 'rgba(255,255,255,0.1)', marginBottom: 32 }} />
+          <div style={{ height: '0.5px', background: fg(dark, 0.1), marginBottom: 32 }} />
 
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 20, marginBottom: 32 }}>
             <div style={{
@@ -302,7 +306,7 @@ const BlogAIBeauty = () => {
             <div>
               <p style={{
                 fontFamily: SANS, fontSize: 13, fontWeight: 400,
-                color: '#ffffff', margin: 0, letterSpacing: '0.05em',
+                color: fg(dark, 1), margin: 0, letterSpacing: '0.05em',
               }}>Written by Stuti Jain</p>
             </div>
           </div>
@@ -323,7 +327,7 @@ const BlogAIBeauty = () => {
             onClick={() => navigate('/gallery')}
             style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 300,
-              letterSpacing: '0.2em', color: '#ffffff',
+              letterSpacing: '0.2em', color: fg(dark, 1),
               background: 'none', border: '1px solid #e040fb',
               borderRadius: 999, padding: '10px 24px',
               cursor: 'pointer',

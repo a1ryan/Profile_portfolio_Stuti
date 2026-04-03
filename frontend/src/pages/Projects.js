@@ -167,6 +167,7 @@ const toEmbedUrl = (url) => {
 };
 
 const LinkModal = ({ project, onClose }) => {
+  const { dark } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -191,8 +192,8 @@ const LinkModal = ({ project, onClose }) => {
       backdropFilter: 'blur(8px)',
     }}>
       <div onClick={e => e.stopPropagation()} style={{
-        background: '#111',
-        border: '0.5px solid rgba(255,255,255,0.12)',
+        background: dark ? '#111' : '#ffffff',
+        border: `0.5px solid ${fg(dark, 0.12)}`,
         borderRadius: 16,
         width: '100%', maxWidth: 900, height: '85vh',
         display: 'flex', flexDirection: 'column',
@@ -204,28 +205,28 @@ const LinkModal = ({ project, onClose }) => {
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '18px 28px',
-          borderBottom: '0.5px solid rgba(255,255,255,0.1)',
+          borderBottom: `0.5px solid ${fg(dark, 0.1)}`,
           flexShrink: 0,
         }}>
           <span style={{
             fontFamily: SERIF, fontSize: 20, fontWeight: 300,
-            letterSpacing: '0.06em', color: 'rgba(255,255,255,0.9)',
+            letterSpacing: '0.06em', color: fg(dark, 0.9),
             textTransform: 'uppercase',
           }}>{project.title}</span>
           <button onClick={onClose} style={{
             background: 'none', border: 'none', cursor: 'pointer',
             fontFamily: SANS, fontSize: 20, fontWeight: 300,
-            color: 'rgba(255,255,255,0.35)', lineHeight: 1, padding: 4,
+            color: fg(dark, 0.35), lineHeight: 1, padding: 4,
             transition: 'color 0.2s ease',
           }}
-            onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.9)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+            onMouseEnter={e => e.currentTarget.style.color = fg(dark, 0.9)}
+            onMouseLeave={e => e.currentTarget.style.color = fg(dark, 0.35)}
           >✕</button>
         </div>
         <iframe
           src={toEmbedUrl(project.link)}
           title={project.title}
-          style={{ flex: 1, width: '100%', border: 'none', background: '#111' }}
+          style={{ flex: 1, width: '100%', border: 'none', background: dark ? '#111' : '#ffffff' }}
           allow="autoplay"
         />
       </div>
@@ -235,6 +236,7 @@ const LinkModal = ({ project, onClose }) => {
 
 /* ── Detail card modal — always dark ── */
 const DetailCard = ({ project, onClose }) => {
+  const { dark } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -259,8 +261,8 @@ const DetailCard = ({ project, onClose }) => {
       backdropFilter: 'blur(6px)',
     }}>
       <div onClick={e => e.stopPropagation()} style={{
-        background: '#111',
-        border: '0.5px solid rgba(255,255,255,0.12)',
+        background: dark ? '#111' : '#ffffff',
+        border: `0.5px solid ${fg(dark, 0.12)}`,
         borderRadius: 16,
         width: '100%', maxWidth: 680,
         maxHeight: '80vh', overflowY: 'auto',
@@ -274,19 +276,19 @@ const DetailCard = ({ project, onClose }) => {
           position: 'absolute', top: 24, right: 28,
           background: 'none', border: 'none', cursor: 'pointer',
           fontFamily: SANS, fontSize: 20, fontWeight: 300,
-          color: 'rgba(255,255,255,0.35)', lineHeight: 1, padding: 4,
+          color: fg(dark, 0.35), lineHeight: 1, padding: 4,
           transition: 'color 0.2s ease',
         }}
-          onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.9)'}
-          onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+          onMouseEnter={e => e.currentTarget.style.color = fg(dark, 0.9)}
+          onMouseLeave={e => e.currentTarget.style.color = fg(dark, 0.35)}
         >✕</button>
 
         <div style={{ display: 'flex', gap: 10, marginBottom: 28, flexWrap: 'wrap' }}>
           {[project.period, project.category].filter(Boolean).map((label) => (
             <span key={label} style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 300,
-              letterSpacing: '0.18em', color: 'rgba(255,255,255,0.70)',
-              border: '0.5px solid rgba(255,255,255,0.18)',
+              letterSpacing: '0.18em', color: fg(dark, 0.70),
+              border: `0.5px solid ${fg(dark, 0.18)}`,
               borderRadius: 999, padding: '4px 14px',
             }}>{label}</span>
           ))}
@@ -294,22 +296,22 @@ const DetailCard = ({ project, onClose }) => {
 
         <h2 style={{
           fontFamily: SERIF, fontSize: 36, fontWeight: 300,
-          letterSpacing: '0.04em', color: 'rgba(255,255,255,1)',
+          letterSpacing: '0.04em', color: fg(dark, 1),
           textTransform: 'uppercase', lineHeight: 1.15, margin: '0 0 10px 0',
         }}>{project.title}</h2>
 
         <p style={{
           fontFamily: SANS, fontSize: 13, fontWeight: 300,
-          letterSpacing: '0.08em', color: 'rgba(255,255,255,0.70)',
+          letterSpacing: '0.08em', color: fg(dark, 0.70),
           margin: '0 0 32px 0',
         }}>{project.location}</p>
 
-        <div style={{ width: '100%', height: '0.5px', background: 'rgba(255,255,255,0.1)', marginBottom: 28 }} />
+        <div style={{ width: '100%', height: '0.5px', background: fg(dark, 0.1), marginBottom: 28 }} />
 
         {project.description && (
           <p style={{
             fontFamily: SANS, fontSize: 16, fontWeight: 300,
-            lineHeight: 1.85, color: 'rgba(255,255,255,0.90)',
+            lineHeight: 1.85, color: fg(dark, 0.90),
             letterSpacing: 0, margin: '0 0 28px 0', fontStyle: 'italic',
           }}>
             <HighlightText text={project.description} words={project.highlights || []} />
@@ -322,11 +324,11 @@ const DetailCard = ({ project, onClose }) => {
               <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
                 <span style={{
                   marginTop: 8, width: 4, height: 4, borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.35)', flexShrink: 0, display: 'inline-block',
+                  background: fg(dark, 0.35), flexShrink: 0, display: 'inline-block',
                 }} />
                 <span style={{
                   fontFamily: SANS, fontSize: 14, fontWeight: 300,
-                  lineHeight: 1.8, color: 'rgba(255,255,255,0.95)', letterSpacing: 0,
+                  lineHeight: 1.8, color: fg(dark, 0.95), letterSpacing: 0,
                 }}>{bullet}</span>
               </li>
             ))}
@@ -339,7 +341,7 @@ const DetailCard = ({ project, onClose }) => {
               <div key={i}>
                 <h3 style={{
                   fontFamily: SERIF, fontSize: 26, fontWeight: 300,
-                  letterSpacing: '0.05em', color: 'rgba(255,255,255,1)',
+                  letterSpacing: '0.05em', color: fg(dark, 1),
                   textTransform: 'uppercase', lineHeight: 1.2,
                   margin: '0 0 20px 0',
                 }}>{mb.title}</h3>
@@ -351,7 +353,7 @@ const DetailCard = ({ project, onClose }) => {
                 }}>Context</p>
                 <p style={{
                   fontFamily: SANS, fontSize: 16, fontWeight: 300,
-                  lineHeight: 1.9, color: 'rgba(255,255,255,0.82)',
+                  lineHeight: 1.9, color: fg(dark, 0.82),
                   margin: '0 0 28px 0',
                 }}>
                   <HighlightText text={mb.context} words={mb.highlights || []} />
@@ -370,7 +372,7 @@ const DetailCard = ({ project, onClose }) => {
                 }}>Solution</p>
                 <p style={{
                   fontFamily: SANS, fontSize: 16, fontWeight: 300,
-                  lineHeight: 1.9, color: 'rgba(255,255,255,0.82)',
+                  lineHeight: 1.9, color: fg(dark, 0.82),
                   margin: 0,
                 }}>
                   <HighlightText text={mb.solution} words={mb.highlights || []} />
@@ -523,7 +525,7 @@ const Projects = () => {
                 )}
                 <button
                   onClick={() => project.link ? setLinkProject(project) : setSelected(project)}
-                  style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: '#ffffff', cursor: 'pointer' }}
+                  style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer' }}
                 >READ MORE →</button>
               </div>
               {index < projectsData.length - 1 && (
@@ -569,7 +571,7 @@ const Projects = () => {
               )}
               <button
                 onClick={() => active.link ? setLinkProject(active) : setSelected(active)}
-                style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: '#ffffff', cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
+                style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
               >READ MORE →</button>

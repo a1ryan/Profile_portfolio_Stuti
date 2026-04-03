@@ -430,6 +430,7 @@ const GalleryGrid = ({ images }) => {
 
 /* ── Interactive bullet card ── */
 const BulletCard = ({ text }) => {
+  const { dark } = useTheme();
   const [hovered, setHovered] = React.useState(false);
   return (
     <li
@@ -438,8 +439,8 @@ const BulletCard = ({ text }) => {
       style={{
         background: hovered
           ? 'linear-gradient(135deg, rgba(123,47,247,0.18) 0%, rgba(224,64,251,0.10) 100%)'
-          : 'rgba(255,255,255,0.04)',
-        border: `1px solid ${hovered ? 'rgba(224,64,251,0.45)' : 'rgba(255,255,255,0.09)'}`,
+          : dark ? 'rgba(255,255,255,0.04)' : 'rgba(18,18,18,0.04)',
+        border: `1px solid ${hovered ? 'rgba(224,64,251,0.45)' : fg(dark, 0.09)}`,
         borderLeft: `3px solid ${hovered ? '#e040fb' : '#7b2ff7'}`,
         borderRadius: 10,
         padding: '14px 20px',
@@ -448,7 +449,7 @@ const BulletCard = ({ text }) => {
         fontSize: 15,
         fontWeight: 300,
         lineHeight: 1.85,
-        color: hovered ? '#ffffff' : 'rgba(255,255,255,0.92)',
+        color: fg(dark, hovered ? 1 : 0.92),
         transform: hovered ? 'translateX(5px)' : 'translateX(0)',
         boxShadow: hovered ? '0 4px 24px rgba(224,64,251,0.18), inset 0 0 0 1px rgba(224,64,251,0.1)' : 'none',
         transition: 'all 0.22s ease',
@@ -460,6 +461,7 @@ const BulletCard = ({ text }) => {
 
 /* ── Detail modal — always dark ── */
 const DetailCard = ({ exp, onClose }) => {
+  const { dark } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -484,8 +486,8 @@ const DetailCard = ({ exp, onClose }) => {
       backdropFilter: 'blur(6px)',
     }}>
       <div onClick={e => e.stopPropagation()} style={{
-        background: '#111',
-        border: '0.5px solid rgba(255,255,255,0.12)',
+        background: dark ? '#111' : '#ffffff',
+        border: `0.5px solid ${fg(dark, 0.12)}`,
         borderRadius: 16,
         width: '100%', maxWidth: 680,
         maxHeight: '80vh', overflowY: 'auto',
@@ -499,11 +501,11 @@ const DetailCard = ({ exp, onClose }) => {
           position: 'absolute', top: 24, right: 28,
           background: 'none', border: 'none', cursor: 'pointer',
           fontFamily: SANS, fontSize: 20, fontWeight: 300,
-          color: 'rgba(255,255,255,0.35)', lineHeight: 1, padding: 4,
+          color: fg(dark, 0.35), lineHeight: 1, padding: 4,
           transition: 'color 0.2s ease',
         }}
-          onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.9)'}
-          onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+          onMouseEnter={e => e.currentTarget.style.color = fg(dark, 0.9)}
+          onMouseLeave={e => e.currentTarget.style.color = fg(dark, 0.35)}
         >✕</button>
 
         <div style={{ display: 'flex', gap: 10, marginBottom: 28 }}>
@@ -527,22 +529,22 @@ const DetailCard = ({ exp, onClose }) => {
 
         <h2 style={{
           fontFamily: SERIF, fontSize: 36, fontWeight: 300,
-          letterSpacing: '0.04em', color: 'rgba(255,255,255,1)',
+          letterSpacing: '0.04em', color: fg(dark, 1),
           textTransform: 'uppercase', lineHeight: 1.15,
           margin: '0 0 10px 0',
         }}>{exp.role}</h2>
 
         <p style={{
           fontFamily: SANS, fontSize: 13, fontWeight: 300,
-          letterSpacing: '0.08em', color: 'rgba(255,255,255,0.70)',
+          letterSpacing: '0.08em', color: fg(dark, 0.70),
           margin: '0 0 32px 0',
         }}>{exp.company} · {exp.location}</p>
 
-        <div style={{ width: '100%', height: '0.5px', background: 'rgba(255,255,255,0.1)', marginBottom: 28 }} />
+        <div style={{ width: '100%', height: '0.5px', background: fg(dark, 0.1), marginBottom: 28 }} />
 
         <p style={{
           fontFamily: SANS, fontSize: 16, fontWeight: 300,
-          lineHeight: 1.85, color: 'rgba(210,170,255,0.95)',
+          lineHeight: 1.85, color: dark ? 'rgba(210,170,255,0.95)' : 'rgba(100,50,140,0.95)',
           letterSpacing: 0, margin: '0 0 28px 0', fontStyle: 'italic',
         }}><BoldText text={exp.description} words={exp.descHighlights || []} /></p>
 
@@ -559,9 +561,9 @@ const DetailCard = ({ exp, onClose }) => {
         {exp.closing && (
           <p style={{
             fontFamily: SANS, fontSize: 16, fontWeight: 300,
-            lineHeight: 1.85, color: 'rgba(210,170,255,0.95)',
+            lineHeight: 1.85, color: dark ? 'rgba(210,170,255,0.95)' : 'rgba(100,50,140,0.95)',
             letterSpacing: 0, fontStyle: 'italic',
-            margin: '20px 0 0', borderTop: '0.5px solid rgba(255,255,255,0.1)',
+            margin: '20px 0 0', borderTop: `0.5px solid ${fg(dark, 0.1)}`,
             paddingTop: 16,
           }}>{exp.closing}</p>
         )}
@@ -691,7 +693,7 @@ const Works = () => {
                 </p>
                 <button
                   onClick={() => setSelected(exp)}
-                  style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: '#ffffff', cursor: 'pointer' }}
+                  style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer' }}
                 >READ MORE →</button>
               </div>
               {index < experienceData.length - 1 && (
@@ -733,7 +735,7 @@ const Works = () => {
               </p>
               <button
                 onClick={() => setSelected(active)}
-                style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: '#ffffff', cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
+                style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
               >READ MORE →</button>
