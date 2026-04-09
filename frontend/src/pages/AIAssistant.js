@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 const SANS = "'Josefin Sans', sans-serif";
 const SERIF = "'Raleway', 'Josefin Sans', sans-serif";
 
-const API_KEY = process.env.REACT_APP_ANTHROPIC_KEY;
 
 const SYSTEM_PROMPT = `You are a professional portfolio assistant for Stuti Jain.
 Help recruiters learn about her in a warm, compelling way.
@@ -144,20 +143,10 @@ const AIAssistant = () => {
       .map(m => ({ role: m.role, content: m.content }));
 
     try {
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
+      const response = await fetch('/.netlify/functions/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': API_KEY,
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true',
-        },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5-20251001',
-          max_tokens: 300,
-          system: SYSTEM_PROMPT,
-          messages: apiMessages,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: apiMessages, system: SYSTEM_PROMPT }),
       });
 
       if (!response.ok) throw new Error('API error');
