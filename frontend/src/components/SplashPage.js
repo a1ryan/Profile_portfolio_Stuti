@@ -151,16 +151,34 @@ const SplashPage = () => {
       virtualScroll.current = Math.max(0, virtualScroll.current + delta);
       if (!rafId.current) rafId.current = requestAnimationFrame(update);
     };
+    const handleTouchEnd = () => {
+      if (!activeRef.current) return;
+      const threshold = Math.min(window.innerHeight * 0.55, 320);
+      if (virtualScroll.current >= threshold * 0.35) {
+        // past 35% — auto-complete dismiss
+        dismiss();
+      } else {
+        // snap back to top
+        virtualScroll.current = 0;
+        const e = el();
+        if (!e) return;
+        e.style.transition = 'transform 0.5s cubic-bezier(0.22,1,0.36,1), opacity 0.5s ease';
+        e.style.transform  = 'translateY(0)';
+        e.style.opacity    = '1';
+      }
+    };
 
     lockScroll();
     window.addEventListener('wheel',      handleWheel,      { passive: false });
     window.addEventListener('touchstart', handleTouchStart, { passive: true  });
     window.addEventListener('touchmove',  handleTouchMove,  { passive: false });
+    window.addEventListener('touchend',   handleTouchEnd,   { passive: true  });
 
     return () => {
       window.removeEventListener('wheel',      handleWheel);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove',  handleTouchMove);
+      window.removeEventListener('touchend',   handleTouchEnd);
       unlockScroll();
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };

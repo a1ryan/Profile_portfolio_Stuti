@@ -158,10 +158,11 @@ const Layout = ({ children }) => {
         {mobileMenuOpen ? <X size={18} strokeWidth={1.5} /> : <Menu size={18} strokeWidth={1.5} />}
       </button>
 
-      {/* ─ Dark / Light toggle ─ */}
+      {/* ─ Dark / Light toggle — desktop only (hidden on mobile to avoid overlapping modals) ─ */}
       <button
         onClick={() => setDark(!darkMode)}
         title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        className="desktop-toggle"
         style={{
           position: 'fixed', top: 18, right: 22, zIndex: 60,
           background: toggleBg,
@@ -169,7 +170,7 @@ const Layout = ({ children }) => {
           borderRadius: 20,
           cursor: 'pointer',
           color: toggleFg,
-          display: 'flex', alignItems: 'center', gap: 6,
+          alignItems: 'center', gap: 6,
           padding: '6px 12px',
           transition: 'background 0.3s ease, border-color 0.3s ease',
         }}
@@ -221,6 +222,29 @@ const Layout = ({ children }) => {
             );
           })}
         </nav>
+
+        {/* Theme toggle — mobile only, lives in sidebar so it never overlaps modals */}
+        <button
+          onClick={() => { setDark(!darkMode); setMobileMenuOpen(false); }}
+          className="mobile-theme-toggle"
+          style={{
+            marginTop: 22,
+            background: toggleBg,
+            border: `1px solid ${darkMode ? 'rgba(255,255,255,0.12)' : 'rgba(195,150,115,0.30)'}`,
+            borderRadius: 20,
+            cursor: 'pointer',
+            color: toggleFg,
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 12px',
+            width: 'fit-content',
+            transition: 'background 0.3s ease',
+          }}
+        >
+          {darkMode ? <Sun size={14} strokeWidth={1.8} /> : <Moon size={14} strokeWidth={1.8} />}
+          <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 400, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+            {darkMode ? 'Light' : 'Dark'}
+          </span>
+        </button>
 
         {/* Thin rule */}
         <div

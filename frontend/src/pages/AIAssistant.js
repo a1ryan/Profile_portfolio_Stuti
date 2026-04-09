@@ -171,15 +171,16 @@ const AIAssistant = () => {
   };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', padding: '48px 48px 32px', position: 'relative' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', padding: 'clamp(20px, 5vw, 48px) clamp(16px, 4vw, 48px) 32px', position: 'relative' }}>
 
-      {/* Background image — right side, low opacity */}
+      {/* Background image — right side, desktop only */}
       <div style={{
         position: 'fixed',
         right: 0, top: 0,
         width: '45%', height: '100%',
         zIndex: 0, pointerEvents: 'none',
-      }}>
+        display: 'var(--ai-bg-display, block)',
+      }} className="ai-bg-image">
         <img
           src="/ask ai.jpg"
           alt=""
@@ -195,7 +196,7 @@ const AIAssistant = () => {
       </div>
 
       {/* Header */}
-      <div style={{ marginBottom: 40, position: 'relative', zIndex: 1 }}>
+      <div style={{ marginBottom: 'clamp(20px, 4vw, 40px)', position: 'relative', zIndex: 1 }}>
         <span style={{
           fontFamily: SANS, fontSize: 11, fontWeight: 400,
           letterSpacing: '0.28em', color: 'rgba(224,64,251,0.9)',
@@ -237,7 +238,7 @@ const AIAssistant = () => {
         {/* Messages */}
         <div style={{
           flex: 1, overflowY: 'auto',
-          padding: '28px 28px 16px',
+          padding: 'clamp(14px, 3vw, 28px) clamp(12px, 3vw, 28px) 16px',
           display: 'flex', flexDirection: 'column', gap: 14,
         }}>
           {messages.map((msg, i) => (
@@ -331,7 +332,7 @@ const AIAssistant = () => {
 
         {/* Input */}
         <div style={{
-          padding: '14px 20px',
+          padding: 'clamp(10px, 2vw, 14px) clamp(12px, 2vw, 20px)',
           borderTop: '1px solid rgba(180,100,255,0.12)',
           display: 'flex', gap: 10, alignItems: 'center',
         }}>

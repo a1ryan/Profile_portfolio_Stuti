@@ -33,6 +33,26 @@ body {
   .about-mobile {
     display: none !important;
   }
+  .mobile-theme-toggle {
+    display: none !important;
+  }
+}
+
+/* Desktop toggle: hidden on mobile, shown on desktop */
+.desktop-toggle {
+  display: none !important;
+}
+@media (min-width: 768px) {
+  .desktop-toggle {
+    display: flex !important;
+  }
+}
+
+/* AI page background image: hidden on mobile */
+@media (max-width: 767px) {
+  .ai-bg-image {
+    display: none !important;
+  }
 }
 .sidebar-open {
   transform: translateX(0) !important;
