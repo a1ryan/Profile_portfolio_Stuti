@@ -197,7 +197,7 @@ const SplashPage = () => {
           width: '100vw',
           height: '100vh',
           objectFit: 'cover',
-          objectPosition: 'center top',
+          objectPosition: 'center center',
           transform: imgVisible ? 'translateY(0)' : 'translateY(40px)',
           userSelect: 'none',
           pointerEvents: 'none',
