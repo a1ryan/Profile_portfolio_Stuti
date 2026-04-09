@@ -10,6 +10,7 @@ const MONO  = "'Courier New', Courier, monospace";
 const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
 const BoldText = ({ text, words = [] }) => {
+  const { dark } = useTheme();
   if (!words.length) return <>{text}</>;
   const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
@@ -18,7 +19,7 @@ const BoldText = ({ text, words = [] }) => {
     <>
       {parts.map((part, i) =>
         words.some(w => w.toLowerCase() === part.toLowerCase())
-          ? <span key={i} style={{ color: 'rgba(210,170,255,0.95)', fontWeight: 700 }}>{part}</span>
+          ? <span key={i} style={{ color: dark ? 'rgba(210,170,255,0.95)' : 'rgba(184,146,42,0.95)', fontWeight: 700 }}>{part}</span>
           : part
       )}
     </>
@@ -217,6 +218,7 @@ const Lightbox = ({ onClose, children }) => {
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         zIndex: 99999,
         animation: 'lbFadeIn 0.22s ease forwards',
+        cursor: 'pointer',
       }}
     >
       <div onClick={e => e.stopPropagation()} style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -250,6 +252,7 @@ const Lightbox = ({ onClose, children }) => {
 
 /* ── PulpoAR card gallery ── */
 const CardGallery = ({ cards }) => {
+  const { dark } = useTheme();
   const [selected, setSelected] = React.useState(null);
   const [hovered, setHovered] = React.useState(null);
 
@@ -257,7 +260,7 @@ const CardGallery = ({ cards }) => {
     <div style={{ marginTop: 32 }}>
       <p style={{
         fontFamily: SANS, fontSize: 22, fontWeight: 400,
-        letterSpacing: '0.28em', color: 'rgba(224,64,251,0.85)',
+        letterSpacing: '0.28em', color: dark ? 'rgba(224,64,251,0.85)' : 'rgba(184,146,42,0.85)',
         textTransform: 'uppercase', marginBottom: 16,
       }}>Works</p>
 
@@ -276,14 +279,14 @@ const CardGallery = ({ cards }) => {
               onMouseLeave={() => setHovered(null)}
               style={{
                 position: 'relative',
-                border: `1px solid ${isHovered ? 'rgba(192,132,252,0.8)' : 'rgba(180,100,255,0.3)'}`,
+                border: `1px solid ${isHovered ? (dark ? 'rgba(192,132,252,0.8)' : 'rgba(184,146,42,0.8)') : (dark ? 'rgba(180,100,255,0.3)' : 'rgba(184,146,42,0.3)')}`,
                 borderRadius: 16,
                 padding: '2rem',
                 display: 'flex', flexDirection: 'column',
                 alignItems: 'center', justifyContent: 'center',
                 gap: 12,
                 cursor: card.src ? 'pointer' : 'default',
-                boxShadow: isHovered ? '0 0 30px rgba(192,132,252,0.3)' : 'none',
+                boxShadow: isHovered ? (dark ? '0 0 30px rgba(192,132,252,0.3)' : '0 0 30px rgba(184,146,42,0.3)') : 'none',
                 transition: 'all 0.3s ease',
                 minHeight: 140,
                 overflow: 'hidden',
@@ -315,8 +318,8 @@ const CardGallery = ({ cards }) => {
               <span style={{
                 fontFamily: SANS,
                 fontSize: '1.4rem', fontWeight: 600,
-                color: '#c084fc',
-                textShadow: '0 0 20px rgba(192,132,252,0.8), 0 0 40px rgba(192,132,252,0.4), 0 0 60px rgba(192,132,252,0.2)',
+                color: dark ? '#c084fc' : '#C49A2A',
+                textShadow: dark ? '0 0 20px rgba(192,132,252,0.8), 0 0 40px rgba(192,132,252,0.4), 0 0 60px rgba(192,132,252,0.2)' : '0 0 20px rgba(184,146,42,0.8), 0 0 40px rgba(184,146,42,0.4)',
                 letterSpacing: '0.05em',
                 textAlign: 'center',
                 lineHeight: 1.3,
@@ -367,6 +370,7 @@ const CardGallery = ({ cards }) => {
 /* ── Moodboard photo grid ── */
 const rotations = [-2, 1.5, -1, 2, -1.5, 1];
 const GalleryGrid = ({ images }) => {
+  const { dark } = useTheme();
   const [selected, setSelected] = React.useState(null);
   const [hovered, setHovered] = React.useState(null);
   const cols = images.length === 4 ? 2 : 3;
@@ -375,7 +379,7 @@ const GalleryGrid = ({ images }) => {
     <div style={{ marginTop: 32, padding: '20px 0 40px' }}>
       <p style={{
         fontFamily: SANS, fontSize: 22, fontWeight: 400,
-        letterSpacing: '0.28em', color: 'rgba(224,64,251,0.85)',
+        letterSpacing: '0.28em', color: dark ? 'rgba(224,64,251,0.85)' : 'rgba(184,146,42,0.85)',
         textTransform: 'uppercase', marginBottom: 16,
       }}>Works</p>
       <div style={{
@@ -397,7 +401,7 @@ const GalleryGrid = ({ images }) => {
               opacity: hovered !== null && hovered !== i ? 0.4 : 1,
               cursor: 'pointer',
               transform: hovered === i ? `rotate(${rotations[i] || 0}deg) scale(1.04)` : `rotate(${rotations[i] || 0}deg)`,
-              boxShadow: hovered === i ? '0 8px 28px rgba(192,132,252,0.35)' : '0 4px 14px rgba(0,0,0,0.4)',
+              boxShadow: hovered === i ? (dark ? '0 8px 28px rgba(192,132,252,0.35)' : '0 8px 28px rgba(184,146,42,0.35)') : '0 4px 14px rgba(0,0,0,0.4)',
             }}
           >
             <img
@@ -438,10 +442,10 @@ const BulletCard = ({ text }) => {
       onMouseLeave={() => setHovered(false)}
       style={{
         background: hovered
-          ? 'linear-gradient(135deg, rgba(123,47,247,0.18) 0%, rgba(224,64,251,0.10) 100%)'
+          ? (dark ? 'linear-gradient(135deg, rgba(123,47,247,0.18) 0%, rgba(224,64,251,0.10) 100%)' : 'linear-gradient(135deg, rgba(184,146,42,0.12) 0%, rgba(196,154,42,0.08) 100%)')
           : dark ? 'rgba(255,255,255,0.04)' : 'rgba(18,18,18,0.04)',
-        border: `1px solid ${hovered ? 'rgba(224,64,251,0.45)' : fg(dark, 0.09)}`,
-        borderLeft: `3px solid ${hovered ? '#e040fb' : '#7b2ff7'}`,
+        border: `1px solid ${hovered ? (dark ? 'rgba(224,64,251,0.45)' : 'rgba(184,146,42,0.45)') : fg(dark, 0.09)}`,
+        borderLeft: `3px solid ${hovered ? (dark ? '#e040fb' : '#B8922A') : (dark ? '#7b2ff7' : '#C49A2A')}`,
         borderRadius: 10,
         padding: '14px 20px',
         marginBottom: 10,
@@ -451,7 +455,7 @@ const BulletCard = ({ text }) => {
         lineHeight: 1.85,
         color: fg(dark, hovered ? 1 : 0.92),
         transform: hovered ? 'translateX(5px)' : 'translateX(0)',
-        boxShadow: hovered ? '0 4px 24px rgba(224,64,251,0.18), inset 0 0 0 1px rgba(224,64,251,0.1)' : 'none',
+        boxShadow: hovered ? (dark ? '0 4px 24px rgba(224,64,251,0.18), inset 0 0 0 1px rgba(224,64,251,0.1)' : '0 4px 24px rgba(184,146,42,0.18), inset 0 0 0 1px rgba(184,146,42,0.1)') : 'none',
         transition: 'all 0.22s ease',
         cursor: 'default',
       }}
@@ -484,6 +488,7 @@ const DetailCard = ({ exp, onClose }) => {
       opacity: mounted ? 1 : 0,
       transition: 'opacity 0.35s ease',
       backdropFilter: 'blur(6px)',
+      cursor: 'pointer',
     }}>
       <div onClick={e => e.stopPropagation()} style={{
         background: dark ? '#111' : '#ffffff',
@@ -491,8 +496,11 @@ const DetailCard = ({ exp, onClose }) => {
         borderRadius: 16,
         width: '100%', maxWidth: 680,
         maxHeight: '80vh', overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch',
+        overscrollBehavior: 'contain',
         padding: '48px 52px',
         position: 'relative',
+        cursor: 'auto',
         transform: mounted ? 'translateY(0)' : 'translateY(24px)',
         transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1)',
         boxSizing: 'border-box',
@@ -520,10 +528,10 @@ const DetailCard = ({ exp, onClose }) => {
           <span style={{
             fontFamily: SANS, fontSize: '0.78rem', fontWeight: 500,
             color: '#fff',
-            background: 'linear-gradient(135deg, #a0009a 0%, #e040fb 100%)',
+            background: dark ? 'linear-gradient(135deg, #a0009a 0%, #e040fb 100%)' : 'linear-gradient(135deg, #8a6a10 0%, #B8922A 100%)',
             borderRadius: 20, padding: '6px 18px',
             letterSpacing: '0.08em',
-            boxShadow: '0 2px 12px rgba(224,64,251,0.40)',
+            boxShadow: dark ? '0 2px 12px rgba(224,64,251,0.40)' : '0 2px 12px rgba(184,146,42,0.40)',
           }}>{exp.type}</span>
         </div>
 
@@ -693,7 +701,7 @@ const Works = () => {
                 </p>
                 <button
                   onClick={() => setSelected(exp)}
-                  style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer' }}
+                  style={{ background: 'none', border: `1px solid ${dark ? '#e040fb' : '#B8922A'}`, borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer' }}
                 >READ MORE →</button>
               </div>
               {index < experienceData.length - 1 && (
@@ -735,8 +743,8 @@ const Works = () => {
               </p>
               <button
                 onClick={() => setSelected(active)}
-                style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
+                style={{ background: 'none', border: `1px solid ${dark ? '#e040fb' : '#B8922A'}`, borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.background = dark ? 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))' : 'linear-gradient(135deg, rgba(184,146,42,0.7), rgba(196,154,42,0.7))'; e.currentTarget.style.boxShadow = dark ? '0 8px 25px rgba(224,64,251,0.4)' : '0 8px 25px rgba(184,146,42,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
               >READ MORE →</button>
             </div>
@@ -745,7 +753,7 @@ const Works = () => {
               <div
                 onClick={() => { const nextIndex = Math.min(activeIndex + 1, total - 1); sectionRefs.current[nextIndex]?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
                 style={{ width: 42, height: 42, borderRadius: '50%', border: `1px solid ${fg(dark, 0.18)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'border-color 0.2s ease, background 0.2s ease', cursor: activeIndex < total - 1 ? 'pointer' : 'default', opacity: activeIndex < total - 1 ? 1 : 0.3 }}
-                onMouseEnter={e => { if (activeIndex < total - 1) { e.currentTarget.style.borderColor = '#e040fb'; e.currentTarget.style.background = 'rgba(224,64,251,0.1)'; }}}
+                onMouseEnter={e => { if (activeIndex < total - 1) { e.currentTarget.style.borderColor = dark ? '#e040fb' : '#B8922A'; e.currentTarget.style.background = dark ? 'rgba(224,64,251,0.1)' : 'rgba(184,146,42,0.1)'; }}}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = fg(dark, 0.18); e.currentTarget.style.background = 'transparent'; }}
               >
                 <span style={{ color: fg(dark, 0.35), fontSize: 14, lineHeight: 1, transition: 'color 0.4s ease' }}>↓</span>

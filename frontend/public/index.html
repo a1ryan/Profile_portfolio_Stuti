@@ -9,6 +9,16 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Cormorant+Garamond:wght@100;200;300;400&family=Josefin+Sans:wght@100;200;300;400&family=Raleway:wght@100;200;300&display=swap" rel="stylesheet" />
         <title>Stuti Jain | Portfolio</title>
+        <!-- Synchronous theme init: sets bg before React renders, prevents black flash -->
+        <script>
+          (function(){
+            var stored = localStorage.getItem('theme');
+            var dark   = stored ? stored === 'dark' : true;
+            var bg     = dark ? '#0b000e' : '#f4f3ef';
+            document.documentElement.style.backgroundColor = bg;
+            document.body && (document.body.style.backgroundColor = bg);
+          })();
+        </script>
         <!--
         manifest.json provides metadata used when your web app is installed on a
         user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/

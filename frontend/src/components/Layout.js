@@ -8,7 +8,7 @@ import Chatbot from './Chatbot';
 
 const SANS = "'Josefin Sans', sans-serif";
 
-const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
+const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick, dark }) => {
   const [hovered, setHovered] = React.useState(false);
 
   if (item.gradient) {
@@ -36,7 +36,7 @@ const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
           WebkitBackgroundClip: 'unset',
           backgroundClip: 'unset',
           WebkitTextFillColor: 'unset',
-          color: active || hovered ? '#e040fb' : 'rgba(210,170,255,0.8)',
+          color: active || hovered ? (dark ? '#e040fb' : '#B8922A') : (dark ? 'rgba(210,170,255,0.8)' : 'rgba(184,146,42,0.8)'),
           transform: hovered ? 'translateY(-2px)' : 'translateY(0)',
           boxShadow: hovered ? '0 4px 16px rgba(192,38,211,0.25)' : 'none',
           transition: 'all 0.22s ease',
@@ -56,7 +56,7 @@ const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
       style={{
         fontFamily: SANS,
         fontSize: 17,
-        fontWeight: 300,
+        fontWeight: dark ? 300 : 500,
         letterSpacing: item.label.length > 10 ? '0.05em' : '0.20em',
         color: active ? fgActive : (hovered ? fgHover : fgMuted),
         textDecoration: 'none',
@@ -65,7 +65,9 @@ const NavItem = ({ item, active, fgActive, fgMuted, fgHover, onClick }) => {
         display: 'inline-block',
         transform: (active && hovered) ? 'translateY(-3px)' : 'translateY(0)',
         textShadow: (active && hovered)
-          ? '0 2px 6px rgba(163,32,179,0.55), 0 4px 12px rgba(0,0,0,0.4)'
+          ? (dark ? '0 2px 6px rgba(163,32,179,0.55), 0 4px 12px rgba(0,0,0,0.4)' : '0 2px 6px rgba(184,146,42,0.55), 0 4px 12px rgba(0,0,0,0.4)')
+          : active && !hovered
+          ? '0 1px 8px rgba(115,52,68,0.18)'
           : 'none',
         transition: 'color 0.2s ease, transform 0.25s cubic-bezier(0.22,1,0.36,1), text-shadow 0.25s ease',
       }}
@@ -114,14 +116,14 @@ const Layout = ({ children }) => {
   }, [darkMode]);
 
   /* ── colour tokens ── */
-  const bg       = darkMode ? 'transparent'          : '#f4f3ef';
-  const fgActive = darkMode ? 'rgba(255,255,255,0.85)' : 'rgba(18,18,18,0.80)';
-  const fgMuted  = darkMode ? 'rgba(255,255,255,0.65)' : 'rgba(18,18,18,0.55)';
-  const fgHover  = darkMode ? 'rgba(255,255,255,0.62)' : 'rgba(18,18,18,0.55)';
-  const toggleBg = darkMode ? 'rgba(255,255,255,0.12)' : '#c8c8c4';
-  const sidebarBg = darkMode ? 'rgba(10,10,18,0.72)'  : '#f4f3ef';
-  const toggleFg = darkMode ? '#ffffff'              : '#1a1a1a';
-  const divider  = darkMode ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)';
+  const bg        = darkMode ? 'transparent'               : '#f4f3ef';
+  const fgActive  = darkMode ? 'rgba(255,255,255,0.85)'    : 'rgba(40,15,8,1.0)';      // deep espresso
+  const fgMuted   = darkMode ? 'rgba(255,255,255,0.65)'    : 'rgba(40,15,8,0.75)';     // same tone, softer
+  const fgHover   = darkMode ? 'rgba(255,255,255,0.62)'    : 'rgba(40,15,8,0.95)';
+  const toggleBg  = darkMode ? 'rgba(255,255,255,0.12)'    : 'rgba(195,145,80,0.30)';
+  const sidebarBg = darkMode ? 'rgba(10,10,18,0.72)'       : 'rgba(255,255,255,0.08)'; // nearly transparent — bg shows through
+  const toggleFg  = darkMode ? '#ffffff'                   : 'rgba(70,30,20,1.0)';
+  const divider   = darkMode ? 'rgba(255,255,255,0.07)'    : 'rgba(120,70,30,0.30)';
 
   return (
     <div
@@ -163,7 +165,7 @@ const Layout = ({ children }) => {
         style={{
           position: 'fixed', top: 18, right: 22, zIndex: 60,
           background: toggleBg,
-          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.12)'}`,
+          border: `1px solid ${darkMode ? 'rgba(255,255,255,0.12)' : 'rgba(195,150,115,0.30)'}`,
           borderRadius: 20,
           cursor: 'pointer',
           color: toggleFg,
@@ -191,8 +193,9 @@ const Layout = ({ children }) => {
           width: 154,
           zIndex: 50,
           background: sidebarBg,
-          backdropFilter: darkMode ? 'blur(14px)' : 'none',
-          WebkitBackdropFilter: darkMode ? 'blur(14px)' : 'none',
+          backdropFilter: darkMode ? 'blur(14px)' : 'blur(16px) saturate(1.2)',
+          WebkitBackdropFilter: darkMode ? 'blur(14px)' : 'blur(16px) saturate(1.2)',
+          borderRight: darkMode ? 'none' : '1px solid rgba(160,110,50,0.40)',
           display: 'flex', flexDirection: 'column',
           paddingTop: 38,
           paddingLeft: 34,
@@ -213,6 +216,7 @@ const Layout = ({ children }) => {
                 fgMuted={fgMuted}
                 fgHover={fgHover}
                 onClick={() => setMobileMenuOpen(false)}
+                dark={darkMode}
               />
             );
           })}

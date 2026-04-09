@@ -106,7 +106,7 @@ const BlogGenZ = () => {
       <div style={{ padding: isMobile ? `28px ${px} 0` : '64px 44px 0', maxWidth: 900, margin: '0 auto' }}>
         <span style={{
           fontFamily: SANS, fontSize: 11, fontWeight: 400,
-          letterSpacing: '0.28em', color: 'rgba(224,64,251,0.9)',
+          letterSpacing: '0.28em', color: dark ? 'rgba(224,64,251,0.9)' : 'rgba(184,146,42,0.9)',
           textTransform: 'uppercase', display: 'block', marginBottom: 20,
         }}>Beauty Marketing</span>
 
@@ -118,7 +118,7 @@ const BlogGenZ = () => {
 
         <p style={{
           fontFamily: SANS, fontSize: '1.1rem', fontWeight: 300,
-          color: 'rgba(210,170,255,0.95)', margin: '0 0 28px',
+          color: dark ? 'rgba(210,170,255,0.95)' : 'rgba(184,146,42,0.95)', margin: '0 0 28px',
           lineHeight: 1.6, letterSpacing: '0.01em',
         }}>Strategies to Engage the Most Influential Generation</p>
 

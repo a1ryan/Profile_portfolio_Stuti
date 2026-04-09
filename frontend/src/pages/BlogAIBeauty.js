@@ -45,13 +45,13 @@ const BlogAIBeauty = () => {
   const h2Style = {
     fontFamily: SERIF, fontSize: isMobile ? '1.25rem' : '2.4rem', fontWeight: 700,
     color: fg(dark, 1), margin: isMobile ? '2rem 0 0.8rem' : '4rem 0 1.2rem',
-    borderLeft: '3px solid #e040fb', paddingLeft: '0.9rem',
+    borderLeft: `3px solid ${dark ? '#e040fb' : '#B8922A'}`, paddingLeft: '0.9rem',
     lineHeight: 1.25,
   };
 
   const h3Style = {
     fontFamily: SERIF, fontSize: isMobile ? '1rem' : '1.45rem', fontWeight: 600,
-    color: 'rgba(200,150,255,1)', margin: isMobile ? '1.5rem 0 0.5rem' : '2.5rem 0 0.8rem',
+    color: dark ? 'rgba(200,150,255,1)' : 'rgba(184,146,42,1)', margin: isMobile ? '1.5rem 0 0.5rem' : '2.5rem 0 0.8rem',
     lineHeight: 1.35,
   };
 
@@ -63,17 +63,17 @@ const BlogAIBeauty = () => {
 
   const numberHeadStyle = {
     fontFamily: SERIF, fontSize: isMobile ? '1rem' : '1.3rem', fontWeight: 700,
-    color: 'rgba(210,170,255,0.95)', margin: isMobile ? '1.5rem 0 0.5rem' : '2.5rem 0 0.8rem',
+    color: dark ? 'rgba(210,170,255,0.95)' : 'rgba(184,146,42,0.95)', margin: isMobile ? '1.5rem 0 0.5rem' : '2.5rem 0 0.8rem',
     lineHeight: 1.4,
   };
 
   const pullQuoteStyle = {
     fontFamily: SERIF, fontSize: isMobile ? '1rem' : '1.65rem', fontWeight: 300,
-    fontStyle: 'italic', color: 'rgba(210,170,255,0.9)',
+    fontStyle: 'italic', color: dark ? 'rgba(210,170,255,0.9)' : 'rgba(184,146,42,0.9)',
     textAlign: 'center', lineHeight: 1.55,
     padding: isMobile ? '1.5rem 1rem' : '2.5rem 2rem',
-    borderTop: '0.5px solid rgba(224,64,251,0.3)',
-    borderBottom: '0.5px solid rgba(224,64,251,0.3)',
+    borderTop: `0.5px solid ${dark ? 'rgba(224,64,251,0.3)' : 'rgba(184,146,42,0.3)'}`,
+    borderBottom: `0.5px solid ${dark ? 'rgba(224,64,251,0.3)' : 'rgba(184,146,42,0.3)'}`,
     margin: isMobile ? '2rem 0' : '3.5rem 0',
   };
 
@@ -112,7 +112,7 @@ const BlogAIBeauty = () => {
       <div style={{ padding: isMobile ? `28px ${px} 0` : '64px 44px 0', maxWidth: 900, margin: '0 auto' }}>
         <span style={{
           fontFamily: SANS, fontSize: 11, fontWeight: 400,
-          letterSpacing: '0.28em', color: 'rgba(224,64,251,0.9)',
+          letterSpacing: '0.28em', color: dark ? 'rgba(224,64,251,0.9)' : 'rgba(184,146,42,0.9)',
           textTransform: 'uppercase', display: 'block', marginBottom: 20,
         }}>Beauty Tech</span>
 
@@ -124,7 +124,7 @@ const BlogAIBeauty = () => {
 
         <p style={{
           fontFamily: SANS, fontSize: '1.1rem', fontWeight: 300,
-          color: 'rgba(210,170,255,0.95)', margin: '0 0 28px',
+          color: dark ? 'rgba(210,170,255,0.95)' : 'rgba(184,146,42,0.95)', margin: '0 0 28px',
           lineHeight: 1.6, letterSpacing: '0.01em',
         }}>Why AI is the New Frontier of Beauty Retail</p>
 
@@ -276,13 +276,13 @@ const BlogAIBeauty = () => {
           }}>
             <p style={{
               fontFamily: SANS, fontSize: '1.15rem', fontWeight: 300,
-              color: 'rgba(220,180,255,0.9)', lineHeight: 1.9,
+              color: dark ? 'rgba(220,180,255,0.9)' : 'rgba(184,146,42,0.9)', lineHeight: 1.9,
               fontStyle: 'italic', margin: 0,
             }}>
               "AI is no longer an e-commerce support button; it is the platform itself. If your
               brand is not searchable by an AI agent's reasoning engine, you are effectively
               invisible to the modern consumer."
-              <span style={{ display: 'block', marginTop: 12, fontSize: '0.9rem', color: 'rgba(180,120,255,0.6)', letterSpacing: '0.1em' }}>
+              <span style={{ display: 'block', marginTop: 12, fontSize: '0.9rem', color: dark ? 'rgba(180,120,255,0.6)' : 'rgba(184,146,42,0.6)', letterSpacing: '0.1em' }}>
                 — The Verdict
               </span>
             </p>
@@ -328,14 +328,14 @@ const BlogAIBeauty = () => {
             style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 300,
               letterSpacing: '0.2em', color: fg(dark, 1),
-              background: 'none', border: '1px solid #e040fb',
+              background: 'none', border: `1px solid ${dark ? '#e040fb' : '#B8922A'}`,
               borderRadius: 999, padding: '10px 24px',
               cursor: 'pointer',
               transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease',
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))';
-              e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)';
+              e.currentTarget.style.background = dark ? 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))' : 'linear-gradient(135deg, rgba(184,146,42,0.7), rgba(196,154,42,0.7))';
+              e.currentTarget.style.boxShadow = dark ? '0 8px 25px rgba(224,64,251,0.4)' : '0 8px 25px rgba(184,146,42,0.4)';
               e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={e => {

@@ -8,21 +8,28 @@ const MONO  = "'Courier New', Courier, monospace";
 
 const fg = (dark, a) => dark ? `rgba(255,255,255,${a})` : `rgba(18,18,18,${a})`;
 
-const HL_STYLE = {
+// HL_STYLE is computed per-component using dark context — see HighlightText
+const HL_STYLE_DARK = {
   color: 'rgba(210,170,255,0.95)',
+  fontWeight: 700,
+};
+const HL_STYLE_LIGHT = {
+  color: 'rgba(184,146,42,0.95)',
   fontWeight: 700,
 };
 
 const HighlightText = ({ text, words = [] }) => {
+  const { dark } = useTheme();
   if (!words.length) return <>{text}</>;
   const escaped = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
   const regex = new RegExp(`(${escaped.join('|')})`, 'gi');
   const parts = text.split(regex);
+  const hlStyle = dark ? HL_STYLE_DARK : HL_STYLE_LIGHT;
   return (
     <>
       {parts.map((part, i) =>
         words.some(w => w.toLowerCase() === part.toLowerCase())
-          ? <span key={i} style={HL_STYLE}>{part}</span>
+          ? <span key={i} style={hlStyle}>{part}</span>
           : part
       )}
     </>
@@ -190,6 +197,7 @@ const LinkModal = ({ project, onClose }) => {
       opacity: mounted ? 1 : 0,
       transition: 'opacity 0.35s ease',
       backdropFilter: 'blur(8px)',
+      cursor: 'pointer',
     }}>
       <div onClick={e => e.stopPropagation()} style={{
         background: dark ? '#111' : '#ffffff',
@@ -259,6 +267,7 @@ const DetailCard = ({ project, onClose }) => {
       opacity: mounted ? 1 : 0,
       transition: 'opacity 0.35s ease',
       backdropFilter: 'blur(6px)',
+      cursor: 'pointer',
     }}>
       <div onClick={e => e.stopPropagation()} style={{
         background: dark ? '#111' : '#ffffff',
@@ -266,8 +275,11 @@ const DetailCard = ({ project, onClose }) => {
         borderRadius: 16,
         width: '100%', maxWidth: 680,
         maxHeight: '80vh', overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch',
+        overscrollBehavior: 'contain',
         padding: '48px 52px',
         position: 'relative',
+        cursor: 'auto',
         transform: mounted ? 'translateY(0)' : 'translateY(24px)',
         transition: 'transform 0.35s cubic-bezier(0.22,1,0.36,1)',
         boxSizing: 'border-box',
@@ -348,7 +360,7 @@ const DetailCard = ({ project, onClose }) => {
 
                 <p style={{
                   fontFamily: SANS, fontSize: 15, fontWeight: 500,
-                  letterSpacing: '0.22em', color: 'rgba(210,170,255,0.85)',
+                  letterSpacing: '0.22em', color: dark ? 'rgba(210,170,255,0.85)' : 'rgba(184,146,42,0.85)',
                   textTransform: 'uppercase', margin: '0 0 12px 0',
                 }}>Context</p>
                 <p style={{
@@ -367,7 +379,7 @@ const DetailCard = ({ project, onClose }) => {
 
                 <p style={{
                   fontFamily: SANS, fontSize: 15, fontWeight: 500,
-                  letterSpacing: '0.22em', color: 'rgba(210,170,255,0.85)',
+                  letterSpacing: '0.22em', color: dark ? 'rgba(210,170,255,0.85)' : 'rgba(184,146,42,0.85)',
                   textTransform: 'uppercase', margin: '0 0 12px 0',
                 }}>Solution</p>
                 <p style={{
@@ -525,7 +537,7 @@ const Projects = () => {
                 )}
                 <button
                   onClick={() => project.link ? setLinkProject(project) : setSelected(project)}
-                  style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer' }}
+                  style={{ background: 'none', border: `1px solid ${dark ? '#e040fb' : '#B8922A'}`, borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer' }}
                 >READ MORE →</button>
               </div>
               {index < projectsData.length - 1 && (
@@ -571,8 +583,8 @@ const Projects = () => {
               )}
               <button
                 onClick={() => active.link ? setLinkProject(active) : setSelected(active)}
-                style={{ background: 'none', border: '1px solid #e040fb', borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(224,64,251,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
+                style={{ background: 'none', border: `1px solid ${dark ? '#e040fb' : '#B8922A'}`, borderRadius: 999, padding: '8px 20px', fontFamily: SANS, fontSize: 11, fontWeight: 300, letterSpacing: '0.2em', color: fg(dark, 1), cursor: 'pointer', alignSelf: 'flex-start', transition: 'background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.background = dark ? 'linear-gradient(135deg, rgba(224,64,251,0.7), rgba(123,47,247,0.7))' : 'linear-gradient(135deg, rgba(184,146,42,0.7), rgba(196,154,42,0.7))'; e.currentTarget.style.boxShadow = dark ? '0 8px 25px rgba(224,64,251,0.4)' : '0 8px 25px rgba(184,146,42,0.4)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'none'; e.currentTarget.style.boxShadow = 'none'; e.currentTarget.style.transform = 'translateY(0)'; }}
               >READ MORE →</button>
             </div>

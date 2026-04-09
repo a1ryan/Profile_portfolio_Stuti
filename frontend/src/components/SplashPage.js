@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HoloCanvas from './HoloCanvas';
+import LightWaveCanvas from './LightWaveCanvas';
+import { useTheme } from '../context/ThemeContext';
 
 const SERIF = "'Raleway', 'Josefin Sans', sans-serif";
 const SANS  = "'Josefin Sans', sans-serif";
 
-const PremiumButton = ({ children, onClick }) => {
+const PremiumButton = ({ children, onClick, dark = true }) => {
   const [hovered, setHovered] = useState(false);
   const [pressed, setPressed] = useState(false);
 
@@ -41,7 +43,7 @@ const PremiumButton = ({ children, onClick }) => {
         fontWeight: 400,
         letterSpacing: '0.22em',
         textTransform: 'uppercase',
-        color: '#ffffff',
+        color: dark ? '#ffffff' : 'rgba(18,18,18,0.9)',
         background,
         border,
         padding: '12px 28px',
@@ -59,6 +61,7 @@ const PremiumButton = ({ children, onClick }) => {
 };
 
 const SplashPage = () => {
+  const { dark }      = useTheme();
   const splashRef     = useRef(null);
   const activeRef     = useRef(true);
   const transitionRef = useRef(false);
@@ -170,7 +173,7 @@ const SplashPage = () => {
         position: 'fixed',
         top: 0, left: 0,
         width: '100vw', height: '100vh',
-        backgroundColor: '#0b000e',
+        backgroundColor: dark ? '#0b000e' : '#f5f0e8',
         zIndex: 1000,
         overflow: 'hidden',
         willChange: 'transform, opacity',
@@ -178,7 +181,10 @@ const SplashPage = () => {
     >
 
       {/* ── Canvas background — z-index 0, behind avatar and panels ── */}
-      <HoloCanvas style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
+      {dark
+        ? <HoloCanvas      style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
+        : <LightWaveCanvas style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }} />
+      }
 
       {/* ── Avatar ── */}
       <img
@@ -199,6 +205,10 @@ const SplashPage = () => {
           zIndex: 3,
           opacity: imgVisible ? 1 : 0,
           transition: 'transform 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.9s ease-out',
+          // Light mode: tight warm glow covers dark edge fringing
+          filter: !dark
+            ? 'drop-shadow(0 0 2px rgba(210,168,110,1.0)) drop-shadow(0 0 10px rgba(210,168,110,0.80)) drop-shadow(0 0 40px rgba(228,188,138,0.40))'
+            : undefined,
         } : {
           position: 'absolute',
           bottom: 0,
@@ -215,25 +225,33 @@ const SplashPage = () => {
           zIndex: 1,
           opacity: imgVisible ? 1 : 0,
           transition: 'transform 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.9s ease-out',
+          // Light mode: tight warm glow covers dark edge fringing
+          filter: !dark
+            ? 'drop-shadow(0 0 2px rgba(210,168,110,1.0)) drop-shadow(0 0 10px rgba(210,168,110,0.80)) drop-shadow(0 0 40px rgba(228,188,138,0.40))'
+            : undefined,
         }}
       />
 
       {/* ── Mobile layout ── */}
       {isMobile && (
         <>
-          {/* Top dark gradient */}
+          {/* Top gradient */}
           <div style={{
             position: 'absolute', top: 0, left: 0, right: 0,
             height: '32%',
-            background: 'linear-gradient(to bottom, rgba(11,0,14,0.97) 0%, rgba(11,0,14,0.7) 65%, transparent 100%)',
+            background: dark
+              ? 'linear-gradient(to bottom, rgba(11,0,14,0.97) 0%, rgba(11,0,14,0.7) 65%, transparent 100%)'
+              : 'linear-gradient(to bottom, rgba(245,240,235,0.96) 0%, rgba(245,240,235,0.65) 65%, transparent 100%)',
             zIndex: 4, pointerEvents: 'none',
           }} />
 
-          {/* Bottom dark gradient */}
+          {/* Bottom gradient */}
           <div style={{
             position: 'absolute', bottom: 0, left: 0, right: 0,
             height: '34%',
-            background: 'linear-gradient(to top, rgba(11,0,14,0.98) 0%, rgba(11,0,14,0.75) 60%, transparent 100%)',
+            background: dark
+              ? 'linear-gradient(to top, rgba(11,0,14,0.98) 0%, rgba(11,0,14,0.75) 60%, transparent 100%)'
+              : 'linear-gradient(to top, rgba(245,240,235,0.97) 0%, rgba(245,240,235,0.70) 60%, transparent 100%)',
             zIndex: 4, pointerEvents: 'none',
           }} />
 
@@ -248,24 +266,24 @@ const SplashPage = () => {
             <p style={{
               fontFamily: SANS, fontSize: 10, fontWeight: 400,
               letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'rgba(224,64,251,0.9)', margin: '0 0 10px',
+              color: dark ? 'rgba(224,64,251,0.9)' : 'rgba(184,146,42,0.9)', margin: '0 0 10px',
             }}>
               Marketing · Beauty
             </p>
             <h2 style={{
               fontFamily: SERIF, fontSize: 'clamp(22px, 6vw, 28px)',
-              fontWeight: 700, color: 'rgba(255,255,255,0.97)',
+              fontWeight: 700, color: dark ? 'rgba(255,255,255,0.97)' : 'rgba(18,18,18,0.97)',
               margin: '0 0 8px', lineHeight: 1.2, letterSpacing: '-0.02em',
             }}>
               Welcome to<br />my portfolio!
             </h2>
             <p style={{
               fontFamily: SANS, fontSize: 12, fontWeight: 300,
-              color: 'rgba(255,255,255,0.6)',
+              color: dark ? 'rgba(255,255,255,0.6)' : 'rgba(18,18,18,0.65)',
               margin: 0, letterSpacing: '0.04em', lineHeight: 1.5,
             }}>
               A Marketing Professional seeking an{' '}
-              <span style={{ color: 'rgba(210,170,255,0.9)', fontWeight: 600 }}>internship</span>
+              <span style={{ color: 'rgba(160,80,200,0.9)', fontWeight: 600 }}>internship</span>
               {' '}in the beauty industry.
             </p>
           </div>
@@ -279,18 +297,18 @@ const SplashPage = () => {
           }}>
             <p style={{
               fontFamily: SERIF, fontSize: 14, fontWeight: 300,
-              color: 'rgba(255,255,255,0.88)',
+              color: dark ? 'rgba(255,255,255,0.88)' : 'rgba(18,18,18,0.85)',
               margin: '0 0 18px', lineHeight: 1.6, letterSpacing: '-0.01em',
               textAlign: 'center',
             }}>
               Curious about how{' '}
-              <span style={{ color: '#e040fb', fontWeight: 700, fontSize: 16 }}>Beauty</span>
+              <span style={{ color: dark ? '#e040fb' : '#B8922A', fontWeight: 700, fontSize: 16 }}>Beauty</span>
               {' '}creates experiences that feel more{' '}
               <span style={{ fontWeight: 700 }}>personal, thoughtful, and impactful.</span>
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
-              <PremiumButton onClick={() => navigate('/projects')}>Projects</PremiumButton>
-              <PremiumButton onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
+              <PremiumButton dark={dark} onClick={() => navigate('/projects')}>Projects</PremiumButton>
+              <PremiumButton dark={dark} onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
             </div>
           </div>
         </>
@@ -328,7 +346,7 @@ const SplashPage = () => {
               fontFamily: SERIF,
               fontSize: 'clamp(32px, 3.8vw, 62px)',
               fontWeight: 700,
-              color: 'rgba(255,255,255,0.97)',
+              color: dark ? 'rgba(255,255,255,0.97)' : 'rgba(18,18,18,0.97)',
               margin: 0,
               lineHeight: 1.2,
               letterSpacing: '-0.02em',
@@ -339,15 +357,15 @@ const SplashPage = () => {
               fontFamily: SANS,
               fontSize: 'clamp(16px, 1.4vw, 22px)',
               fontWeight: 300,
-              color: 'rgba(255,255,255,0.88)',
+              color: dark ? 'rgba(255,255,255,0.88)' : 'rgba(18,18,18,0.85)',
               margin: 0,
               letterSpacing: '0.02em',
               lineHeight: 1.6,
             }}>
               A <span style={{ fontWeight: 700 }}>Marketing Professional</span> seeking an{' '}
               <span style={{
-                color: 'rgba(210,170,255,0.95)',
-                background: 'rgba(123,47,247,0.18)',
+                color: dark ? 'rgba(210,170,255,0.95)' : 'rgba(140,60,180,0.95)',
+                background: dark ? 'rgba(123,47,247,0.18)' : 'rgba(180,100,200,0.12)',
                 borderRadius: 6,
                 padding: '1px 8px',
                 fontWeight: 700,
@@ -355,8 +373,8 @@ const SplashPage = () => {
               {' '}in the beauty industry.
             </p>
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 2 }}>
-              <PremiumButton onClick={() => navigate('/projects')}>Projects</PremiumButton>
-              <PremiumButton onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
+              <PremiumButton dark={dark} onClick={() => navigate('/projects')}>Projects</PremiumButton>
+              <PremiumButton dark={dark} onClick={() => { dismiss(); navigate('/'); }}>Learn More</PremiumButton>
             </div>
           </div>
 
@@ -378,14 +396,14 @@ const SplashPage = () => {
               fontFamily: SERIF,
               fontSize: '1.85rem',
               fontWeight: 300,
-              color: '#ffffff',
+              color: dark ? '#ffffff' : 'rgba(18,18,18,0.95)',
               margin: 0,
               lineHeight: 1.3,
               letterSpacing: '-0.01em',
             }}>
               Curious about how{' '}
               <span style={{
-                color: '#e040fb',
+                color: dark ? '#e040fb' : '#B8922A',
                 fontWeight: 900,
                 fontStyle: 'normal',
                 fontSize: '2.1rem',
@@ -395,7 +413,7 @@ const SplashPage = () => {
               <span style={{ fontWeight: 900 }}>personal, thoughtful, and impactful.</span>
             </p>
             <div style={{ marginTop: 6 }}>
-              <PremiumButton onClick={() => navigate('/cv-request')}>Request my CV</PremiumButton>
+              <PremiumButton dark={dark} onClick={() => navigate('/cv-request')}>Request my CV</PremiumButton>
             </div>
           </div>
         </div>
@@ -418,7 +436,7 @@ const SplashPage = () => {
           fontSize: 'clamp(12px, 1.3vw, 18px)',
           fontWeight: 100,
           letterSpacing: '0.22em',
-          color: 'rgba(255,255,255,0.95)',
+          color: dark ? 'rgba(255,255,255,0.95)' : 'rgba(18,18,18,0.85)',
           margin: 0,
           textTransform: 'uppercase',
         }}>

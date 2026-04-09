@@ -20,14 +20,14 @@ const BlogCard = ({ post }) => {
       onMouseLeave={() => setHovered(false)}
       style={{
         background: dark ? 'rgba(15,0,25,0.6)' : 'rgba(248,245,255,0.95)',
-        border: `1px solid ${hovered ? 'rgba(224,64,251,0.5)' : fg(dark, 0.08)}`,
+        border: `1px solid ${hovered ? (dark ? 'rgba(224,64,251,0.5)' : 'rgba(184,146,42,0.5)') : fg(dark, 0.08)}`,
         borderRadius: 16,
         overflow: 'hidden',
         cursor: 'pointer',
         width: '100%',
         transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
         boxShadow: hovered
-          ? '0 16px 48px rgba(224,64,251,0.25), 0 4px 16px rgba(0,0,0,0.5)'
+          ? (dark ? '0 16px 48px rgba(224,64,251,0.25), 0 4px 16px rgba(0,0,0,0.5)' : '0 16px 48px rgba(184,146,42,0.25), 0 4px 16px rgba(0,0,0,0.5)')
           : '0 4px 24px rgba(0,0,0,0.4)',
         transition: 'transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease, border-color 0.3s ease',
         backdropFilter: 'blur(12px)',
@@ -62,7 +62,7 @@ const BlogCard = ({ post }) => {
       <div style={{ padding: '24px 28px 28px' }}>
         <span style={{
           fontFamily: SANS, fontSize: 10, fontWeight: 400,
-          letterSpacing: '0.28em', color: 'rgba(224,64,251,0.9)',
+          letterSpacing: '0.28em', color: dark ? 'rgba(224,64,251,0.9)' : 'rgba(184,146,42,0.9)',
           textTransform: 'uppercase', display: 'block', marginBottom: 12,
         }}>
           {post.category}
@@ -163,7 +163,7 @@ const Blogs = () => {
       <div style={{ marginBottom: 64 }}>
         <span style={{
           fontFamily: SANS, fontSize: 11, fontWeight: 300,
-          letterSpacing: '0.3em', color: 'rgba(224,64,251,0.8)',
+          letterSpacing: '0.3em', color: dark ? 'rgba(224,64,251,0.8)' : 'rgba(184,146,42,0.8)',
           textTransform: 'uppercase', display: 'block', marginBottom: 16,
         }}>
           Beauty · Marketing · Insights
