@@ -197,8 +197,9 @@ const SplashPage = () => {
           transform: imgVisible
             ? 'translate(-50%, -50%)'
             : 'translate(-50%, -40%)',
-          height: '70vh',
-          width: 'auto',
+          width: '92vw',
+          height: 'auto',
+          maxHeight: '85vh',
           userSelect: 'none',
           pointerEvents: 'none',
           display: 'block',
