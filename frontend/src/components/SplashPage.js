@@ -192,21 +192,19 @@ const SplashPage = () => {
         alt=""
         style={isMobile ? {
           position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: imgVisible
-            ? 'translate(-50%, -50%)'
-            : 'translate(-50%, -40%)',
-          width: '92vw',
-          height: 'auto',
-          maxHeight: '85vh',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          objectFit: 'cover',
+          objectPosition: 'center top',
+          transform: imgVisible ? 'translateY(0)' : 'translateY(40px)',
           userSelect: 'none',
           pointerEvents: 'none',
           display: 'block',
           zIndex: 3,
           opacity: imgVisible ? 1 : 0,
           transition: 'transform 0.9s cubic-bezier(0.22,1,0.36,1), opacity 0.9s ease-out',
-          // Light mode: tight warm glow covers dark edge fringing
           filter: !dark
             ? 'drop-shadow(0 0 2px rgba(210,168,110,1.0)) drop-shadow(0 0 10px rgba(210,168,110,0.80)) drop-shadow(0 0 40px rgba(228,188,138,0.40))'
             : undefined,
